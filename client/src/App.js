@@ -119,23 +119,18 @@ class App extends Component {
             alt=""
             className="App-image"
           />
-          {!this.state.ipfsHash.length ? (
-            <>
-              <h2>Upload File</h2>
-              <form onSubmit={this.onSubmit}>
-                <input
-                  type="file"
-                  value={this.state.value}
-                  onChange={this.onChange}
-                />
-                <button type="submit" className="App-button">
-                  Upload your image here
-                </button>
-              </form>
-            </>
-          ) : (
-            <h1>Peace</h1>
-          )}
+
+          <h2>Upload File (image is better, or gif)</h2>
+          <form onSubmit={this.onSubmit}>
+            <input
+              type="file"
+              value={this.state.value}
+              onChange={this.onChange}
+            />
+            <button type="submit" className="App-button">
+              Upload
+            </button>
+          </form>
         </div>
       );
     } else {

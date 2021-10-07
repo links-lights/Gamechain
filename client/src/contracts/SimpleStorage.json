@@ -3213,12 +3213,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x72cb01C6954020BEddC891f37b7F1216F2489970",
-      "transactionHash": "0x8ab7a14afd5629db9c35154dd7bcc443249ca66102b8ae09cda8f8a0caec917c"
+      "address": "0x6430Ad73a47De266E35AEBE3E0e66F5e5c0Bf674",
+      "transactionHash": "0xe943075bd39cb82f9f5bfcdcedc731f9993664e4520ba9f5d14e23d28ad48f1b"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-10-07T20:26:13.119Z",
+  "updatedAt": "2021-10-07T20:41:34.824Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
