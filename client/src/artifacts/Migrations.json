@@ -1861,12 +1861,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x624A8f87336a6797a8F45e21a5BB323700342E93",
-      "transactionHash": "0xd1e230720da4e45f1493931c5b10f2b0657bf44b815247bcfc2aa88552593670"
+      "address": "0xab21C155c48dd1881cB655c1D954780bFEEBFf23",
+      "transactionHash": "0xc5e50a0b84a169571e514c663473d4685a0591f720b53dfd07a972db9d1b77ac"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-10-08T03:14:53.228Z",
+  "updatedAt": "2021-10-08T15:43:46.095Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
