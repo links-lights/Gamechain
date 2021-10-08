@@ -4,7 +4,9 @@ import ipfs from "../ipfs";
 import "../styles/App.css";
 
 const App = (props) => {
-  const [ipfsHash, setIpfsHash] = useState("");
+  const [ipfsHash, setIpfsHash] = useState(
+    "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe"
+  );
   const [newImage, setNewImage] = useState("");
   const [contract, setContract] = useState(
     props.drizzle.contracts.SimpleStorage
