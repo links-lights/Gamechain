@@ -1,62 +1,40 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
 
 import "../styles/App.css";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ipfsHash: "",
-      web3: null,
-      accounts: null,
-      contract: null,
-      buffer: null,
-      account: null,
-      loading: true,
-    };
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+const App = (props) => {
+  const [ipfsHash, setIpfsHash] = useState("");
+  const [newImage, setNewImage] = useState("");
+  const [contract, setContract] = useState(
+    props.drizzle.contracts.SimpleStorage
+  );
+  const [buffer, setBuffer] = useState(null);
+  const [account, setAccount] = useState(props.drizzleState.accounts[0]);
+  const [loading, setLoading] = useState(true);
 
-  componentDidMount = async () => {
-    try {
-      const accounts = this.props.drizzleState.accounts;
-      // Get the contract instance.
-      const instance = this.props.drizzle.contracts.SimpleStorage;
-      this.setState(
-        {
-          accounts,
-          contract: instance,
-          account: accounts[0],
-          loading: false,
-        },
-        this.runExample
-      );
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`
-      );
-      console.error(error);
-    }
-  };
-
-  runExample = async () => {
-    const { contract } = this.state;
-    //* Get the value from the contract to prove it worked.
-    try {
-      const ipfsHash = await contract.methods.get().call();
-      if (ipfsHash) {
-        //* Update state with the result.
-        this.setState({ ipfsHash });
+  useEffect(() => {
+    //* immediately invoked function
+    const runExample = async () => {
+      //* Get the value from the contract to prove it worked.
+      try {
+        const _ipfsHash = await contract.methods.get().call();
+        if (_ipfsHash) {
+          //* Update state with the result.
+          setIpfsHash(_ipfsHash);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    };
 
-  onChange(event) {
+    if (contract !== null) {
+      runExample();
+      setLoading(false);
+    }
+  }, [contract, newImage]);
+
+  const onChange = (event) => {
     const file = event.target.files[0];
     //* Strange thing - We need to read about it later on
     const reader = new window.FileReader();
@@ -66,62 +44,59 @@ class App extends Component {
       //* Buffer - thing from node!
       //* We can read about it later
       //* Ipfs can eat only that type of information
-      this.setState({ buffer: Buffer(reader.result) });
+      setBuffer(Buffer(reader.result));
     };
-  }
-  onSubmit(event) {
+  };
+
+  const onSubmit = async (event) => {
     event.preventDefault();
     //* ipfs api
-    ipfs.files.add(this.state.buffer, async (error, result) => {
+    ipfs.files.add(buffer, async (error, result) => {
       if (error) {
         console.error(error);
         return;
       }
       //* Saves it on blockchain
-      await this.state.contract.methods.setURL(result[0].hash).send({
-        from: this.state.account,
+      await contract.methods.setURL(result[0].hash).send({
+        from: account,
       });
-
-      this.runExample();
+      //* to display this image on the page
+      setNewImage(result[0].hash);
     });
     //* Saves it locally in current session
     // this.setState({ ipfsHash: result[0].hash });
-  }
+  };
+  if (!loading && account) {
+    return (
+      <div className="App">
+        <nav className="navbar pure-menu pure-menu-horizontal App-navbar">
+          {account}
+        </nav>
+        <h1>Proof of Concept</h1>
+        <img
+          src={`https://ipfs.io/ipfs/${ipfsHash}`}
+          alt=""
+          className="App-image"
+        />
 
-  render() {
-    if (!this.state.loading && this.state.account) {
-      return (
-        <div className="App">
-          <nav className="navbar pure-menu pure-menu-horizontal App-navbar">
-            {this.state.account}
-          </nav>
-          <h1>Proof of Concept</h1>
-          <img
-            src={`https://ipfs.io/ipfs/${this.state.ipfsHash}`}
-            alt=""
-            className="App-image"
-          />
-
-          <h2>Upload File (image is better, or gif)</h2>
-          <form onSubmit={this.onSubmit}>
-            <input type="file" onChange={this.onChange} />
-            <button type="submit" className="App-button">
-              Upload
-            </button>
-          </form>
-        </div>
-      );
-    } else {
-      return !this.state.loading ? (
-        <h3 className="App">Loading...</h3>
-      ) : (
-        <h3 className="App">
-          Please connect to your ethereum account with MetaMask browser
-          extension
-        </h3>
-      );
-    }
+        <h2>Upload File (image is better, or gif)</h2>
+        <form onSubmit={onSubmit}>
+          <input type="file" onChange={onChange} />
+          <button type="submit" className="App-button">
+            Upload
+          </button>
+        </form>
+      </div>
+    );
+  } else {
+    return !loading ? (
+      <h3 className="App">Loading...</h3>
+    ) : (
+      <h3 className="App">
+        Please connect to your ethereum account with MetaMask browser extension
+      </h3>
+    );
   }
-}
+};
 
 export default App;
