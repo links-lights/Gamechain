@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SimpleStorage from "./contracts/SimpleStorage.json";
+import SimpleStorage from "./artifacts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 import ipfs from "./ipfs";
 
@@ -22,30 +22,16 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
+    console.log(this.props);
     try {
-      // Get network provider and web3 instance.
-      const web3 = await getWeb3();
-
-      // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
-
+      const accounts = this.props.drizzleState.accounts;
       // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorage.networks[networkId];
-      const instance = new web3.eth.Contract(
-        SimpleStorage.abi,
-        deployedNetwork.address
-      );
-
-      // Set web3, accounts, and contract to the state, and then proceed with an
-      // example of interacting with the contract's methods.
+      const instance = this.props.drizzle.contracts.SimpleStorage;
       this.setState(
         {
-          web3,
           accounts,
           contract: instance,
           account: accounts[0],
-          value: "",
           loading: false,
         },
         this.runExample
@@ -61,7 +47,7 @@ class App extends Component {
 
   runExample = async () => {
     const { contract, account } = this.state;
-
+    console.log(this.props);
     //* Get the value from the contract to prove it worked.
     try {
       const ipfsHash = await contract.methods.get().call();
@@ -122,11 +108,7 @@ class App extends Component {
 
           <h2>Upload File (image is better, or gif)</h2>
           <form onSubmit={this.onSubmit}>
-            <input
-              type="file"
-              value={this.state.value}
-              onChange={this.onChange}
-            />
+            <input type="file" onChange={this.onChange} />
             <button type="submit" className="App-button">
               Upload
             </button>
