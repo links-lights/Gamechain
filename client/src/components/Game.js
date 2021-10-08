@@ -1,5 +1,5 @@
 import React from "react";
-import "./Game.css";
+import "../styles/Game.css";
 
 class Game extends React.Component {
   constructor(props) {
@@ -88,7 +88,7 @@ class Game extends React.Component {
           } else {
             this.setState({
               board: upWithRandom,
-              score: (this.state.score += movedUp.score),
+              score: this.state.score + movedUp.score,
             });
           }
         }
@@ -106,7 +106,7 @@ class Game extends React.Component {
           } else {
             this.setState({
               board: rightWithRandom,
-              score: (this.state.score += movedRight.score),
+              score: this.state.score + movedRight.score,
             });
           }
         }
@@ -124,7 +124,7 @@ class Game extends React.Component {
           } else {
             this.setState({
               board: downWithRandom,
-              score: (this.state.score += movedDown.score),
+              score: this.state.score + movedDown.score,
             });
           }
         }
@@ -142,7 +142,7 @@ class Game extends React.Component {
           } else {
             this.setState({
               board: leftWithRandom,
-              score: (this.state.score += movedLeft.score),
+              score: this.state.score + movedLeft.score,
             });
           }
         }
@@ -351,7 +351,6 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log("drizzle works", this.props);
     return (
       <div>
         <div
@@ -414,11 +413,13 @@ class Game extends React.Component {
 
 const Row = ({ row }) => {
   return (
-    <tr>
-      {row.map((cell, i) => (
-        <Cell key={i} cellValue={cell} />
-      ))}
-    </tr>
+    <tbody>
+      <tr>
+        {row.map((cell, i) => (
+          <Cell key={i} cellValue={cell} />
+        ))}
+      </tr>
+    </tbody>
   );
 };
 

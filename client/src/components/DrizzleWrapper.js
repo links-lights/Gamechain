@@ -1,8 +1,8 @@
 import React from "react";
 import { DrizzleContext } from "@drizzle/react-plugin";
-import App from "./App";
+import Routes from "./Routes";
 
-function AppRunner() {
+function DrizzleWrapper() {
   return (
     <DrizzleContext.Consumer>
       {(drizzleContext) => {
@@ -11,10 +11,10 @@ function AppRunner() {
         if (!initialized) {
           return "Loading...";
         }
-        return <App drizzle={drizzle} drizzleState={drizzleState} />;
+        return <Routes drizzle={drizzle} drizzleState={drizzleState} />;
       }}
     </DrizzleContext.Consumer>
   );
 }
 
-export default AppRunner;
+export default DrizzleWrapper;

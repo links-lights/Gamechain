@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import SimpleStorage from "./artifacts/SimpleStorage.json";
-import getWeb3 from "./getWeb3";
-import ipfs from "./ipfs";
+import ipfs from "../ipfs";
 
-import "./App.css";
+import "../styles/App.css";
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +20,6 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
-    console.log(this.props);
     try {
       const accounts = this.props.drizzleState.accounts;
       // Get the contract instance.
@@ -46,8 +43,7 @@ class App extends Component {
   };
 
   runExample = async () => {
-    const { contract, account } = this.state;
-    console.log(this.props);
+    const { contract } = this.state;
     //* Get the value from the contract to prove it worked.
     try {
       const ipfsHash = await contract.methods.get().call();
@@ -62,13 +58,13 @@ class App extends Component {
 
   onChange(event) {
     const file = event.target.files[0];
-    //* Strange thing - I need to read about it later on
+    //* Strange thing - We need to read about it later on
     const reader = new window.FileReader();
-    //* Also strang shit
+    //* Also strang
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => {
-      //* Buffer - weeb shit from node!
-      //* I can read about it later
+      //* Buffer - thing from node!
+      //* We can read about it later
       //* Ipfs can eat only that type of information
       this.setState({ buffer: Buffer(reader.result) });
     };
