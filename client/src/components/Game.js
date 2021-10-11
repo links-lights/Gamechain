@@ -326,13 +326,21 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
-  setReward(){
+  async setReward (){
       let highestBoard = 0
+      const contract = this.props.drizzle.contracts.TZFEToken
+      console.log(contract)
+      const account = this.props.drizzleState.accounts[0]
       this.state.board.forEach(row => {
         highestBoard = Math.max(...row, highestBoard)
       })
-      this.setState({rewarded:true})
-      console.log(highestBoard)
+      this.setState({rewarded:true}, async function(){
+        if(highestBoard >= 4) {
+          await contract.methods.reward(account, 1).send({from:account})
+          console.log("hello")
+        }
+      })
+      console.log(await contract.methods.balanceOf(account).call())
   }
 
   componentWillMount() {
@@ -362,9 +370,10 @@ class Game extends React.Component {
   }
 
   render() {
+    // console.log(this.props)
     if(this.state.gameOver && !this.state.rewarded){
-      console.log(this.state.board)
       this.setReward()
+      console.log(this.state)
     }
 
     return (
