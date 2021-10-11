@@ -10,7 +10,9 @@ class Game extends React.Component {
       score: 0,
       gameOver: false,
       message: null,
+      rewarded: false,
     };
+    this.setReward = this.setReward.bind(this);
   }
 
   // Create board with two random coordinate numbers
@@ -30,7 +32,13 @@ class Game extends React.Component {
     //   board.push(row);
     // }
     board = this.placeRandom(this.placeRandom(board));
-    this.setState({ board, score: 0, gameOver: false, message: null });
+    this.setState({
+      board,
+      score: 0,
+      gameOver: false,
+      message: null,
+      rewarded: false,
+    });
   }
 
   // Get all blank coordinates from board
@@ -148,7 +156,10 @@ class Game extends React.Component {
         }
       }
     } else {
-      this.setState({ message: "Game over. Please start a new game." });
+      this.setState(
+        { message: "Game over. Please start a new game." },
+        this.setReward
+      );
     }
   }
 
@@ -324,6 +335,38 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
+  async setReward() {
+    let highestBoard = 0;
+    const contract = this.props.drizzle.contracts.TZFEToken;
+    const account = this.props.drizzleState.accounts[0];
+    let amount = 0
+    this.state.board.forEach((row) => {
+      highestBoard = Math.max(...row, highestBoard);
+    });
+    if (highestBoard >= 512) {
+      amount++
+    }
+    if (this.state.score >= 5000) {
+      amount++
+    }
+    if (highestBoard >= 1024) {
+      amount++
+    }
+    if (this.state.score >= 10000) {
+      amount++
+    }
+    if (highestBoard >= 2048) {
+      amount++
+    }
+    if (this.state.score >= 20000) {
+      amount++
+    }
+    if (amount > 0) {
+      await contract.methods.reward(account, amount).send();
+    }
+    console.log(await contract.methods.balanceOf(account).call());
+  }
+
   componentWillMount() {
     this.initBoard();
     const body = document.querySelector("body");
@@ -351,6 +394,12 @@ class Game extends React.Component {
   }
 
   render() {
+    // if (this.state.gameOver && !this.state.rewarded) {
+    //   // this.setReward();
+    //   console.log(this.state);
+    //   this.setState({ rewarded: true });
+    // }
+
     return (
       <div>
         <div

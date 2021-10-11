@@ -10,9 +10,11 @@ import { Drizzle, generateStore } from "@drizzle/store";
 import { DrizzleContext } from "@drizzle/react-plugin";
 import Greeter from "./artifacts/Greeter.json";
 import SimpleStorage from "./artifacts/SimpleStorage.json";
+import TZFEToken from './artifacts/TZFEToken.json';
+
 
 //Drizzle instance
-const options = { contracts: [Greeter, SimpleStorage] };
+const options = { contracts: [Greeter, SimpleStorage, TZFEToken] };
 const drizzleStore = generateStore(options);
 const drizzle = new Drizzle(options, drizzleStore);
 
