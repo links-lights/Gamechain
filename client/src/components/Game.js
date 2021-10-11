@@ -12,7 +12,7 @@ class Game extends React.Component {
       message: null,
       rewarded: false,
     };
-    this.setReward = this.setReward.bind(this)
+    this.setReward = this.setReward.bind(this);
   }
 
   // Create board with two random coordinate numbers
@@ -32,7 +32,13 @@ class Game extends React.Component {
     //   board.push(row);
     // }
     board = this.placeRandom(this.placeRandom(board));
-    this.setState({ board, score: 0, gameOver: false, message: null, rewarded: false });
+    this.setState({
+      board,
+      score: 0,
+      gameOver: false,
+      message: null,
+      rewarded: false,
+    });
   }
 
   // Get all blank coordinates from board
@@ -150,7 +156,10 @@ class Game extends React.Component {
         }
       }
     } else {
-      this.setState({ message: "Game over. Please start a new game." });
+      this.setState(
+        { message: "Game over. Please start a new game." },
+        this.setReward
+      );
     }
   }
 
@@ -326,21 +335,18 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
-  async setReward (){
-      let highestBoard = 0
-      const contract = this.props.drizzle.contracts.TZFEToken
-      console.log(contract)
-      const account = this.props.drizzleState.accounts[0]
-      this.state.board.forEach(row => {
-        highestBoard = Math.max(...row, highestBoard)
-      })
-      this.setState({rewarded:true}, async function(){
-        if(highestBoard >= 4) {
-          await contract.methods.reward(account, 1).send({from:account})
-          console.log("hello")
-        }
-      })
-      console.log(await contract.methods.balanceOf(account).call())
+  async setReward() {
+    let highestBoard = 0;
+    const contract = this.props.drizzle.contracts.TZFEToken;
+    const account = this.props.drizzleState.accounts[0];
+    this.state.board.forEach((row) => {
+      highestBoard = Math.max(...row, highestBoard);
+    });
+    if (highestBoard >= 4 && !this.state.rewarded) {
+      await contract.methods.reward(account, 1).send();
+      console.log(await contract.methods.balanceOf(account).call());
+    }
+    this.setState({ rewarded: true });
   }
 
   componentWillMount() {
@@ -370,11 +376,11 @@ class Game extends React.Component {
   }
 
   render() {
-    // console.log(this.props)
-    if(this.state.gameOver && !this.state.rewarded){
-      this.setReward()
-      console.log(this.state)
-    }
+    // if (this.state.gameOver && !this.state.rewarded) {
+    //   // this.setReward();
+    //   console.log(this.state);
+    //   this.setState({ rewarded: true });
+    // }
 
     return (
       <div>
