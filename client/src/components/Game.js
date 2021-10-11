@@ -156,10 +156,11 @@ class Game extends React.Component {
         }
       }
     } else {
-      this.setState(
-        { message: "Game over. Please start a new game." },
-        this.setReward
-      );
+      this.setState({ message: "Game over. Please start a new game." }, () => {
+        if (!this.state.rewarded) {
+          this.setState({ rewarded: true }, this.setReward);
+        }
+      });
     }
   }
 
@@ -339,30 +340,30 @@ class Game extends React.Component {
     let highestBoard = 0;
     const contract = this.props.drizzle.contracts.TZFEToken;
     const account = this.props.drizzleState.accounts[0];
-    let amount = 0
+    let amount = 0;
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
     });
-    if (highestBoard >= 512) {
-      amount++
+    if (highestBoard >= 4) {
+      amount++;
     }
-    if (this.state.score >= 5000) {
-      amount++
+    if (this.state.score >= 100) {
+      amount++;
     }
-    if (highestBoard >= 1024) {
-      amount++
+    if (highestBoard >= 8) {
+      amount++;
     }
-    if (this.state.score >= 10000) {
-      amount++
+    if (this.state.score >= 200) {
+      amount++;
     }
     if (highestBoard >= 2048) {
-      amount++
+      amount++;
     }
     if (this.state.score >= 20000) {
-      amount++
+      amount++;
     }
     if (amount > 0) {
-      await contract.methods.reward(account, amount).send();
+      await contract.methods.reward(account, amount).send({ from: account });
     }
     console.log(await contract.methods.balanceOf(account).call());
   }
