@@ -339,14 +339,32 @@ class Game extends React.Component {
     let highestBoard = 0;
     const contract = this.props.drizzle.contracts.TZFEToken;
     const account = this.props.drizzleState.accounts[0];
+    let amount = 0
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
     });
-    if (highestBoard >= 4 && !this.state.rewarded) {
-      await contract.methods.reward(account, 1).send();
-      console.log(await contract.methods.balanceOf(account).call());
+    if (highestBoard >= 512) {
+      amount++
     }
-    this.setState({ rewarded: true });
+    if (this.state.score >= 5000) {
+      amount++
+    }
+    if (highestBoard >= 1024) {
+      amount++
+    }
+    if (this.state.score >= 10000) {
+      amount++
+    }
+    if (highestBoard >= 2048) {
+      amount++
+    }
+    if (this.state.score >= 20000) {
+      amount++
+    }
+    if (amount > 0) {
+      await contract.methods.reward(account, amount).send();
+    }
+    console.log(await contract.methods.balanceOf(account).call());
   }
 
   componentWillMount() {
