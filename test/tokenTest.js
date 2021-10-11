@@ -3,7 +3,7 @@ const TZFEToken = artifacts.require("./TZFEToken.sol")
 contract("TZFEToken", accounts=> {
   let tzfeToken
 
-  before(async () => {
+  beforeEach(async () => {
     tzfeToken = await TZFEToken.deployed()
   })
 
