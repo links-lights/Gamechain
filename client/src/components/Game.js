@@ -10,7 +10,9 @@ class Game extends React.Component {
       score: 0,
       gameOver: false,
       message: null,
+      rewarded: false,
     };
+    this.setReward = this.setReward.bind(this)
   }
 
   // Create board with two random coordinate numbers
@@ -30,7 +32,7 @@ class Game extends React.Component {
     //   board.push(row);
     // }
     board = this.placeRandom(this.placeRandom(board));
-    this.setState({ board, score: 0, gameOver: false, message: null });
+    this.setState({ board, score: 0, gameOver: false, message: null, rewarded: false });
   }
 
   // Get all blank coordinates from board
@@ -324,6 +326,15 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
+  setReward(){
+      let highestBoard = 0
+      this.state.board.forEach(row => {
+        highestBoard = Math.max(...row, highestBoard)
+      })
+      this.setState({rewarded:true})
+      console.log(highestBoard)
+  }
+
   componentWillMount() {
     this.initBoard();
     const body = document.querySelector("body");
@@ -351,6 +362,11 @@ class Game extends React.Component {
   }
 
   render() {
+    if(this.state.gameOver && !this.state.rewarded){
+      console.log(this.state.board)
+      this.setReward()
+    }
+
     return (
       <div>
         <div
