@@ -71,9 +71,7 @@ const App = (props) => {
   if (!loading && account) {
     return (
       <div className="App">
-        <nav className="navbar pure-menu pure-menu-horizontal App-navbar">
-          {account}
-        </nav>
+        <div>{account}</div>
         <h1>Proof of Concept</h1>
         <img
           src={`https://ipfs.io/ipfs/${ipfsHash}`}
