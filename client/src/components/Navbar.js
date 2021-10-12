@@ -1,9 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import AppBar from "@mui/material/AppBar";
-import Typography from "@mui/material/Typography";
+import { Box, Toolbar, Button, AppBar, Typography } from "@mui/material";
 
 import "../styles/Navbar.css";
 
@@ -16,12 +13,16 @@ const Navbar = (props) => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 10 }}>
               <Link to="/"> Home</Link>
             </Typography>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Link to="/game"> Game</Link>
-            </Typography>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Link to="/"> My Account</Link>
-            </Typography>
+            <Button variant="outlined">
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Link to="/game"> Game</Link>
+              </Typography>
+            </Button>
+            <Button variant="outlined">
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Link to="/"> My Account</Link>
+              </Typography>
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
