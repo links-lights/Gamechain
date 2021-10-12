@@ -1,4 +1,13 @@
 .navbar {
   color: #bd431d;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+}
+
+link:hover {
+  background-color: black;
 }
