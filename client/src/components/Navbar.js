@@ -8,7 +8,7 @@ const Navbar = (props) => {
   return (
     <div className="navbar">
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ "background-color": "#BD431D" }}>
+        <AppBar position="static" sx={{ backgroundColor: "#BD431D" }}>
           <Toolbar>
             <Typography
               variant="h6"
