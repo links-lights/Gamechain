@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/Game.css";
+import TokenAward from "./TokenAward";
 
 class Game extends React.Component {
   constructor(props) {
@@ -11,6 +12,8 @@ class Game extends React.Component {
       gameOver: false,
       message: null,
       rewarded: false,
+      rewardAmount: 0,
+      highScore: 0
     };
     this.setReward = this.setReward.bind(this);
   }
@@ -38,6 +41,7 @@ class Game extends React.Component {
       gameOver: false,
       message: null,
       rewarded: false,
+      rewardAmount: 0
     });
   }
 
@@ -336,6 +340,12 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
+  highScore(){
+    if (this.state.score > this.state.highScore) {
+      this.setState({highScore:this.state.score})
+    }
+  }
+
   async setReward() {
     let highestBoard = 0;
     const contract = this.props.drizzle.contracts.TZFEToken;
@@ -365,6 +375,7 @@ class Game extends React.Component {
     if (amount > 0) {
       await contract.methods.reward(account, amount).send({ from: account });
     }
+    this.setState({rewardAmount:amount}, this.highScore)
     console.log(await contract.methods.balanceOf(account).call());
   }
 
@@ -453,6 +464,10 @@ class Game extends React.Component {
           {this.state.board.map((row, i) => (
             <Row key={i} row={row} />
           ))}
+        </table>
+
+        <table> 
+          {<TokenAward highScore={this.state.highScore} rewardAmount={this.state.rewardAmount}/>}
         </table>
 
         <p>{this.state.message}</p>
