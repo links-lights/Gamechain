@@ -1,16 +1,14 @@
 import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import App from "./App";
+import Navbar from "./Navbar";
 import Game from "./Game";
 
 const Routes = (props) => {
   const { drizzleState, drizzle } = props;
   return (
     <>
-      <div className="Navbar">
-        <Link to="/">Home</Link>
-        <Link to="/game">Game</Link>
-      </div>
+      <Navbar />
       <Switch>
         {/* This is how you can pass props in routes -> render method */}
         <Route
