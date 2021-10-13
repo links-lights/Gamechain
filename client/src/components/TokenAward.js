@@ -3,13 +3,16 @@ import { Box, Toolbar, Button, AppBar, Typography, Divider, Grid } from "@mui/ma
 
 const TokenAward = (props) => {
   const [state, setState] = useState(props);
+
+  useEffect( () => {
+      setState(props)},[props])
   return (
     <div className="TokenAward">
-        <Grid item xs={8} sx={{border:"1px solid black"}}>
+        <Grid item xs={12} sx={{border:"1px solid black"}}>
             High Score: {state.highScore} 
         </Grid>
         <Divider></Divider>
-        <Grid item xs={8} sx={{border:"1px solid black"}}>
+        <Grid item xs={12} sx={{border:"1px solid black"}}>
             Tokens Awarded: {state.rewardAmount} 
         </Grid>
     </div>

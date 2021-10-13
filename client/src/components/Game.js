@@ -16,6 +16,8 @@ class Game extends React.Component {
       highScore: 0
     };
     this.setReward = this.setReward.bind(this);
+    this.highScore = this.highScore.bind(this);
+    this.awardAmount = this.awardAmount.bind(this)
   }
 
   // Create board with two random coordinate numbers
@@ -41,7 +43,6 @@ class Game extends React.Component {
       gameOver: false,
       message: null,
       rewarded: false,
-      rewardAmount: 0
     });
   }
 
@@ -343,7 +344,14 @@ class Game extends React.Component {
   highScore(){
     if (this.state.score > this.state.highScore) {
       this.setState({highScore:this.state.score})
+      console.log("highscore", this.state.highScore)
     }
+  }
+
+ async awardAmount(amount){
+    await this.setState({rewardAmount:amount}, function() {
+      console.log("reward", this.rewardAmount)
+    })
   }
 
   async setReward() {
@@ -372,10 +380,14 @@ class Game extends React.Component {
     if (this.state.score >= 20000) {
       amount++;
     }
+    console.log("amount", amount)
     if (amount > 0) {
       await contract.methods.reward(account, amount).send({ from: account });
+      await this.awardAmount(amount)
     }
-    this.setState({rewardAmount:amount}, this.highScore)
+    
+    this.highScore()
+    
     console.log(await contract.methods.balanceOf(account).call());
   }
 
