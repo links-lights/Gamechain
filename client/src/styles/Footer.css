@@ -1,6 +1,7 @@
 .footer {
-  background-color: #bd431d;
-  width: 100%;
-  position: relative;
-  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: #1d97bd;
+  max-height: 40px;
+  align-items: center;
 }
