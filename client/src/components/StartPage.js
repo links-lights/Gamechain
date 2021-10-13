@@ -1,6 +1,7 @@
 import React from "react";
 import Game from './Game'
-import { Paper, Grid } from "@mui/material"
+import { Paper, Grid } from "@mui/material";
+import GameDescription from "./GameDescripion";
 
 class StartPage extends React.Component {
 
@@ -21,7 +22,7 @@ class StartPage extends React.Component {
           }} />
           <Grid item container className="GameArea" sx={{border:"1px solid black", minHeight:"30vw"}}>
           <Grid item xs={2}>
-          Description  here
+          <GameDescription />
           </Grid>
           <Grid item xs={8}
           sx={{border:"1px solid black"}}>
