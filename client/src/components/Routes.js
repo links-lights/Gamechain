@@ -1,9 +1,11 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import App from "./App";
 import Navbar from "./Navbar";
-import MUIGame from "./MUIGame"
+import Footer from "./Footer";
+import Game from "./Game";
 import StartPage from "./StartPage";
+import GameDescription from "./GameDescripion";
 
 const Routes = (props) => {
   const { drizzleState, drizzle } = props;
@@ -26,17 +28,33 @@ const Routes = (props) => {
           exact
           path="/game"
           render={(props) => (
-            <MUIGame {...props} drizzle={drizzle} drizzleState={drizzleState} />
+            <Game {...props} drizzle={drizzle} drizzleState={drizzleState} />
           )}
         />
         <Route
           exact
           path="/start"
           render={(props) => (
-            <StartPage {...props} drizzle={drizzle} drizzleState={drizzleState} />
+            <StartPage
+              {...props}
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/description"
+          render={(props) => (
+            <GameDescription
+              {...props}
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+            />
           )}
         />
       </Switch>
+      <Footer />
     </>
   );
 };
