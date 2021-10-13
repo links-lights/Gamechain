@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Game from "./Game";
 import StartPage from "./StartPage";
+import GameDescription from "./GameDescripion";
 
 const Routes = (props) => {
   const { drizzleState, drizzle } = props;
@@ -35,6 +36,17 @@ const Routes = (props) => {
           path="/start"
           render={(props) => (
             <StartPage
+              {...props}
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/description"
+          render={(props) => (
+            <GameDescription
               {...props}
               drizzle={drizzle}
               drizzleState={drizzleState}
