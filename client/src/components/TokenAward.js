@@ -8,13 +8,13 @@ const TokenAward = (props) => {
       setState(props)},[props])
   return (
     <div className="TokenAward">
-        <Grid item xs={12} sx={{border:"1px solid black"}}>
+        <Box item xs={12} sx={{border:"1px solid black"}}>
             High Score: {state.highScore} 
-        </Grid>
+        </Box>
         <Divider></Divider>
-        <Grid item xs={12} sx={{border:"1px solid black"}}>
+        <Box item xs={12} sx={{border:"1px solid black"}}>
             Tokens Awarded: {state.rewardAmount} 
-        </Grid>
+        </Box>
     </div>
   );
 };
