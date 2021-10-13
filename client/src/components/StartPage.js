@@ -26,15 +26,30 @@ class StartPage extends React.Component {
       score: 0,
       highScore: 0,
       rewardAmount: 0,
+      board: null,
     };
     this.highScore = this.highScore.bind(this);
     this.awardAmount = this.awardAmount.bind(this);
     this.setReward = this.setReward.bind(this);
+    this.setBoard = this.setBoard.bind(this);
+    this.setScore = this.setScore.bind(this);
   }
   //methods for score bind this
   async awardAmount(amount) {
     await this.setState({ rewardAmount: amount }, function () {
       console.log("reward", this.rewardAmount);
+    });
+  }
+
+  setBoard(board) {
+    this.setState({
+      board: board,
+    });
+  }
+
+  setScore(score) {
+    this.setState({
+      score,
     });
   }
 
@@ -74,16 +89,18 @@ class StartPage extends React.Component {
     console.log("amount", amount);
     if (amount > 0) {
       await contract.methods.reward(account, amount).send({ from: account });
-      await this.props.awardAmount(amount);
+      //but why?
+      // await this.awardAmount(amount);
+      // I think we can do this insted - please correct me if I'm mistakern
+      await this.awardAmount(amount + this.state.rewardAmount);
     }
 
-    this.props.highScore();
+    this.highScore();
 
     console.log(await contract.methods.balanceOf(account).call());
   }
 
   render() {
-    console.log(this.props);
     return (
       <Paper
         sx={{
@@ -115,7 +132,8 @@ class StartPage extends React.Component {
                 awardAmount={this.awardAmount}
                 highScore={this.highScore.bind(this)}
                 setReward={this.setReward}
-                score={this.state.score}
+                setScore={this.setScore}
+                setBoard={this.setBoard}
               />
             </Grid>
             <Grid item xs={2}>

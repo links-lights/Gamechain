@@ -13,7 +13,7 @@ class Game extends React.Component {
       message: null,
       rewarded: false,
       rewardAmount: 0,
-      highScore: 0
+      highScore: 0,
     };
     // this.setReward = this.setReward.bind(this);
     // this.highScore = this.highScore.bind(this);
@@ -93,11 +93,20 @@ class Game extends React.Component {
           const upWithRandom = this.placeRandom(movedUp.board);
 
           if (this.checkForGameOver(upWithRandom)) {
-            this.setState({
-              board: upWithRandom,
-              gameOver: true,
-              message: "Game over!",
-            });
+            this.setState(
+              {
+                board: upWithRandom,
+                gameOver: true,
+                message: "Game over!",
+              },
+              () => {
+                if (!this.state.rewarded) {
+                  this.props.setBoard(this.state.board);
+                  this.setState({ rewarded: true }, this.props.setReward);
+                  this.props.setScore(this.state.score);
+                }
+              }
+            );
           } else {
             this.setState({
               board: upWithRandom,
@@ -111,11 +120,20 @@ class Game extends React.Component {
           const rightWithRandom = this.placeRandom(movedRight.board);
 
           if (this.checkForGameOver(rightWithRandom)) {
-            this.setState({
-              board: rightWithRandom,
-              gameOver: true,
-              message: "Game over!",
-            });
+            this.setState(
+              {
+                board: rightWithRandom,
+                gameOver: true,
+                message: "Game over!",
+              },
+              () => {
+                if (!this.state.rewarded) {
+                  this.props.setBoard(this.state.board);
+                  this.setState({ rewarded: true }, this.props.setReward);
+                  this.props.setScore(this.state.score);
+                }
+              }
+            );
           } else {
             this.setState({
               board: rightWithRandom,
@@ -129,11 +147,20 @@ class Game extends React.Component {
           const downWithRandom = this.placeRandom(movedDown.board);
 
           if (this.checkForGameOver(downWithRandom)) {
-            this.setState({
-              board: downWithRandom,
-              gameOver: true,
-              message: "Game over!",
-            });
+            this.setState(
+              {
+                board: downWithRandom,
+                gameOver: true,
+                message: "Game over!",
+              },
+              () => {
+                if (!this.state.rewarded) {
+                  this.props.setBoard(this.state.board);
+                  this.setState({ rewarded: true }, this.props.setReward);
+                  this.props.setScore(this.state.score);
+                }
+              }
+            );
           } else {
             this.setState({
               board: downWithRandom,
@@ -147,11 +174,20 @@ class Game extends React.Component {
           const leftWithRandom = this.placeRandom(movedLeft.board);
 
           if (this.checkForGameOver(leftWithRandom)) {
-            this.setState({
-              board: leftWithRandom,
-              gameOver: true,
-              message: "Game over!",
-            });
+            this.setState(
+              {
+                board: leftWithRandom,
+                gameOver: true,
+                message: "Game over!",
+              },
+              () => {
+                if (!this.state.rewarded) {
+                  this.props.setBoard(this.state.board);
+                  this.setState({ rewarded: true }, this.props.setReward);
+                  this.props.setScore(this.state.score);
+                }
+              }
+            );
           } else {
             this.setState({
               board: leftWithRandom,
@@ -163,9 +199,10 @@ class Game extends React.Component {
     } else {
       this.setState({ message: "Game over. Please start a new game." }, () => {
         if (!this.state.rewarded) {
+          this.props.setBoard(this.state.board);
           this.setState({ rewarded: true }, this.props.setReward);
         }
-      this.props.highScore(this.state.score)
+        this.props.setScore(this.state.score);
       });
     }
   }
@@ -342,18 +379,18 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
-//   highScore(){
-//     if (this.state.score > this.state.highScore) {
-//       this.setState({highScore:this.state.score})
-//       console.log("highscore", this.state.highScore)
-//     }
-//   }
+  //   highScore(){
+  //     if (this.state.score > this.state.highScore) {
+  //       this.setState({highScore:this.state.score})
+  //       console.log("highscore", this.state.highScore)
+  //     }
+  //   }
 
-//  async awardAmount(amount){
-//     await this.setState({rewardAmount:amount}, function() {
-//       console.log("reward", this.rewardAmount)
-//     })
-//   }
+  //  async awardAmount(amount){
+  //     await this.setState({rewardAmount:amount}, function() {
+  //       console.log("reward", this.rewardAmount)
+  //     })
+  //   }
 
   // async setReward() {
   //   let highestBoard = 0;
@@ -386,9 +423,9 @@ class Game extends React.Component {
   //     await contract.methods.reward(account, amount).send({ from: account });
   //     await this.props.awardAmount(amount)
   //   }
-    
+
   //   this.props.highScore()
-    
+
   //   console.log(await contract.methods.balanceOf(account).call());
   // }
 
@@ -479,7 +516,7 @@ class Game extends React.Component {
           ))}
         </table>
 
-        <table> 
+        <table>
           {/* {<TokenAward highScore={this.state.highScore} rewardAmount={this.state.rewardAmount}/>} */}
         </table>
 
