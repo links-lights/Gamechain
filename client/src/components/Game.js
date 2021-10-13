@@ -1,6 +1,7 @@
 import React from "react";
-import "../styles/Game.css";
-import TokenAward from "./TokenAward";
+import { TableRow, TableCell, TableBody, Button, TableContainer, Paper, Grid, Table, Typography } from '@mui/material'
+import { Box } from "@mui/system";
+
 
 class Game extends React.Component {
   constructor(props) {
@@ -15,9 +16,6 @@ class Game extends React.Component {
       rewardAmount: 0,
       highScore: 0,
     };
-    // this.setReward = this.setReward.bind(this);
-    // this.highScore = this.highScore.bind(this);
-    // this.awardAmount = this.awardAmount.bind(this)
   }
 
   // Create board with two random coordinate numbers
@@ -28,14 +26,7 @@ class Game extends React.Component {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
-    // let board = [];
-    // for (let i = 0; i < n; i++) {
-    //   const row = [];
-    //   for (let j = 0; j < n; j++) {
-    //     row.push(0);
-    //   }
-    //   board.push(row);
-    // }
+
     board = this.placeRandom(this.placeRandom(board));
     this.setState({
       board,
@@ -379,56 +370,6 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
-  //   highScore(){
-  //     if (this.state.score > this.state.highScore) {
-  //       this.setState({highScore:this.state.score})
-  //       console.log("highscore", this.state.highScore)
-  //     }
-  //   }
-
-  //  async awardAmount(amount){
-  //     await this.setState({rewardAmount:amount}, function() {
-  //       console.log("reward", this.rewardAmount)
-  //     })
-  //   }
-
-  // async setReward() {
-  //   let highestBoard = 0;
-  //   const contract = this.props.drizzle.contracts.TZFEToken;
-  //   const account = this.props.drizzleState.accounts[0];
-  //   let amount = 0;
-  //   this.state.board.forEach((row) => {
-  //     highestBoard = Math.max(...row, highestBoard);
-  //   });
-  //   if (highestBoard >= 4) {
-  //     amount++;
-  //   }
-  //   if (this.state.score >= 100) {
-  //     amount++;
-  //   }
-  //   if (highestBoard >= 8) {
-  //     amount++;
-  //   }
-  //   if (this.state.score >= 200) {
-  //     amount++;
-  //   }
-  //   if (highestBoard >= 2048) {
-  //     amount++;
-  //   }
-  //   if (this.state.score >= 20000) {
-  //     amount++;
-  //   }
-  //   console.log("amount", amount)
-  //   if (amount > 0) {
-  //     await contract.methods.reward(account, amount).send({ from: account });
-  //     await this.props.awardAmount(amount)
-  //   }
-
-  //   this.props.highScore()
-
-  //   console.log(await contract.methods.balanceOf(account).call());
-  // }
-
   componentWillMount() {
     this.initBoard();
     const body = document.querySelector("body");
@@ -456,102 +397,133 @@ class Game extends React.Component {
   }
 
   render() {
-    // if (this.state.gameOver && !this.state.rewarded) {
-    //   // this.setReward();
-    //   console.log(this.state);
-    //   this.setState({ rewarded: true });
-    // }
-
     return (
-      <div>
-        <div
-          className="button"
-          onClick={() => {
+      <Grid container direction="column" alignContent="center">
+        <Grid item sx={{
+          display: "flex",
+          justifyContent: "space-around"
+        }}>
+        <Button variant="contained"
+        sx={{
+          backgroundColor: "#303030",
+          color: "#50c8ff",
+          alignSelf:"center"
+        }}
+        onClick={() => {
             this.initBoard();
-          }}
-        >
+          }}>
           New Game
-        </div>
+        </Button>
+        </Grid>
 
-        <div className="buttons">
-          <div
-            className="button"
-            onClick={() => {
-              this.move("up");
-            }}
-          >
-            Up
-          </div>
-          <div
-            className="button"
-            onClick={() => {
-              this.move("right");
-            }}
-          >
-            Right
-          </div>
-          <div
-            className="button"
-            onClick={() => {
-              this.move("down");
-            }}
-          >
-            Down
-          </div>
-          <div
-            className="button"
-            onClick={() => {
-              this.move("left");
-            }}
-          >
-            Left
-          </div>
-        </div>
+        <Grid item sx={{
+          display: "flex",
+          justifyContent: "space-around"
+        }}>
+        <Typography variant="h5">Score: {this.state.score}</Typography>
+        </Grid>
 
-        <div className="score">Score: {this.state.score}</div>
-
-        <table>
+        <Grid item>
+        <TableContainer component={Paper} sx={{
+          maxWidth:"440px",
+          Height: "440px",
+          backgroundColor: "#303030"
+        }}>
+          <Table>
           {this.state.board.map((row, i) => (
             <Row key={i} row={row} />
           ))}
-        </table>
+          </Table>
+        </TableContainer>
 
-        <table>
-          {/* {<TokenAward highScore={this.state.highScore} rewardAmount={this.state.rewardAmount}/>} */}
-        </table>
+        <Grid item sx={{
+          display: "flex",
+          justifyContent: "space-around"
+        }}>
+        <Typography variant="h6">{this.state.message}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
 
-        <p>{this.state.message}</p>
-      </div>
-    );
+    )
   }
 }
 
 const Row = ({ row }) => {
   return (
-    <tbody>
-      <tr>
-        {row.map((cell, i) => (
-          <Cell key={i} cellValue={cell} />
-        ))}
-      </tr>
-    </tbody>
+    <TableBody>
+      <TableRow>
+      {row.map((cell, i) => (
+           <Cell key={i} cellValue={cell} />
+         ))}
+      </TableRow>
+    </TableBody>
   );
+
 };
 
 const Cell = ({ cellValue }) => {
-  let color = "cell";
   let value = cellValue === 0 ? "" : cellValue;
-  if (value) {
-    color += ` color-${value}`;
+  //push value into color maker and get corresponding background color
+  let bgColor;
+  switch(cellValue){
+    case 2:
+      bgColor = "#50c8ff";
+      break;
+    case 4:
+      bgColor = "green";
+      break;
+    case 8:
+      bgColor = "red";
+      break;
+    case 16:
+      bgColor = "orange";
+      break;
+    case 32:
+      bgColor = "yellow";
+      break;
+    case 64:
+      bgColor = "blue";
+      break;
+    case 128:
+      bgColor = "purple";
+      break;
+    case 256:
+      bgColor = "pink";
+      break;
+    case 1024:
+      bgColor ="green";
+      break;
+    case 2048:
+      bgColor ="blue"
+      break;
+    default: bgColor ="#303030"
+  }
+  let dynamicColor = {
+    backgroundColor: `${bgColor}`,
+    color: '#FFFFFF',
+    fontSize: '35px',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height:"100%",
+    width:"100%",
+    borderRadius: "5px"
   }
 
   return (
-    <td>
-      <div className={color}>
-        <div className="number">{value}</div>
-      </div>
-    </td>
+    <TableCell sx={{
+      height: "100px",
+      width: "100px",
+      backgroundColor: "#303030",
+      borderRadius: "5px",
+      padding:"5px",
+      border: "0px solid black"
+    }}>
+      <Box sx={dynamicColor}>
+      {value}
+      </Box>
+    </TableCell>
   );
 };
-
 export default Game;
