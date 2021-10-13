@@ -15,9 +15,9 @@ class Game extends React.Component {
       rewardAmount: 0,
       highScore: 0
     };
-    this.setReward = this.setReward.bind(this);
-    this.highScore = this.highScore.bind(this);
-    this.awardAmount = this.awardAmount.bind(this)
+    // this.setReward = this.setReward.bind(this);
+    // this.highScore = this.highScore.bind(this);
+    // this.awardAmount = this.awardAmount.bind(this)
   }
 
   // Create board with two random coordinate numbers
@@ -163,8 +163,9 @@ class Game extends React.Component {
     } else {
       this.setState({ message: "Game over. Please start a new game." }, () => {
         if (!this.state.rewarded) {
-          this.setState({ rewarded: true }, this.setReward);
+          this.setState({ rewarded: true }, this.props.setReward);
         }
+      this.props.highScore(this.state.score)
       });
     }
   }
@@ -341,55 +342,55 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
-  highScore(){
-    if (this.state.score > this.state.highScore) {
-      this.setState({highScore:this.state.score})
-      console.log("highscore", this.state.highScore)
-    }
-  }
+//   highScore(){
+//     if (this.state.score > this.state.highScore) {
+//       this.setState({highScore:this.state.score})
+//       console.log("highscore", this.state.highScore)
+//     }
+//   }
 
- async awardAmount(amount){
-    await this.setState({rewardAmount:amount}, function() {
-      console.log("reward", this.rewardAmount)
-    })
-  }
+//  async awardAmount(amount){
+//     await this.setState({rewardAmount:amount}, function() {
+//       console.log("reward", this.rewardAmount)
+//     })
+//   }
 
-  async setReward() {
-    let highestBoard = 0;
-    const contract = this.props.drizzle.contracts.TZFEToken;
-    const account = this.props.drizzleState.accounts[0];
-    let amount = 0;
-    this.state.board.forEach((row) => {
-      highestBoard = Math.max(...row, highestBoard);
-    });
-    if (highestBoard >= 4) {
-      amount++;
-    }
-    if (this.state.score >= 100) {
-      amount++;
-    }
-    if (highestBoard >= 8) {
-      amount++;
-    }
-    if (this.state.score >= 200) {
-      amount++;
-    }
-    if (highestBoard >= 2048) {
-      amount++;
-    }
-    if (this.state.score >= 20000) {
-      amount++;
-    }
-    console.log("amount", amount)
-    if (amount > 0) {
-      await contract.methods.reward(account, amount).send({ from: account });
-      await this.awardAmount(amount)
-    }
+  // async setReward() {
+  //   let highestBoard = 0;
+  //   const contract = this.props.drizzle.contracts.TZFEToken;
+  //   const account = this.props.drizzleState.accounts[0];
+  //   let amount = 0;
+  //   this.state.board.forEach((row) => {
+  //     highestBoard = Math.max(...row, highestBoard);
+  //   });
+  //   if (highestBoard >= 4) {
+  //     amount++;
+  //   }
+  //   if (this.state.score >= 100) {
+  //     amount++;
+  //   }
+  //   if (highestBoard >= 8) {
+  //     amount++;
+  //   }
+  //   if (this.state.score >= 200) {
+  //     amount++;
+  //   }
+  //   if (highestBoard >= 2048) {
+  //     amount++;
+  //   }
+  //   if (this.state.score >= 20000) {
+  //     amount++;
+  //   }
+  //   console.log("amount", amount)
+  //   if (amount > 0) {
+  //     await contract.methods.reward(account, amount).send({ from: account });
+  //     await this.props.awardAmount(amount)
+  //   }
     
-    this.highScore()
+  //   this.props.highScore()
     
-    console.log(await contract.methods.balanceOf(account).call());
-  }
+  //   console.log(await contract.methods.balanceOf(account).call());
+  // }
 
   componentWillMount() {
     this.initBoard();
@@ -479,7 +480,7 @@ class Game extends React.Component {
         </table>
 
         <table> 
-          {<TokenAward highScore={this.state.highScore} rewardAmount={this.state.rewardAmount}/>}
+          {/* {<TokenAward highScore={this.state.highScore} rewardAmount={this.state.rewardAmount}/>} */}
         </table>
 
         <p>{this.state.message}</p>
