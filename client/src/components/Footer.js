@@ -6,7 +6,7 @@ const Footer = (props) => {
     <div className="footer">
       <h2 className="item">
         <a href="https://github.com/links-lights/Gamechain/projects/1">
-          <i class="fa fa-github" aria-hidden="true"></i>
+          <i className="fa fa-github" aria-hidden="true"></i>
         </a>
       </h2>
       <h2 className="item">
