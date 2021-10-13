@@ -16,7 +16,7 @@ class StartPage extends React.Component {
         <Grid container direction="column" className="sections">
           <Grid item
           className="topSpacer"
-          sx={{
+          sx={{ 
             height:"5vw",
             border:"1px solid black"
           }} />
