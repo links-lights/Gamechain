@@ -25,7 +25,17 @@ const Navbar = (props) => {
                 sx={{ flexGrow: 1 }}
                 className="link"
               >
-                <Link to="/game"> Game</Link>
+                <Link to="/game"> Training</Link>
+              </Typography>
+            </Button>
+            <Button variant="outlined">
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ flexGrow: 1 }}
+                className="link"
+              >
+                <Link to="/start"> Game</Link>
               </Typography>
             </Button>
             <Button variant="outlined">

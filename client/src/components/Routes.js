@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import App from "./App";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Game from "./Game";
+import TrainingGame from "./Training";
 import StartPage from "./StartPage";
 import GameDescription from "./GameDescripion";
 
@@ -28,7 +28,11 @@ const Routes = (props) => {
           exact
           path="/game"
           render={(props) => (
-            <Game {...props} drizzle={drizzle} drizzleState={drizzleState} />
+            <TrainingGame
+              {...props}
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+            />
           )}
         />
         <Route
