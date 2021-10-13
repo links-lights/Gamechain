@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/Game.css";
+import TokenAward from "./TokenAward";
 
 class Game extends React.Component {
   constructor(props) {
@@ -11,8 +12,12 @@ class Game extends React.Component {
       gameOver: false,
       message: null,
       rewarded: false,
+      rewardAmount: 0,
+      highScore: 0
     };
     this.setReward = this.setReward.bind(this);
+    this.highScore = this.highScore.bind(this);
+    this.awardAmount = this.awardAmount.bind(this)
   }
 
   // Create board with two random coordinate numbers
@@ -336,6 +341,19 @@ class Game extends React.Component {
     return moves.includes(true) ? false : true;
   }
 
+  highScore(){
+    if (this.state.score > this.state.highScore) {
+      this.setState({highScore:this.state.score})
+      console.log("highscore", this.state.highScore)
+    }
+  }
+
+ async awardAmount(amount){
+    await this.setState({rewardAmount:amount}, function() {
+      console.log("reward", this.rewardAmount)
+    })
+  }
+
   async setReward() {
     let highestBoard = 0;
     const contract = this.props.drizzle.contracts.TZFEToken;
@@ -362,9 +380,14 @@ class Game extends React.Component {
     if (this.state.score >= 20000) {
       amount++;
     }
+    console.log("amount", amount)
     if (amount > 0) {
       await contract.methods.reward(account, amount).send({ from: account });
+      await this.awardAmount(amount)
     }
+    
+    this.highScore()
+    
     console.log(await contract.methods.balanceOf(account).call());
   }
 
@@ -453,6 +476,10 @@ class Game extends React.Component {
           {this.state.board.map((row, i) => (
             <Row key={i} row={row} />
           ))}
+        </table>
+
+        <table> 
+          {<TokenAward highScore={this.state.highScore} rewardAmount={this.state.rewardAmount}/>}
         </table>
 
         <p>{this.state.message}</p>
