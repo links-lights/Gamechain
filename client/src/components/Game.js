@@ -456,6 +456,7 @@ class Game extends React.Component {
         </table>
 
         <p>{this.state.message}</p>
+        <button>Game Description</button>
       </div>
     );
   }
