@@ -1,6 +1,6 @@
 import React from "react";
-import "../styles/Game.css";
-import { TableRow, TableCell, TableBody, Table, TableContainer, Paper } from '@mui/material'
+// import "../styles/Game.css";
+import { TableRow, TableCell, TableBody, Button, TableContainer, Paper, Grid, Table, Typography } from '@mui/material'
 import { Box } from "@mui/system";
 
 class MUIGame extends React.Component {
@@ -404,17 +404,25 @@ class MUIGame extends React.Component {
     // }
 
     return (
-      <div>
-        <div
-          className="button"
-          onClick={() => {
+      <Grid container direction="column" alignContent="center">
+        <Grid item sx={{
+          display: "flex",
+          justifyContent: "space-around"
+        }}>
+        <Button variant="contained"
+        sx={{
+          backgroundColor: "#303030",
+          color: "#50c8ff",
+          alignSelf:"center"
+        }}
+        onClick={() => {
             this.initBoard();
-          }}
-        >
+          }}>
           New Game
-        </div>
+        </Button>
+        </Grid>
 
-        <div className="buttons">
+        {/* <div className="buttons">
           <div
             className="button"
             onClick={() => {
@@ -447,23 +455,35 @@ class MUIGame extends React.Component {
           >
             Left
           </div>
-        </div>
+        </div> */}
+        <Grid item sx={{
+          display: "flex",
+          justifyContent: "space-around"
+        }}>
+        <Typography variant="h5">Score: {this.state.score}</Typography>
+        </Grid>
 
-        <div className="score">Score: {this.state.score}</div>
-
-        {/* <table>
+        <Grid item>
+        <TableContainer component={Paper} sx={{
+          maxWidth:"440px",
+          Height: "440px",
+          backgroundColor: "#303030"
+        }}>
+          <Table>
           {this.state.board.map((row, i) => (
             <Row key={i} row={row} />
           ))}
-        </table> */}
-        <TableContainer>
-          {this.state.board.map((row, i) => (
-            <Row key={i} row={row} />
-          ))}
+          </Table>
         </TableContainer>
 
-        <p>{this.state.message}</p>
-      </div>
+        <Grid item sx={{
+          display: "flex",
+          justifyContent: "space-around"
+        }}>
+        <Typography variant="h6">{this.state.message}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
     );
   }
 }
@@ -536,7 +556,8 @@ const Cell = ({ cellValue }) => {
       width: "100px",
       backgroundColor: "#303030",
       borderRadius: "5px",
-      padding:"5px"
+      padding:"5px",
+      border: "0px solid black"
     }}>
       <Box sx={dynamicColor}>
       {value}

@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Game.css";
+// import "../styles/Game.css";
 
 class Game extends React.Component {
   constructor(props) {
@@ -343,7 +343,7 @@ class Game extends React.Component {
     let amount = 0;
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
-    });
+    });//probability # as the # goes higher the chances are better
     if (highestBoard >= 4) {
       amount++;
     }

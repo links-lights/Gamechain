@@ -3,7 +3,6 @@ import { Route, Switch, Link } from "react-router-dom";
 import App from "./App";
 import Navbar from "./Navbar";
 import MUIGame from "./MUIGame"
-import Game from "./Game";
 import StartPage from "./StartPage";
 
 const Routes = (props) => {

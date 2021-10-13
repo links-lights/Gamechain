@@ -1,6 +1,6 @@
 import React from "react";
-import Game from './Game'
 import { Paper, Grid } from "@mui/material"
+import MUIGame from "./MUIGame";
 
 class StartPage extends React.Component {
 
@@ -25,7 +25,7 @@ class StartPage extends React.Component {
           </Grid>
           <Grid item xs={8}
           sx={{border:"1px solid black"}}>
-            <Game drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} />
+            <MUIGame drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} />
           </Grid>
           <Grid item xs={2}>
             Score here
