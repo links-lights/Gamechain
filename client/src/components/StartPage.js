@@ -33,6 +33,7 @@ class StartPage extends React.Component {
     this.setReward = this.setReward.bind(this);
     this.setBoard = this.setBoard.bind(this);
     this.setScore = this.setScore.bind(this);
+    this.probability = this.probability.bind(this)
   }
   //methods for score bind this
   async awardAmount(amount) {
@@ -60,39 +61,50 @@ class StartPage extends React.Component {
     }
   }
 
+  probability(n){
+    return Math.random() < n;
+}
+
   async setReward() {
     let highestBoard = 0;
     const contract = this.props.drizzle.contracts.TZFEToken;
     const account = this.props.drizzleState.accounts[0];
     let amount = 0;
+    let tokenOdds = 0 
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
     });
     if (highestBoard >= 4) {
-      amount++;
+      tokenOdds += 0.02;
     }
     if (this.state.score >= 100) {
-      amount++;
+      tokenOdds += 0.02;
     }
     if (highestBoard >= 8) {
-      amount++;
+      tokenOdds += 0.03
     }
     if (this.state.score >= 200) {
-      amount++;
+      tokenOdds += 0.03
     }
     if (highestBoard >= 2048) {
-      amount++;
+      tokenOdds += 0.04
     }
     if (this.state.score >= 20000) {
-      amount++;
+      tokenOdds += 0.04
     }
-    console.log("amount", amount);
-    if (amount > 0) {
-      await contract.methods.reward(account, amount).send({ from: account });
+
+    console.log(`You have a ${tokenOdds*100}% of getting a token`)
+
+    if (this.probability(tokenOdds)) {
+      await contract.methods.reward(account, 1).send({ from: account });
+      console.log("Odds are in your favor, you won a token!")
+      
       //but why?
       // await this.awardAmount(amount);
       // I think we can do this insted - please correct me if I'm mistakern
-      await this.awardAmount(amount + this.state.rewardAmount);
+      await this.awardAmount(1 + this.state.rewardAmount);
+    } else {
+      console.log("Unfortunately not in your favor")
     }
 
     this.highScore();
