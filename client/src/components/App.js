@@ -10,6 +10,7 @@ const App = (props) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [_ipfs, setIpfs] = useState(null);
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
     //* immediately invoked function
@@ -37,6 +38,11 @@ const App = (props) => {
           score: 0,
         });
       }
+      setBalance(
+        await props.drizzle.contracts.TZFEToken.methods
+          .balanceOf(account)
+          .call()
+      );
       setLoading(false);
     })();
   }, []);
@@ -111,6 +117,7 @@ const App = (props) => {
           </button>
         </form>
         <h2>High Score: {user.score}</h2>
+        <h2>Balance: {balance}</h2>
       </div>
     );
   } else {
