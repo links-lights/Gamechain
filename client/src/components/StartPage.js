@@ -3,6 +3,8 @@ import Game, { highScore, rewardAmount } from "./Game";
 import TokenAward from "./TokenAward";
 import { Paper, Grid } from "@mui/material";
 import RecipeReviewCard from "./GameDescripion";
+import { setUser } from "../ipfs/user";
+import ipfs from "../ipfs";
 
 /* Current: I was able to successfully obtain tokens awarded by moving the functions
 from the game component into the startPage, creating local state in Startpage then passing
@@ -27,6 +29,7 @@ class StartPage extends React.Component {
       highScore: 0,
       rewardAmount: 0,
       board: null,
+      user: null,
     };
     this.highScore = this.highScore.bind(this);
     this.awardAmount = this.awardAmount.bind(this);
@@ -34,6 +37,22 @@ class StartPage extends React.Component {
     this.setBoard = this.setBoard.bind(this);
     this.setScore = this.setScore.bind(this);
   }
+
+  async componentDidMount() {
+    const _ipfs = await ipfs;
+    const account = this.props.drizzleState.accounts[0];
+    const chunks = [];
+    for await (const chunk of _ipfs.files.read(`/users/${account}.JSON`)) {
+      chunks.push(chunk);
+    }
+    const _user = Buffer.from(...chunks).toString("utf8");
+    this.setState({ user: JSON.parse(_user) }, () => {
+      this.setState({
+        highScore: this.state.user.score,
+      });
+    });
+  }
+
   //methods for score bind this
   async awardAmount(amount) {
     await this.setState({ rewardAmount: amount }, function () {
@@ -53,10 +72,11 @@ class StartPage extends React.Component {
     });
   }
 
-  highScore() {
+  async highScore() {
+    const account = this.props.drizzleState.accounts[0];
     if (this.state.score > this.state.highScore) {
       this.setState({ highScore: this.state.score });
-      console.log("highscore", this.state.highScore);
+      setUser(account, this.state.score);
     }
   }
 
@@ -130,7 +150,7 @@ class StartPage extends React.Component {
                 drizzle={this.props.drizzle}
                 drizzleState={this.props.drizzleState}
                 awardAmount={this.awardAmount}
-                highScore={this.highScore.bind(this)}
+                highScore={this.highScore}
                 setReward={this.setReward}
                 setScore={this.setScore}
                 setBoard={this.setBoard}

@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import TrainingGame from "./Training";
 import StartPage from "./StartPage";
 import GameDescription from "./GameDescripion";
+import Scoreboard from "./Scoreboard";
 
 const Routes = (props) => {
   const { drizzleState, drizzle } = props;
@@ -57,6 +58,7 @@ const Routes = (props) => {
             />
           )}
         />
+        <Route exact path="/scoreboard" component={Scoreboard} />
       </Switch>
       <Footer />
     </>
