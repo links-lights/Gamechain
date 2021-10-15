@@ -7,9 +7,13 @@ const Scoreboard = (props) => {
   useEffect(() => {
     (async () => {
       const _users = await fetchUsers();
+      _users.sort((user1, user2) => {
+        return user2.score - user1.score;
+      });
       setUsers(_users);
     })();
   }, []);
+
   return (
     <>
       <h1>Scoreboard</h1>
