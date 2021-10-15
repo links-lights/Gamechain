@@ -16,14 +16,14 @@ const App = (props) => {
     //* immediately invoked function
     (async () => {
       //* just for IPFS to work
+      let _ipfs_;
+      if (_ipfs) {
+        _ipfs_ = _ipfs;
+      } else {
+        _ipfs_ = await ipfs;
+        setIpfs(_ipfs_);
+      }
       try {
-        let _ipfs_;
-        if (_ipfs) {
-          _ipfs_ = _ipfs;
-        } else {
-          _ipfs_ = await ipfs;
-          setIpfs(_ipfs_);
-        }
         //* How we can read the data from ipfs
         const chunks = [];
         for await (const chunk of _ipfs_.files.read(`/users/${account}.JSON`)) {
@@ -32,11 +32,18 @@ const App = (props) => {
         const _user = Buffer.from(...chunks).toString("utf8");
         setUser(JSON.parse(_user));
       } catch (error) {
-        setUser({
-          username: account,
-          imageHash: "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe",
-          score: 0,
-        });
+        await User(
+          account,
+          account,
+          "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe",
+          0
+        );
+        const chunks = [];
+        for await (const chunk of _ipfs_.files.read(`/users/${account}.JSON`)) {
+          chunks.push(chunk);
+        }
+        const _user = JSON.parse(Buffer.from(...chunks).toString("utf8"));
+        setUser(_user);
       }
       setBalance(
         await props.drizzle.contracts.TZFEToken.methods
@@ -74,6 +81,7 @@ const App = (props) => {
     event.preventDefault();
     //* ipfs api
     let hash;
+    await _ipfs.files.rm(`/users/${account}.JSON`);
     if (buffer) {
       hash = await _ipfs.add(buffer);
       await User(account, user.username, hash.cid.toString(), 0);
@@ -87,9 +95,6 @@ const App = (props) => {
     }
     const _user = Buffer.from(...chunks).toString("utf8");
     setUser(JSON.parse(_user));
-    for await (const file of _ipfs.files.ls("/users")) {
-      console.log(file.name);
-    }
   };
   if (!loading && account) {
     return (
