@@ -1,5 +1,7 @@
-import { fetchUsers } from "../ipfs/user";
+import { fetchUsers } from "../db/models/user";
 import React, { useState, useEffect } from "react";
+
+import "../styles/Scoreboard.css";
 
 const Scoreboard = (props) => {
   const [users, setUsers] = useState([]);
@@ -20,6 +22,8 @@ const Scoreboard = (props) => {
       <table>
         <tbody>
           <tr>
+            <th></th>
+            <th></th>
             <th>
               <h3>Username</h3>
             </th>
@@ -30,6 +34,14 @@ const Scoreboard = (props) => {
           {users.map((user, key) => {
             return (
               <tr key={key}>
+                <th>{key + 1}</th>
+                <th>
+                  <img
+                    src={`https://ipfs.io/ipfs/${user.imageHash}`}
+                    alt="user pfp"
+                    className="scoreboard-pic"
+                  />
+                </th>
                 <th>{user.username}</th>
                 <th>{user.score}</th>
               </tr>

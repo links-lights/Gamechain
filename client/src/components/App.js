@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
-import User from "../ipfs/user";
+import { fetchUser, changeUser, createUser } from "../db/models/user";
 
 import "../styles/App.css";
 
@@ -9,40 +9,28 @@ const App = (props) => {
   const [account, setAccount] = useState(props.drizzleState.accounts[0]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
-  const [_ipfs, setIpfs] = useState(null);
   const [balance, setBalance] = useState(0);
+  const [_ipfs, setIPFS] = useState(null);
 
   useEffect(() => {
     //* immediately invoked function
     (async () => {
-      //* just for IPFS to work
-      let _ipfs_;
-      if (_ipfs) {
-        _ipfs_ = _ipfs;
-      } else {
-        _ipfs_ = await ipfs;
-        setIpfs(_ipfs_);
-      }
+      setIPFS(await ipfs);
       try {
-        //* How we can read the data from ipfs
-        const chunks = [];
-        for await (const chunk of _ipfs_.files.read(`/users/${account}.JSON`)) {
-          chunks.push(chunk);
+        const _user = (await fetchUser(account))[0];
+        if (Object.keys(_user).length === 0) {
+          throw new Error();
         }
-        const _user = Buffer.from(...chunks).toString("utf8");
-        setUser(JSON.parse(_user));
+        setUser(_user);
       } catch (error) {
-        await User(
-          account,
-          account,
-          "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe",
-          0
-        );
-        const chunks = [];
-        for await (const chunk of _ipfs_.files.read(`/users/${account}.JSON`)) {
-          chunks.push(chunk);
-        }
-        const _user = JSON.parse(Buffer.from(...chunks).toString("utf8"));
+        const _user = (
+          await createUser(
+            account,
+            account,
+            "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe",
+            0
+          )
+        )[0];
         setUser(_user);
       }
       setBalance(
@@ -80,21 +68,24 @@ const App = (props) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     //* ipfs api
-    let hash;
-    await _ipfs.files.rm(`/users/${account}.JSON`);
+    let hash, _user;
     if (buffer) {
       hash = await _ipfs.add(buffer);
-      await User(account, user.username, hash.cid.toString(), user.score);
+      _user = (
+        await changeUser(
+          account,
+          user.username,
+          hash.cid.toString(),
+          user.score
+        )
+      )[0];
     } else {
-      await User(account, user.username, user.imageHash, user.score);
+      _user = (
+        await changeUser(account, user.username, user.imageHash, user.score)
+      )[0];
     }
 
-    const chunks = [];
-    for await (const chunk of _ipfs.files.read(`/users/${account}.JSON`)) {
-      chunks.push(chunk);
-    }
-    const _user = Buffer.from(...chunks).toString("utf8");
-    setUser(JSON.parse(_user));
+    setUser(_user);
   };
   if (!loading && account) {
     return (
