@@ -1,5 +1,12 @@
 import * as IPFS from "ipfs";
-const ipfs = IPFS.create();
+
+const ipfsOptions = {
+  EXPERIMENTAL: {
+    pubsub: true,
+  },
+};
+
+const ipfs = IPFS.create(ipfsOptions);
 
 // {
 //   host: "ipfs.infura.io",

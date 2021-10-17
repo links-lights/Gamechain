@@ -9,13 +9,16 @@ async function createDB() {
     },
   };
   const db = await orbitdb.docs("orbit.users", options);
+  console.log(db.address.toString());
   return db.address.toString();
 }
 
 export const fetchUsers = async () => {
   const orbitdb = await _orbitdb;
   const address = await createDB();
-  const db = await orbitdb.open(address);
+  const db = await orbitdb.open(
+    "/orbitdb/zdpuAsK8ma37ttpPTP124Kn6VrFPYsaJP2f7h6Ydv4CzZJTda/orbit.users"
+  );
   await db.load();
   const users = db.get("");
   await db.close();
@@ -24,7 +27,9 @@ export const fetchUsers = async () => {
 export const fetchUser = async (account) => {
   const orbitdb = await _orbitdb;
   const address = await createDB();
-  const db = await orbitdb.open(address);
+  const db = await orbitdb.open(
+    "/orbitdb/zdpuAsK8ma37ttpPTP124Kn6VrFPYsaJP2f7h6Ydv4CzZJTda/orbit.users"
+  );
   await db.load();
   const user = await db.get(account);
   await db.close();
@@ -33,7 +38,9 @@ export const fetchUser = async (account) => {
 export const changeUser = async (account, username, imageHash, score) => {
   const orbitdb = await _orbitdb;
   const address = await createDB();
-  const db = await orbitdb.open(address);
+  const db = await orbitdb.open(
+    "/orbitdb/zdpuAsK8ma37ttpPTP124Kn6VrFPYsaJP2f7h6Ydv4CzZJTda/orbit.users"
+  );
   await db.load();
   await db.put({
     _id: account,
@@ -48,7 +55,9 @@ export const changeUser = async (account, username, imageHash, score) => {
 export const createUser = async (account, username, imageHash, score) => {
   const orbitdb = await _orbitdb;
   const address = await createDB();
-  const db = await orbitdb.open(address);
+  const db = await orbitdb.open(
+    "/orbitdb/zdpuAsK8ma37ttpPTP124Kn6VrFPYsaJP2f7h6Ydv4CzZJTda/orbit.users"
+  );
   await db.load();
   await db.put({
     _id: account,
