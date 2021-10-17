@@ -4,13 +4,11 @@ const ipfsOptions = {
   EXPERIMENTAL: {
     pubsub: true,
   },
+  host: "ipfs.infura.io",
+  port: 5001,
+  protocol: "https",
 };
 
 const ipfs = IPFS.create(ipfsOptions);
 
-// {
-//   host: "ipfs.infura.io",
-//   port: 5001,
-//   protocol: "https",
-// }
 export default ipfs;
