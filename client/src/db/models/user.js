@@ -2,7 +2,9 @@ import _orbitdb from "../orbit";
 
 export const fetchUsers = async () => {
   const orbitdb = await _orbitdb;
-  const db = await orbitdb.docs("orbit.users");
+  const db = await orbitdb.open(
+    "/orbitdb/zdpuApJWXGNDs1Pi9BjfMW2V9TLVvXB4ur3EMXsfzGmYegFWc/orbit.users"
+  );
   await db.load();
   const users = db.get("");
   await db.close();
@@ -10,7 +12,9 @@ export const fetchUsers = async () => {
 };
 export const fetchUser = async (account) => {
   const orbitdb = await _orbitdb;
-  const db = await orbitdb.docs("orbit.users");
+  const db = await orbitdb.open(
+    "/orbitdb/zdpuApJWXGNDs1Pi9BjfMW2V9TLVvXB4ur3EMXsfzGmYegFWc/orbit.users"
+  );
   await db.load();
   const user = await db.get(account);
   await db.close();
@@ -18,7 +22,9 @@ export const fetchUser = async (account) => {
 };
 export const changeUser = async (account, username, imageHash, score) => {
   const orbitdb = await _orbitdb;
-  const db = await orbitdb.docs("orbit.users");
+  const db = await orbitdb.open(
+    "/orbitdb/zdpuApJWXGNDs1Pi9BjfMW2V9TLVvXB4ur3EMXsfzGmYegFWc/orbit.users"
+  );
   await db.load();
   await db.put({
     _id: account,
@@ -32,7 +38,9 @@ export const changeUser = async (account, username, imageHash, score) => {
 };
 export const createUser = async (account, username, imageHash, score) => {
   const orbitdb = await _orbitdb;
-  const db = await orbitdb.docs("orbit.users");
+  const db = await orbitdb.open(
+    "/orbitdb/zdpuApJWXGNDs1Pi9BjfMW2V9TLVvXB4ur3EMXsfzGmYegFWc/orbit.users"
+  );
   await db.load();
   await db.put({
     _id: account,
