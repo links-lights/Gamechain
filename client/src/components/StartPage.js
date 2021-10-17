@@ -5,6 +5,7 @@ import { Paper, Grid } from "@mui/material";
 import RecipeReviewCard from "./GameDescripion";
 import { setUser } from "../ipfs/user";
 import ipfs from "../ipfs";
+import User from "../ipfs/user";
 
 /* Current: I was able to successfully obtain tokens awarded by moving the functions
 from the game component into the startPage, creating local state in Startpage then passing
@@ -42,8 +43,21 @@ class StartPage extends React.Component {
     const _ipfs = await ipfs;
     const account = this.props.drizzleState.accounts[0];
     const chunks = [];
-    for await (const chunk of _ipfs.files.read(`/users/${account}.JSON`)) {
-      chunks.push(chunk);
+    try {
+      for await (const chunk of _ipfs.files.read(`/users/${account}.JSON`)) {
+        chunks.push(chunk);
+      }
+    } catch (err) {
+      await User(
+        account,
+        account,
+        "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe",
+        0
+      );
+      const chunks = [];
+      for await (const chunk of _ipfs.files.read(`/users/${account}.JSON`)) {
+        chunks.push(chunk);
+      }
     }
     const _user = Buffer.from(...chunks).toString("utf8");
     this.setState({ user: JSON.parse(_user) }, () => {

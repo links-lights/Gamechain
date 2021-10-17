@@ -84,9 +84,9 @@ const App = (props) => {
     await _ipfs.files.rm(`/users/${account}.JSON`);
     if (buffer) {
       hash = await _ipfs.add(buffer);
-      await User(account, user.username, hash.cid.toString(), 0);
+      await User(account, user.username, hash.cid.toString(), user.score);
     } else {
-      await User(account, user.username, user.imageHash, 0);
+      await User(account, user.username, user.imageHash, user.score);
     }
 
     const chunks = [];
