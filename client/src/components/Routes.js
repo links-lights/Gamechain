@@ -4,7 +4,7 @@ import App from "./App";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import TrainingGame from "./Training";
-import StartPage from "./StartPage";
+import StartPage from "./StartPageFC";
 import GameDescription from "./GameDescripion";
 import Scoreboard from "./Scoreboard";
 
