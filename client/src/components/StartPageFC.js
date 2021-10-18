@@ -9,8 +9,8 @@ function StartPage (props) {
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
     const [rewardAmount, setRewardAmount] = useState(0);
-    const [board, setBoard] = useState();
-    const [user, setUser] = useState();
+    const [board, setBoard] = useState([]);
+    const [user, setUser] = useState({});
 
     useEffect(()=> {
         (async () => {
@@ -37,7 +37,9 @@ function StartPage (props) {
       }
 
     async function postHighScore() {
+      console.log('High score running', score)
         const account = props.drizzleState.accounts[0];
+        console.log("score", score)
         if (score > highScore) {
           setHighScore(score);
           await changeUser(
@@ -84,10 +86,10 @@ function StartPage (props) {
           // I think we can do this insted - please correct me if I'm mistakern
           await awardAmount(amount + rewardAmount);
         }
-    
+
         postHighScore();
-    
-        console.log(await contract.methods.balanceOf(account).call());
+
+        console.log('This', await contract.methods.balanceOf(account).call());
       }
 
 
