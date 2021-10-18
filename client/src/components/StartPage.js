@@ -69,7 +69,7 @@ class StartPage extends React.Component {
     let highestBoard = 0;
     const contract = this.props.drizzle.contracts.TZFEToken;
     const account = this.props.drizzleState.accounts[0];
-    let amount = 0;
+    let amount = 0; //no longer needed
     let tokenOdds = 0 
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
@@ -104,7 +104,7 @@ class StartPage extends React.Component {
       // I think we can do this insted - please correct me if I'm mistakern
       await this.awardAmount(1 + this.state.rewardAmount);
     } else {
-      console.log("Unfortunately not in your favor")
+      console.log("Unfortunately the odds were not in your favor")
     }
 
     this.highScore();
