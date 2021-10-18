@@ -3,8 +3,7 @@ import Game, { highScore, rewardAmount } from "./Game";
 import TokenAward from "./TokenAward";
 import { Paper, Grid } from "@mui/material";
 import RecipeReviewCard from "./GameDescripion";
-import { setUser } from "../ipfs/user";
-import ipfs from "../ipfs";
+import { changeUser, fetchUser, createUser } from "../db/models/user";
 
 /* Current: I was able to successfully obtain tokens awarded by moving the functions
 from the game component into the startPage, creating local state in Startpage then passing
@@ -39,14 +38,19 @@ class StartPage extends React.Component {
   }
 
   async componentDidMount() {
-    const _ipfs = await ipfs;
     const account = this.props.drizzleState.accounts[0];
-    const chunks = [];
-    for await (const chunk of _ipfs.files.read(`/users/${account}.JSON`)) {
-      chunks.push(chunk);
+    let _user = (await fetchUser(account))[0];
+    if (!_user) {
+      _user = (
+        await createUser(
+          account,
+          account,
+          "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe",
+          0
+        )
+      )[0];
     }
-    const _user = Buffer.from(...chunks).toString("utf8");
-    this.setState({ user: JSON.parse(_user) }, () => {
+    this.setState({ user: _user }, () => {
       this.setState({
         highScore: this.state.user.score,
       });
@@ -74,9 +78,15 @@ class StartPage extends React.Component {
 
   async highScore() {
     const account = this.props.drizzleState.accounts[0];
+    console.log(this.state.user);
     if (this.state.score > this.state.highScore) {
       this.setState({ highScore: this.state.score });
-      setUser(account, this.state.score);
+      await changeUser(
+        account,
+        this.state.user.username,
+        this.state.user.imageHash,
+        this.state.score
+      );
     }
   }
 
