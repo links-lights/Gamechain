@@ -18,41 +18,49 @@ contract("GameNFT", accounts=> {
     })
   })
   describe('token deployed', async () => {
-    it('Owner minted 9000 regular NFToken', async () => {
+    it('Owner minted 1 OakTree NFToken', async () => {
       const owner = await gameNFT.owner();
       const balanceObj = await gameNFT.balanceOf(owner, 0);
       const balance = balanceObj.words[0];
-      assert.equal(balance, 9000)
+      assert.equal(balance, 1)
 
     })
   })
   describe('token deployed', async () => {
-    it('Owner minted 900 rare NFToken', async () => {
+    it('Owner minted 1 PineTree NFToken', async () => {
       const owner = await gameNFT.owner();
       const balanceObj = await gameNFT.balanceOf(owner, 1);
       const balance = balanceObj.words[0];
-      assert.equal(balance, 900)
+      assert.equal(balance, 1)
 
     })
   })
   describe('token deployed', async () => {
-    it('Owner minted 90 superRare NFToken', async () => {
+    it('Owner minted 1 WeepingWillow NFToken', async () => {
       const owner = await gameNFT.owner();
       const balanceObj = await gameNFT.balanceOf(owner, 2);
       const balance = balanceObj.words[0];
-      assert.equal(balance, 90)
+      assert.equal(balance, 1)
 
     })
   })
-  describe('reward regular NFToken deployed', async () => {
-    it('player gets 10 regular NFToken as reward', async () => {
-      const player = '0x7BFbd3BC65431580612AE985c542526369443E2A';
-      const originalBalanceObj = await gameNFT.balanceOf(player, 0);
-      const originalBalance = originalBalanceObj.words[0];
-      await gameNFT.reward(player, 10);
-      const newBalanceObj = await gameNFT.balanceOf(player, 0);
-      const newBalance = newBalanceObj.words[0];
-      assert.equal(newBalance - originalBalance, 10)
+  describe('token deployed', async () => {
+    it('Owner minted 1 BonsaiTree NFToken', async () => {
+      const owner = await gameNFT.owner();
+      const balanceObj = await gameNFT.balanceOf(owner, 3);
+      const balance = balanceObj.words[0];
+      assert.equal(balance, 1)
+
     })
   })
+  describe('token deployed', async () => {
+    it('Owner minted 1 CherryTree NFToken', async () => {
+      const owner = await gameNFT.owner();
+      const balanceObj = await gameNFT.balanceOf(owner, 4);
+      const balance = balanceObj.words[0];
+      assert.equal(balance, 1)
+
+    })
+  })
+  
 })
