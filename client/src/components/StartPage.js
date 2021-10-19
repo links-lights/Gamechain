@@ -29,6 +29,7 @@ class StartPage extends React.Component {
       rewardAmount: 0,
       board: null,
       user: null,
+      extraTokens: false
     };
     this.highScore = this.highScore.bind(this);
     this.awardAmount = this.awardAmount.bind(this);
@@ -90,35 +91,44 @@ class StartPage extends React.Component {
     }
   }
 
+  probability(n){
+    return Math.random() < n;
+}
+  random(){
+    Math.floor(Math.random() * 4)
+  }
+
   async setReward() {
     let highestBoard = 0;
     const contract = this.props.drizzle.contracts.TZFEToken;
     const account = this.props.drizzleState.accounts[0];
     let amount = 0;
+    let tokenOdds = 0;
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
     });
     if (highestBoard >= 4) {
-      amount++;
+      tokenOdds += .02;
     }
     if (this.state.score >= 100) {
-      amount++;
+      tokenOdds += .02;
     }
     if (highestBoard >= 8) {
-      amount++;
+      tokenOdds += .03;
     }
     if (this.state.score >= 200) {
-      amount++;
+      tokenOdds += .03;
     }
     if (highestBoard >= 2048) {
-      amount++;
+      tokenOdds += .04;
     }
     if (this.state.score >= 20000) {
-      amount++;
+      tokenOdds += .04;
+      this.setState({extraTokens:true})
     }
     console.log("amount", amount);
-    if (amount > 0) {
-      await contract.methods.reward(account, amount).send({ from: account });
+    if ((this.probability(tokenOdds)) && (this.extraTokens)) {
+      await contract.methods.reward(account, this.random()).send({ from: account });
       //but why?
       // await this.awardAmount(amount);
       // I think we can do this insted - please correct me if I'm mistakern
