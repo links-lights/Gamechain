@@ -94,18 +94,18 @@ class StartPage extends React.Component {
 
   probability(n){
     return Math.random() < n;
-}
+  }
 
-random(){
-  Math.floor(Math.random() * 4)
-}
+  random(){
+    Math.floor(Math.random() * 4)
+  }
 
   async setReward() {
     let highestBoard = 0;
     const contract = this.props.drizzle.contracts.TZFEToken;
     const account = this.props.drizzleState.accounts[0];
-    let amount = 0; 
-    let tokenOdds = 0 
+    let amount = 0;
+    let tokenOdds = 0
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
     });
