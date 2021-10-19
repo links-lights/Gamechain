@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from "react";
-import Game, { highScore, rewardAmount } from "./Game";
+import React, { useState, useEffect} from "react";
+import { drizzleReactHooks} from '@drizzle/react-plugin'
+import Game from "./Game";
 import TokenAward from "./TokenAward";
 import { Paper, Grid } from "@mui/material";
 import RecipeReviewCard from "./GameDescripion";
 import { changeUser, fetchUser, createUser } from "../db/models/user";
 
-function StartPage (props) {
+function StartPage () {
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
     const [rewardAmount, setRewardAmount] = useState(0);
     // const [board, setBoard] = useState([]);
     const [user, setUser] = useState({});
-    const account = props.drizzleState.accounts[0];
+
+    const drizzleInstance = drizzleReactHooks.useDrizzle()
+    console.log('instance', drizzleInstance)
+
+    const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState=>({
+      accounts: drizzleState.accounts
+    }))
+    console.log('this is drizzleState', drizzleState)
+
+    // const account = props.drizzleState.accounts[0];
+    const contracts = drizzleInstance.drizzle.contracts
+    const account = drizzleState.accounts[0];
 
 
     useEffect(()=> {
@@ -41,7 +53,7 @@ function StartPage (props) {
     async function postHighScore() {
       console.log('postHighScore fired')
         if (score > highScore) {
-          // setHighScore(score);
+          setHighScore(score);
           await changeUser(
             account,
             user.username,
@@ -50,49 +62,6 @@ function StartPage (props) {
           );
         }
       }
-
-      // async function setReward() {
-      //   console.log('setReward Fired')
-      //   let highestBoard = 0;
-      //   const contract = props.drizzle.contracts.TZFEToken;
-      //   let amount = 0;
-      //   //console.log('board', board)
-      //   board.forEach((row) => {
-      //     highestBoard = Math.max(...row, highestBoard);
-      //   });
-      //   if (highestBoard >= 4) {
-      //     amount++;
-      //   }
-      //   if (score >= 100) {
-      //     amount++;
-      //   }
-      //   if (highestBoard >= 8) {
-      //     amount++;
-      //   }
-      //   if (score >= 200) {
-      //     amount++;
-      //   }
-      //   if (highestBoard >= 2048) {
-      //     amount++;
-      //   }
-      //   if (score >= 20000) {
-      //     amount++;
-      //   }
-      //   if (amount > 0) {
-      //     const newReward = amount + rewardAmount ;
-      //     await contract.methods.reward(account, amount).send({ from: account });
-      //     //but why?
-      //     // await this.awardAmount(amount);
-      //     // I think we can do this insted - please correct me if I'm mistakern
-      //     await awardAmount(newReward);
-      //     console.log(newReward)
-      //   }
-      //   console.log('amount in setreward', amount)
-      //   postHighScore();
-
-      //   console.log('This', await contract.methods.balanceOf(account).call());
-      // }
-
 
     return (
         <Paper
@@ -120,8 +89,8 @@ function StartPage (props) {
             </Grid>
             <Grid item xs={8} sx={{ border: "1px solid black" }}>
               <Game
-                drizzle={props.drizzle}
-                drizzleState={props.drizzleState}
+                contracts={contracts}
+                account={account}
                 awardAmount={awardAmount}
                 highScore={postHighScore}
                 setScore={setScore}
@@ -129,8 +98,6 @@ function StartPage (props) {
             </Grid>
             <Grid item xs={2}>
               <TokenAward
-                drizzle={props.drizzle}
-                drizzleState={props.drizzleState}
                 highScore={highScore}
                 rewardAmount={rewardAmount}
               />

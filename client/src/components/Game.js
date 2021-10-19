@@ -33,8 +33,8 @@ class Game extends React.Component {
   // Reward Player
   async setReward() {
     let highestBoard = 0;
-    const contract = this.props.drizzle.contracts.TZFEToken;
-    const account = this.props.drizzleState.accounts[0];
+    const contract = this.props.contracts.TZFEToken;
+    const account = this.props.account;
     let amount = 0;
     let tokenOdds = 0
     this.state.board.forEach((row) => {
