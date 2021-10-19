@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useSelector } from "react";
+import React, { useState, useEffect} from "react";
 import { drizzleReactHooks} from '@drizzle/react-plugin'
 import Game from "./Game";
 import TokenAward from "./TokenAward";
@@ -12,15 +12,17 @@ function StartPage () {
     const [rewardAmount, setRewardAmount] = useState(0);
     // const [board, setBoard] = useState([]);
     const [user, setUser] = useState({});
+
     const drizzleInstance = drizzleReactHooks.useDrizzle()
     console.log('instance', drizzleInstance)
-    const contracts = drizzleInstance.drizzle.contracts
+
     const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState=>({
       accounts: drizzleState.accounts
     }))
     console.log('this is drizzleState', drizzleState)
 
     // const account = props.drizzleState.accounts[0];
+    const contracts = drizzleInstance.drizzle.contracts
     const account = drizzleState.accounts[0];
 
 
