@@ -28,11 +28,8 @@ class StartPage extends React.Component {
       highScore: 0,
       rewardAmount: 0,
       board: null,
-<<<<<<< HEAD
-      extraTokens: false
-=======
+      extraTokens: false,
       user: null,
->>>>>>> 4d375005446057b009dced1ba78c2fb7437aac56
     };
     this.highScore = this.highScore.bind(this);
     this.awardAmount = this.awardAmount.bind(this);
