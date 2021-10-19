@@ -9,7 +9,7 @@ function StartPage (props) {
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
     const [rewardAmount, setRewardAmount] = useState(0);
-    const [board, setBoard] = useState([]);
+    // const [board, setBoard] = useState([]);
     const [user, setUser] = useState({});
     const account = props.drizzleState.accounts[0];
 
@@ -27,20 +27,21 @@ function StartPage (props) {
             )
           )[0];
         }
+        console.log(_user)
         setUser(_user)
         setHighScore(_user.score);
-        console.log('render', highScore, score, board, rewardAmount )
+        // console.log('render', highScore, score, board, rewardAmount )
     })()}
-    ,[highScore, account, score, board, rewardAmount])
+    ,[highScore, account])
 
-    async function awardAmount(amount) {
-        await setRewardAmount(amount);
+    function awardAmount(amount) {
+        setRewardAmount(amount);
       }
 
     async function postHighScore() {
       console.log('postHighScore fired')
         if (score > highScore) {
-          setHighScore(score);
+          // setHighScore(score);
           await changeUser(
             account,
             user.username,
@@ -50,48 +51,47 @@ function StartPage (props) {
         }
       }
 
-      async function setReward() {
-        console.log('setReward Fired')
-        let highestBoard = 0;
-        const contract = props.drizzle.contracts.TZFEToken;
-        let amount = 0;
-        //console.log('board', board)
-        board.forEach((row) => {
-          highestBoard = Math.max(...row, highestBoard);
-        });
-        if (highestBoard >= 4) {
-          amount++;
-        }
-        if (score >= 100) {
-          amount++;
-        }
-        if (highestBoard >= 8) {
-          amount++;
-        }
-        if (score >= 200) {
-          amount++;
-        }
-        if (highestBoard >= 2048) {
-          amount++;
-        }
-        if (score >= 20000) {
-          amount++;
-        }
-        if (amount > 0) {
-          await contract.methods.reward(account, amount).send({ from: account });
-          //but why?
-          // await this.awardAmount(amount);
-          // I think we can do this insted - please correct me if I'm mistakern
-          // await awardAmount(amount + rewardAmount);
-          const newReward = amount + rewardAmount
-          console.log(newReward)
-          setReward(newReward)
-        }
-        console.log('amount in setreward', amount)
-        postHighScore();
+      // async function setReward() {
+      //   console.log('setReward Fired')
+      //   let highestBoard = 0;
+      //   const contract = props.drizzle.contracts.TZFEToken;
+      //   let amount = 0;
+      //   //console.log('board', board)
+      //   board.forEach((row) => {
+      //     highestBoard = Math.max(...row, highestBoard);
+      //   });
+      //   if (highestBoard >= 4) {
+      //     amount++;
+      //   }
+      //   if (score >= 100) {
+      //     amount++;
+      //   }
+      //   if (highestBoard >= 8) {
+      //     amount++;
+      //   }
+      //   if (score >= 200) {
+      //     amount++;
+      //   }
+      //   if (highestBoard >= 2048) {
+      //     amount++;
+      //   }
+      //   if (score >= 20000) {
+      //     amount++;
+      //   }
+      //   if (amount > 0) {
+      //     const newReward = amount + rewardAmount ;
+      //     await contract.methods.reward(account, amount).send({ from: account });
+      //     //but why?
+      //     // await this.awardAmount(amount);
+      //     // I think we can do this insted - please correct me if I'm mistakern
+      //     await awardAmount(newReward);
+      //     console.log(newReward)
+      //   }
+      //   console.log('amount in setreward', amount)
+      //   postHighScore();
 
-        console.log('This', await contract.methods.balanceOf(account).call());
-      }
+      //   console.log('This', await contract.methods.balanceOf(account).call());
+      // }
 
 
     return (
@@ -124,9 +124,7 @@ function StartPage (props) {
                 drizzleState={props.drizzleState}
                 awardAmount={awardAmount}
                 highScore={postHighScore}
-                setReward={setReward}
                 setScore={setScore}
-                setBoard={setBoard}
               />
             </Grid>
             <Grid item xs={2}>
