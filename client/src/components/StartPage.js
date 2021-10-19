@@ -3,6 +3,7 @@ import Game, { highScore, rewardAmount } from "./Game";
 import TokenAward from "./TokenAward";
 import { Paper, Grid } from "@mui/material";
 import RecipeReviewCard from "./GameDescripion";
+import { changeUser, fetchUser, createUser } from "../db/models/user";
 
 /* Current: I was able to successfully obtain tokens awarded by moving the functions
 from the game component into the startPage, creating local state in Startpage then passing
@@ -27,7 +28,11 @@ class StartPage extends React.Component {
       highScore: 0,
       rewardAmount: 0,
       board: null,
+<<<<<<< HEAD
       extraTokens: false
+=======
+      user: null,
+>>>>>>> 4d375005446057b009dced1ba78c2fb7437aac56
     };
     this.highScore = this.highScore.bind(this);
     this.awardAmount = this.awardAmount.bind(this);
@@ -36,6 +41,27 @@ class StartPage extends React.Component {
     this.setScore = this.setScore.bind(this);
     this.probability = this.probability.bind(this)
   }
+
+  async componentDidMount() {
+    const account = this.props.drizzleState.accounts[0];
+    let _user = (await fetchUser(account))[0];
+    if (!_user) {
+      _user = (
+        await createUser(
+          account,
+          account,
+          "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe",
+          0
+        )
+      )[0];
+    }
+    this.setState({ user: _user }, () => {
+      this.setState({
+        highScore: this.state.user.score,
+      });
+    });
+  }
+
   //methods for score bind this
   async awardAmount(amount) {
     await this.setState({ rewardAmount: amount }, function () {
@@ -55,10 +81,17 @@ class StartPage extends React.Component {
     });
   }
 
-  highScore() {
+  async highScore() {
+    const account = this.props.drizzleState.accounts[0];
+    console.log(this.state.user);
     if (this.state.score > this.state.highScore) {
       this.setState({ highScore: this.state.score });
-      console.log("highscore", this.state.highScore);
+      await changeUser(
+        account,
+        this.state.user.username,
+        this.state.user.imageHash,
+        this.state.score
+      );
     }
   }
 
@@ -150,7 +183,7 @@ random(){
                 drizzle={this.props.drizzle}
                 drizzleState={this.props.drizzleState}
                 awardAmount={this.awardAmount}
-                highScore={this.highScore.bind(this)}
+                highScore={this.highScore}
                 setReward={this.setReward}
                 setScore={this.setScore}
                 setBoard={this.setBoard}

@@ -16,14 +16,14 @@
 // export default GameDescription;
 
 import * as React from "react";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+//import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
+//import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
@@ -66,8 +66,8 @@ function SwipeableEdgeDrawer(props) {
       <Global
         styles={{
           ".MuiDrawer-root > .MuiPaper-root": {
-            height: "100%", //`calc(50% - ${drawerBleeding}px)`,
-            width: "25%", //`calc(50% - ${drawerBleeding}px)`,
+            height: "83%", //`calc(50% - ${drawerBleeding}px)`,
+            width: "16.6%", //`calc(50% - ${drawerBleeding}px)`,
             overflow: "visible",
           },
         }}
@@ -76,7 +76,7 @@ function SwipeableEdgeDrawer(props) {
         <Button onClick={toggleDrawer(true)}>Game Description</Button>
       </Box>
       <SwipeableDrawer
-        anchor="left"
+        anchor="bottom"
         open={open}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}

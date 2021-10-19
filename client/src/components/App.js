@@ -1,51 +1,66 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
+import { fetchUser, changeUser, createUser } from "../db/models/user";
 
 import "../styles/App.css";
 
 const App = (props) => {
-  const [ipfsHash, setIpfsHash] = useState(
-    "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe"
-  );
-  const [newImage, setNewImage] = useState("");
-  const [contract, setContract] = useState(
-    props.drizzle.contracts.SimpleStorage
-  );
   const [buffer, setBuffer] = useState(null);
   const [account, setAccount] = useState(props.drizzleState.accounts[0]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
+  const [balance, setBalance] = useState(0);
+  const [_ipfs, setIPFS] = useState(null);
 
   useEffect(() => {
     //* immediately invoked function
-    const runExample = async () => {
-      //* Get the value from the contract to prove it worked.
+    (async () => {
+      setIPFS(await ipfs);
       try {
-        const _ipfsHash = await contract.methods.get().call();
-        if (_ipfsHash) {
-          //* Update state with the result.
-          setIpfsHash(_ipfsHash);
+        const _user = (await fetchUser(account))[0];
+        if (Object.keys(_user).length === 0) {
+          throw new Error();
         }
+        setUser(_user);
       } catch (error) {
-        console.error(error);
+        const _user = (
+          await createUser(
+            account,
+            account,
+            "QmXiYAbTQP4yMbjbNVJc4NyPskY88gwXqSoMPBPHrarGTe",
+            0
+          )
+        )[0];
+        setUser(_user);
       }
-    };
-
-    if (contract !== null) {
-      runExample();
+      setBalance(
+        await props.drizzle.contracts.TZFEToken.methods
+          .balanceOf(account)
+          .call()
+      );
       setLoading(false);
-    }
-  }, [contract, newImage]);
+    })();
+  }, []);
 
-  const onChange = (event) => {
-    const file = event.target.files[0];
-    //* Strange thing - We need to read about it later on
+  const onChangeUsername = (event) => {
+    setUser({
+      username: event.target.value,
+      imageHash: user.imageHash,
+      score: user.score,
+    });
+  };
+
+  const onChange = async (event) => {
+    const _file = event.target.files[0];
+    //   //* Strange thing - We need to read about it later on
     const reader = new window.FileReader();
-    //* Also strang
-    reader.readAsArrayBuffer(file);
+    //   //* Also strang
+
+    reader.readAsArrayBuffer(_file);
     reader.onloadend = () => {
-      //* Buffer - thing from node!
-      //* We can read about it later
-      //* Ipfs can eat only that type of information
+      //     //* Buffer - thing from node!
+      //     //* We can read about it later
+      //     //* Ipfs can eat only that type of information
       setBuffer(Buffer(reader.result));
     };
   };
@@ -53,39 +68,52 @@ const App = (props) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     //* ipfs api
-    ipfs.files.add(buffer, async (error, result) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-      //* Saves it on blockchain
-      await contract.methods.setURL(result[0].hash).send({
-        from: account,
-      });
-      //* to display this image on the page
-      setNewImage(result[0].hash);
-    });
-    //* Saves it locally in current session
-    // this.setState({ ipfsHash: result[0].hash });
+    let hash, _user;
+    if (buffer) {
+      hash = await _ipfs.add(buffer);
+      _user = (
+        await changeUser(
+          account,
+          user.username,
+          hash.cid.toString(),
+          user.score
+        )
+      )[0];
+    } else {
+      _user = (
+        await changeUser(account, user.username, user.imageHash, user.score)
+      )[0];
+    }
+
+    setUser(_user);
   };
   if (!loading && account) {
     return (
       <div className="App">
         <div>{account}</div>
-        <h1>Proof of Concept</h1>
+        <h1>Account Info</h1>
+
         <img
-          src={`https://ipfs.io/ipfs/${ipfsHash}`}
+          src={`https://ipfs.io/ipfs/${user.imageHash}`}
           alt=""
           className="App-image"
         />
 
-        <h2>Upload File (image is better, or gif)</h2>
         <form onSubmit={onSubmit}>
+          <label>
+            <h3>
+              Username:
+              <input value={user.username} onChange={onChangeUsername} />
+            </h3>
+          </label>
+          <h2>Upload File (image is better, or gif)</h2>
           <input type="file" onChange={onChange} />
           <button type="submit" className="App-button">
-            Upload
+            Save Changes
           </button>
         </form>
+        <h2>High Score: {user.score}</h2>
+        <h2>Balance: {balance}</h2>
       </div>
     );
   } else {
