@@ -11,10 +11,11 @@ function StartPage (props) {
     const [rewardAmount, setRewardAmount] = useState(0);
     const [board, setBoard] = useState([]);
     const [user, setUser] = useState({});
+    const account = props.drizzleState.accounts[0];
+
 
     useEffect(()=> {
         (async () => {
-        const account = props.drizzleState.accounts[0];
         let _user = (await fetchUser(account))[0];
         if (!_user) {
           _user = (
@@ -28,18 +29,16 @@ function StartPage (props) {
         }
         setUser(_user)
         setHighScore(_user.score);
-
+        console.log('render', highScore, score, board, rewardAmount )
     })()}
-    ,[highScore, props.drizzleState.accounts])
+    ,[highScore, account, score, board, rewardAmount])
 
     async function awardAmount(amount) {
         await setRewardAmount(amount);
       }
 
     async function postHighScore() {
-      console.log('High score running', score)
-        const account = props.drizzleState.accounts[0];
-        console.log("score", score)
+      console.log('postHighScore fired')
         if (score > highScore) {
           setHighScore(score);
           await changeUser(
@@ -52,9 +51,9 @@ function StartPage (props) {
       }
 
       async function setReward() {
+        console.log('setReward Fired')
         let highestBoard = 0;
         const contract = props.drizzle.contracts.TZFEToken;
-        const account = props.drizzleState.accounts[0];
         let amount = 0;
         //console.log('board', board)
         board.forEach((row) => {
@@ -78,15 +77,17 @@ function StartPage (props) {
         if (score >= 20000) {
           amount++;
         }
-        console.log("amount", amount);
         if (amount > 0) {
           await contract.methods.reward(account, amount).send({ from: account });
           //but why?
           // await this.awardAmount(amount);
           // I think we can do this insted - please correct me if I'm mistakern
-          await awardAmount(amount + rewardAmount);
+          // await awardAmount(amount + rewardAmount);
+          const newReward = amount + rewardAmount
+          console.log(newReward)
+          setReward(newReward)
         }
-
+        console.log('amount in setreward', amount)
         postHighScore();
 
         console.log('This', await contract.methods.balanceOf(account).call());
