@@ -25,3 +25,6 @@ yarn-error.log*
 artifacts
 package-lock.json
 orbitdb
+
+# Mnemomic secret word
+.secret
