@@ -62,7 +62,20 @@ function StartPage() {
   function checkInitialize (){
     if(drizzleState.status.initialized){
       //Add Checker for Wallet connection /metamask
-      setGameStart(!gameStart)
+      const arrow_keys_handler = function(e) {
+        switch(e.code){
+            case "ArrowUp":
+            case "ArrowDown":
+            case "ArrowLeft":
+            case "ArrowRight":
+            case "Space":
+            e.preventDefault(); break;
+            default: break;
+        }
+    };
+    window.addEventListener("keydown", arrow_keys_handler, false);
+
+    setGameStart(!gameStart)
     } else alert('Account not loaded, please try again')
   }
 
