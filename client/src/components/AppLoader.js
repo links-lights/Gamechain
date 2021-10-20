@@ -11,7 +11,7 @@ const AppLoader = () => {
 
     return <App accounts={drizzleState.accounts} />
   }
-  else return "loading.."
+  else return "Please connect to your ethereum account with MetaMask browser extension"
 }
 
 export default AppLoader;
