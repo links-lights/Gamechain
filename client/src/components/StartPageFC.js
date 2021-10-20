@@ -60,7 +60,7 @@ function StartPage() {
   }
 
   function checkInitialize (){
-    if(drizzleState.status){
+    if(drizzleState.status.initialized){
       //Add Checker for Wallet connection /metamask
       setGameStart(!gameStart)
     } else alert('Account not loaded, please try again')
