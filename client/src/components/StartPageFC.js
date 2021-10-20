@@ -22,7 +22,6 @@ function StartPage() {
   }));
   console.log("this is drizzleState", drizzleState);
 
-  // const account = props.drizzleState.accounts[0];
   const contracts = drizzleInstance.drizzle.contracts;
   const account = drizzleState.accounts[0];
 
@@ -43,7 +42,6 @@ function StartPage() {
         setUser(_user);
         setHighScore(_user.score);
       }
-      // console.log('render', highScore, score, board, rewardAmount )
     })();
   }, [highScore, account]);
 
@@ -61,7 +59,6 @@ function StartPage() {
 
   function checkInitialize (){
     if(drizzleState.status.initialized){
-      //Add Checker for Wallet connection /metamask
       const arrow_keys_handler = function(e) {
         switch(e.code){
             case "ArrowUp":
@@ -119,7 +116,7 @@ function StartPage() {
           </Grid>
         </Grid>
         <Grid item className="footer" sx={{ border: "1px solid black" }}>
-          Footer here
+          {/* Enhancement: More information here */}
         </Grid>
       </Grid>
     </Paper>
