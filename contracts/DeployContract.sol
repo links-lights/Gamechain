@@ -8,9 +8,5 @@ contract DeployContract {
         emit Add(address(new GameNFT()));
         
     }
-    function reward(address player, uint256 index) public {
-        
-        _mint(player, index, amount, "");
-    }
-    
+     
 }

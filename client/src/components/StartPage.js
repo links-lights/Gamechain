@@ -28,14 +28,15 @@ class StartPage extends React.Component {
       highScore: 0,
       rewardAmount: 0,
       board: null,
-      user: null,
-      extraTokens: false
+      extraTokens: false,
+      user: null
     };
     this.highScore = this.highScore.bind(this);
     this.awardAmount = this.awardAmount.bind(this);
     this.setReward = this.setReward.bind(this);
     this.setBoard = this.setBoard.bind(this);
     this.setScore = this.setScore.bind(this);
+    this.probability = this.probability.bind(this)
   }
 
   async componentDidMount() {
@@ -93,7 +94,8 @@ class StartPage extends React.Component {
 
   probability(n){
     return Math.random() < n;
-}
+  }
+
   random(){
     Math.floor(Math.random() * 4)
   }
@@ -103,36 +105,44 @@ class StartPage extends React.Component {
     const contract = this.props.drizzle.contracts.TZFEToken;
     const account = this.props.drizzleState.accounts[0];
     let amount = 0;
-    let tokenOdds = 0;
+    let tokenOdds = 0
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
     });
     if (highestBoard >= 4) {
-      tokenOdds += .02;
+      tokenOdds += 0.02;
     }
     if (this.state.score >= 100) {
-      tokenOdds += .02;
+      tokenOdds += 0.02;
     }
     if (highestBoard >= 8) {
-      tokenOdds += .03;
+      tokenOdds += 0.03
     }
     if (this.state.score >= 200) {
-      tokenOdds += .03;
+      tokenOdds += 0.03
     }
     if (highestBoard >= 2048) {
-      tokenOdds += .04;
+      tokenOdds += 0.04
     }
     if (this.state.score >= 20000) {
-      tokenOdds += .04;
+      tokenOdds += 0.04
       this.setState({extraTokens:true})
     }
-    console.log("amount", amount);
-    if ((this.probability(tokenOdds)) && (this.extraTokens)) {
-      await contract.methods.reward(account, this.random()).send({ from: account });
-      //but why?
-      // await this.awardAmount(amount);
-      // I think we can do this insted - please correct me if I'm mistakern
-      await this.awardAmount(amount + this.state.rewardAmount);
+
+    console.log(`You have a ${tokenOdds*100}% of getting a token`)
+
+    if (this.probability(tokenOdds)) {
+      if (this.extraTokens) {
+        amount = this.random()
+        await contract.methods.reward(account, amount).send({ from: account });
+        console.log("Odds are in your favor, you won a token!")
+        await this.awardAmount(amount + this.state.rewardAmount);
+      } else {
+        await contract.methods.reward(account, 1).send({ from: account });
+        await this.awardAmount(1 + this.state.rewardAmount)
+      }
+    } else {
+      console.log("Unfortunately the odds were not in your favor")
     }
 
     this.highScore();
