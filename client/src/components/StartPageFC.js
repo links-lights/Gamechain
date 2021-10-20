@@ -14,14 +14,12 @@ function StartPage() {
   const [gameStart, setGameStart] = useState(false)
 
   const drizzleInstance = drizzleReactHooks.useDrizzle();
-  console.log("instance", drizzleInstance);
 
   const drizzleState = drizzleReactHooks.useDrizzleState((drizzleState) => ({
     accounts: drizzleState.accounts,
     status: drizzleState.drizzleStatus
   }));
-  console.log("this is drizzleState", drizzleState);
-
+  console.log('this is high score is startPage', highScore, rewardAmount)
   const contracts = drizzleInstance.drizzle.contracts;
   const account = drizzleState.accounts[0];
 
@@ -40,7 +38,9 @@ function StartPage() {
           )[0];
         }
         setUser(_user);
-        setHighScore(_user.score);
+        if(_user.score){
+          setHighScore(_user.score);
+        }
       }
     })();
   }, [highScore, account]);
@@ -51,9 +51,12 @@ function StartPage() {
 
   async function postHighScore() {
     console.log("postHighScore fired");
-    if (score > highScore) {
+    try{if (score > highScore) {
       setHighScore(score);
-      await changeUser(account, user.username, user.imageHash, score);
+      await changeUser(account, user.username, user.imageHash, score);}
+    }
+    catch (err) {
+      alert(err)
     }
   }
 
@@ -100,7 +103,11 @@ function StartPage() {
           <Grid item xs={2}>
             <RecipeReviewCard />
           </Grid>
-          <Grid item xs={8} sx={{ border: "1px solid black" }}>
+          <Grid item xs={8}
+          container
+          justifyContent="center"
+          alignItems="center"
+          sx={{ border: "1px solid black" }}>
             {gameStart ? (
               <Game
                 contracts={contracts}
