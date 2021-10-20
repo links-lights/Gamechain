@@ -29,30 +29,30 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 const drawerBleeding = 56;
 
-const Root = styled("div")(({ theme }) => ({
-  height: "100%",
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? grey[100]
-      : theme.palette.background.default,
-}));
+// const Root = styled("div")(({ theme }) => ({
+//   height: "100%",
+//   backgroundColor:
+//     theme.palette.mode === "light"
+//       ? grey[100]
+//       : theme.palette.background.default,
+// }));
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
 }));
 
-const Puller = styled(Box)(({ theme }) => ({
-  width: 30,
-  height: 6,
+const Handle = styled(Box)(({ theme }) => ({
+  width: 80,
+  height: 8,
   backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
   borderRadius: 3,
   position: "absolute",
   top: 8,
-  left: "calc(50% - 15px)",
+  left: "calc(50% - 40px)",
 }));
 
 function SwipeableEdgeDrawer(props) {
-  const { window } = props;
+  // const { window } = props;
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -66,8 +66,8 @@ function SwipeableEdgeDrawer(props) {
       <Global
         styles={{
           ".MuiDrawer-root > .MuiPaper-root": {
-            height: "83%", //`calc(50% - ${drawerBleeding}px)`,
-            width: "16.6%", //`calc(50% - ${drawerBleeding}px)`,
+            height: "60%", //`calc(50% - ${drawerBleeding}px)`,
+            width: "100%", //`calc(50% - ${drawerBleeding}px)`,
             overflow: "visible",
           },
         }}
@@ -95,9 +95,10 @@ function SwipeableEdgeDrawer(props) {
             visibility: "visible",
             right: 0,
             left: 0,
+            border: "1px solid black"
           }}
         >
-          <Puller />
+          <Handle />
           <Typography sx={{ p: 2, color: "text.secondary" }}>
             Game Description
           </Typography>
@@ -118,6 +119,7 @@ function SwipeableEdgeDrawer(props) {
             overflow: "auto",
           }}
         >
+          What's Here?
           {/* <Skeleton variant="rectangular" height="100%" /> */}
         </StyledBox>
       </SwipeableDrawer>
@@ -126,3 +128,5 @@ function SwipeableEdgeDrawer(props) {
 }
 
 export default SwipeableEdgeDrawer;
+
+//https://www.youtube.com/watch?v=NGL-bxK1C2s&ab_channel=RoshdiSakallah video to embed
