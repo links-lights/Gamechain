@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import Game from "./Game";
 import TokenAward from "./TokenAward";
-import { Paper, Grid } from "@mui/material";
+import { Paper, Grid, Button } from "@mui/material";
 import RecipeReviewCard from "./GameDescripion";
 import { changeUser, fetchUser, createUser } from "../db/models/user";
 
@@ -10,14 +10,15 @@ function StartPage() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [rewardAmount, setRewardAmount] = useState(0);
-  // const [board, setBoard] = useState([]);
   const [user, setUser] = useState({});
+  const [gameStart, setGameStart] = useState(false)
 
   const drizzleInstance = drizzleReactHooks.useDrizzle();
   console.log("instance", drizzleInstance);
 
   const drizzleState = drizzleReactHooks.useDrizzleState((drizzleState) => ({
     accounts: drizzleState.accounts,
+    status: drizzleState.drizzleStatus
   }));
   console.log("this is drizzleState", drizzleState);
 
@@ -58,6 +59,13 @@ function StartPage() {
     }
   }
 
+  function checkInitialize (){
+    if(drizzleState.status){
+      //Add Checker for Wallet connection /metamask
+      setGameStart(!gameStart)
+    } else alert('Account not loaded, please try again')
+  }
+
   return (
     <Paper
       sx={{
@@ -83,13 +91,15 @@ function StartPage() {
             <RecipeReviewCard />
           </Grid>
           <Grid item xs={8} sx={{ border: "1px solid black" }}>
-            <Game
-              contracts={contracts}
-              account={account}
-              awardAmount={awardAmount}
-              highScore={postHighScore}
-              setScore={setScore}
-            />
+            {gameStart ? (
+              <Game
+                contracts={contracts}
+                account={account}
+                awardAmount={awardAmount}
+                highScore={postHighScore}
+                setScore={setScore}
+              />
+            ) : (<Button onClick={()=> checkInitialize()}>Start Game</Button>)}
           </Grid>
           <Grid item xs={2}>
             <TokenAward highScore={highScore} rewardAmount={rewardAmount} />
