@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
 import { fetchUser, changeUser, createUser } from "../db/models/user";
-import { drizzleReactHooks } from '@drizzle/react-plugin'
+import { drizzleReactHooks } from "@drizzle/react-plugin";
 
 import "../styles/App.css";
 
 const App = (props) => {
-
-  const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState=>({
+  const drizzleState = drizzleReactHooks.useDrizzleState((drizzleState) => ({
     accounts: drizzleState.accounts,
-  }))
-  const drizzleInstance = drizzleReactHooks.useDrizzle()
-  const contracts = drizzleInstance.drizzle.contracts
-  console.log('inside app', props)
+  }));
+  const drizzleInstance = drizzleReactHooks.useDrizzle();
+  const contracts = drizzleInstance.drizzle.contracts;
+  console.log("inside app", props);
 
   const [buffer, setBuffer] = useState(null);
   const [account, setAccount] = useState(drizzleState.accounts[0]);
@@ -24,15 +23,20 @@ const App = (props) => {
   useEffect(() => {
     //* immediately invoked function
     (async () => {
-      console.log('should always have account', drizzleState.accounts)
+      console.log("should always have account", drizzleState.accounts);
       setIPFS(await ipfs);
       try {
-        const _user = (await fetchUser(account))[0];
-        if (Object.keys(_user).length === 0) {
-          throw new Error();
+        if (account) {
+          const _user = (await fetchUser(account))[0];
+          console.log("user", _user);
+          if (!_user) {
+            throw new Error();
+          }
+          setUser(_user);
         }
-        setUser(_user);
       } catch (error) {
+        console.log("noooooooooo");
+        console.error(error);
         const _user = (
           await createUser(
             account,
@@ -43,11 +47,7 @@ const App = (props) => {
         )[0];
         setUser(_user);
       }
-      setBalance(
-        await contracts.TZFEToken.methods
-          .balanceOf(account)
-          .call()
-      );
+      setBalance(await contracts.TZFEToken.methods.balanceOf(account).call());
       setLoading(false);
     })();
   }, [account]);
