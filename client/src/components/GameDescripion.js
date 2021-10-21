@@ -24,8 +24,9 @@ import { grey } from "@mui/material/colors";
 //import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import gameGif from '../images/2048.gif'
+import arrowKeys from '../images/arrowKeys.png'
 import { Box, Button, Typography, Divider, Link} from "@mui/material"
-import ScopedCssBaseline from '@mui/material/ScopedCssBaseline';
+
 
 
 const drawerBleeding = 56;
@@ -112,19 +113,33 @@ function SwipeableEdgeDrawer(props) {
             overflow: "auto",
           }}
         >
-          <Typography variant="h4" className="controls" p={1}>Controls</Typography>
-          <Divider />
-          <Typography variant="body1" color="primary" align="center">
-            Game Description
-
-            This is a game that will cost you ether, but you can win tokens. You
-            combine like-numbered tiles numbered with powers of two until you
-            get a tile with the value of 2048. Gameplay consists of swiping the
-            tiles up, right, down and left, and any tiles that match in the
-            direction and adjacent spot will combine in the direction swiped.
+          <Box sx={{ height:"10vw", border: "1px solid black"}}>
+          <Typography variant="body1" align="center">
+            Welcome to BlogChain:2048. In order to start the game you will need an ethereum wallet. You will need ether in your wallet to pay <Link href="https://ethereum.org/en/developers/docs/gas/">gas fees</Link> and receive TZFETokens.
           </Typography>
+
+          </Box>
+          <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={4 }>
+            <Box className="controlKeys" gridColumn="span 4">
+              <img alt="Controls" src={arrowKeys} height="100%" width="100%" />
+            </Box>
+            <Box className="controlKeys" gridColumn="span 8">
+              <Typography variant="h4" className="controls" p={1} textAlign="center" fontWeight="bold">Use Keyboard to Move Blocks</Typography>
+              <Divider />
+              <Typography variant="h5" p={1} textAlign="center">
+                Up, Down, Left, Right Arrow Keys
+                <br></br><br></br>
+                -or-
+                <br></br><br></br>
+                W(Up), A(Left), S(Down), D(Right)
+
+              </Typography>
+            </Box>
+          </Box>
+          <Divider />
+
         <Typography variant="h4" className="GamePlay" p={1}>
-            GamePlay
+            How To Play
           </Typography>
         <Typography sx={{fontSize: "12px"}}><Link href="https://en.wikipedia.org/wiki/2048_(video_game)" underline="hover">Source: Wikipedia: 2048 Game</Link></Typography>
           <Divider />
