@@ -21,11 +21,12 @@ import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 //import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 //import Skeleton from "@mui/material/Skeleton";
-import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import gameGif from '../images/2048.gif'
+import { Box, Button, Typography, Divider, Link} from "@mui/material"
+import ScopedCssBaseline from '@mui/material/ScopedCssBaseline';
+
 
 const drawerBleeding = 56;
 
@@ -43,7 +44,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const Handle = styled(Box)(({ theme }) => ({
   width: 80,
-  height: 8,
+  height: 4,
   backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
   borderRadius: 3,
   position: "absolute",
@@ -66,9 +67,9 @@ function SwipeableEdgeDrawer(props) {
       <Global
         styles={{
           ".MuiDrawer-root > .MuiPaper-root": {
-            height: "60%", //`calc(50% - ${drawerBleeding}px)`,
+            height: "80%", //`calc(50% - ${drawerBleeding}px)`,
             width: "100%", //`calc(50% - ${drawerBleeding}px)`,
-            overflow: "visible",
+            overflow: "scroll",
           },
         }}
       />
@@ -99,16 +100,8 @@ function SwipeableEdgeDrawer(props) {
           }}
         >
           <Handle />
-          <Typography sx={{ p: 2, color: "text.secondary" }}>
-            Game Description
-          </Typography>
-          <Typography variant="body1" color="primary" align="center">
-            {" "}
-            This is a game that will cost you ether, but you can win tokens. You
-            combine like-numbered tiles numbered with powers of two until you
-            get a tile with the value of 2048. Gameplay consists of swiping the
-            tiles up, right, down and left, and any tiles that match in the
-            direction and adjacent spot will combine in the direction swiped.
+          <Typography className="Title" variant="h3" sx={{ p: 2, color: "text.secondary",  textAlign:"center"}}>
+            2048
           </Typography>
         </StyledBox>
         <StyledBox
@@ -119,7 +112,41 @@ function SwipeableEdgeDrawer(props) {
             overflow: "auto",
           }}
         >
-          What's Here?
+          <Typography variant="h4" className="controls" p={1}>Controls</Typography>
+          <Divider />
+          <Typography variant="body1" color="primary" align="center">
+            Game Description
+
+            This is a game that will cost you ether, but you can win tokens. You
+            combine like-numbered tiles numbered with powers of two until you
+            get a tile with the value of 2048. Gameplay consists of swiping the
+            tiles up, right, down and left, and any tiles that match in the
+            direction and adjacent spot will combine in the direction swiped.
+          </Typography>
+        <Typography variant="h4" className="GamePlay" p={1}>
+            GamePlay
+          </Typography>
+        <Typography sx={{fontSize: "12px"}}><Link href="https://en.wikipedia.org/wiki/2048_(video_game)" underline="hover">Source: Wikipedia: 2048 Game</Link></Typography>
+          <Divider />
+          <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={4 }>
+            <Box className="howToPlay" gridColumn="span 9">
+            <Typography variant="body1">
+            2048 is played on a plain 4×4 grid, with numbered tiles that slide when a player moves them using the four arrow keys. Every turn, a new tile randomly appears in an empty spot on the board with a value of either 2 or 4. Tiles slide as far as possible in the chosen direction until they are stopped by either another tile or the edge of the grid. If two tiles of the same number collide while moving, they will merge into a tile with the total value of the two tiles that collided. The resulting tile cannot merge with another tile again in the same move. Higher-scoring tiles emit a soft glow; the highest possible tile is 131,072.
+            <br></br><br></br>
+            If a move causes three consecutive tiles of the same value to slide together, only the two tiles farthest along the direction of motion will combine. If all four spaces in a row or column are filled with tiles of the same value, a move parallel to that row/column will combine the first two and last two. A scoreboard on the upper-right keeps track of the user's score. The user's score starts at zero, and is increased whenever two tiles combine, by the value of the new tile.
+            <br></br><br></br>
+            The game is won when a tile with a value of 2048 appears on the board. Players can continue beyond that to reach higher scores. When the player has no legal moves (there are no empty spaces and no adjacent tiles with the same value), the game ends.
+            </Typography>
+            </Box>
+            <Box className="2048gif" gridColumn="span 3">
+              <img alt="gameGif" src={gameGif} height="100%" width="100%" />
+
+              <Typography sx={{ fontSize:"12px", alignSelf:"flex-end"}}>
+              <Link href="https://gfycat.com/ifr/ElegantSaneKingbird" underline="hover">Gif:Source</Link>
+              </Typography>
+
+            </Box>
+          </Box>
           {/* <Skeleton variant="rectangular" height="100%" /> */}
         </StyledBox>
       </SwipeableDrawer>
