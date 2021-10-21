@@ -25,7 +25,7 @@ import { grey } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import gameGif from '../images/2048.gif'
 import arrowKeys from '../images/arrowKeys.png'
-import { Box, Button, Typography, Divider, Link} from "@mui/material"
+import { Box, Button, Typography, Divider, Link, Paper} from "@mui/material"
 
 
 
@@ -97,13 +97,13 @@ function SwipeableEdgeDrawer(props) {
             visibility: "visible",
             right: 0,
             left: 0,
-            border: "1px solid black"
           }}
         >
           <Handle />
           <Typography className="Title" variant="h3" sx={{ p: 2, color: "text.secondary",  textAlign:"center"}}>
             2048
           </Typography>
+
         </StyledBox>
         <StyledBox
           sx={{
@@ -113,13 +113,27 @@ function SwipeableEdgeDrawer(props) {
             overflow: "auto",
           }}
         >
-          <Box sx={{ height:"10vw", border: "1px solid black"}}>
-          <Typography variant="body1" align="center">
-            Welcome to BlogChain:2048. In order to start the game you will need an ethereum wallet. You will need ether in your wallet to pay <Link href="https://ethereum.org/en/developers/docs/gas/">gas fees</Link> and receive TZFETokens.
+          <Paper sx={{ minHeight:"10vw"}} p={4} display="grid">
+            <Box p={4}>
+            <Typography variant="h6">Welcome to GameChain:2048. </Typography>
+          <Typography variant="body1">
+            In order to start the game you will need an ethereum wallet. You will need ether in your wallet to pay <Link href="https://ethereum.org/en/developers/docs/gas/" underline="hover">gas fees</Link> and receive TZFETokens.
+            <br></br><br></br>
+            We are currently in Beta Testing. Our smart contract is deployed on <Link src="https://ethereum.org/en/developers/docs/networks/#ropsten" underline="hover">Ropsten</Link>. Please follow these steps in order to play and place on the scoreboard.
+            <ol>
+              <li>Have <Link href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn" underline="hover">MetaMask</Link> installed. Setup your account and wallet.</li>
+              <li>Click on Networks in MetaMask, center top button, and choose Ropsten Test Network.</li>
+              <li>Get free test ethereum by copy/pasting your address into form on <Link href="https://faucet.ropsten.be/" underline="hover">Ropsten faucet</Link> and clicking 'Send me Test Ether.' Transaction may take a moment, multiple requests will gray-list you. </li>
+              <li>Reload webPage and accept connection to MetaMask with your account on Ropsten Network.</li>
+              <li>Enjoy Game! See below how to play.</li>
+            </ol>
           </Typography>
-
+          {/* <Box gridColumn="span 5">
+            <iframe title="add test ether" src="https://youtube.com/embed/rSL3kP13gOI" height="100%" width="100%"></iframe>
+          </Box> */}
           </Box>
-          <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={4 }>
+          </Paper>
+          <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={4}>
             <Box className="controlKeys" gridColumn="span 4">
               <img alt="Controls" src={arrowKeys} height="100%" width="100%" />
             </Box>
@@ -154,7 +168,7 @@ function SwipeableEdgeDrawer(props) {
             </Typography>
             </Box>
             <Box className="2048gif" gridColumn="span 3">
-              <img alt="gameGif" src={gameGif} height="100%" width="100%" />
+              <img alt="gameGif" src={gameGif} height="auto" width="100%" />
 
               <Typography sx={{ fontSize:"12px", alignSelf:"flex-end"}}>
               <Link href="https://gfycat.com/ifr/ElegantSaneKingbird" underline="hover">Gif:Source</Link>
