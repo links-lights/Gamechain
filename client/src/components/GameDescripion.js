@@ -29,7 +29,7 @@ import { Box, Button, Typography, Divider, Link, Paper} from "@mui/material"
 
 
 
-const drawerBleeding = 56;
+const drawerBleeding = 0;
 
 // const Root = styled("div")(({ theme }) => ({
 //   height: "100%",
@@ -53,7 +53,7 @@ const Handle = styled(Box)(({ theme }) => ({
   left: "calc(50% - 40px)",
 }));
 
-function SwipeableEdgeDrawer(props) {
+function DescriptionDrawer(props) {
   // const { window } = props;
   const [open, setOpen] = React.useState(false);
 
@@ -85,7 +85,7 @@ function SwipeableEdgeDrawer(props) {
         swipeAreaWidth={drawerBleeding}
         disableSwipeToOpen={false}
         ModalProps={{
-          keepMounted: true,
+          keepMounted: false,
         }}
       >
         <StyledBox
@@ -183,6 +183,6 @@ function SwipeableEdgeDrawer(props) {
   );
 }
 
-export default SwipeableEdgeDrawer;
+export default DescriptionDrawer;
 
 //https://www.youtube.com/watch?v=NGL-bxK1C2s&ab_channel=RoshdiSakallah video to embed
