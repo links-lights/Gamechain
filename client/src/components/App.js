@@ -19,6 +19,7 @@ const App = (props) => {
   const [user, setUser] = useState({});
   const [balance, setBalance] = useState(0);
   const [_ipfs, setIPFS] = useState(null);
+  const [NFTs,setNFTs] = useState([])
 
   useEffect(() => {
     //* immediately invoked function
@@ -48,6 +49,8 @@ const App = (props) => {
         setUser(_user);
       }
       setBalance(await contracts.TZFEToken.methods.balanceOf(account).call());
+      setNFTs(await contracts.GameNFT.methods.balanceOfBatch([account,account,account,account,account], 
+      [0,1,2,3,4]).call());
       setLoading(false);
     })();
   }, [account]);
@@ -124,6 +127,9 @@ const App = (props) => {
         </form>
         <h2>High Score: {user.score}</h2>
         <h2>Balance: {balance}</h2>
+        <h2>NFTs: {NFTs.map(NFT => {
+          return (NFT)
+        })}</h2>
       </div>
     );
   } else {

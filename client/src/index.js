@@ -9,9 +9,10 @@ import Routes from "./components/Routes";
 import { Drizzle, generateStore } from "@drizzle/store";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import TZFEToken from "./artifacts/TZFEToken.json";
+import GameNFT from './artifacts/GameNFT.json'
 
 //Drizzle instance
-const options = { contracts: [TZFEToken] };
+const options = { contracts: [TZFEToken, GameNFT] };
 const drizzleStore = generateStore(options);
 const drizzle = new Drizzle(options, drizzleStore);
 

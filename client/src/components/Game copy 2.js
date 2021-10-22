@@ -14,96 +14,9 @@ class Game extends React.Component {
       message: null,
       rewarded: false,
       rewardAmount: 0,
-      extraTokens: false,
+      highScore: 0,
     };
-    // this.awardAmount = this.awardAmount.bind(this);
-    this.setReward = this.setReward.bind(this);
-    // this.setBoard = this.setBoard.bind(this);
-    this.probability = this.probability.bind(this)
   }
-
-
-  probability(n){
-    return Math.random() < n;
-  }
-
-  random(n){
-    return Math.floor(Math.random() * n)
-  }
-  // Reward Player
-  async setReward() {
-    let highestBoard = 0;
-    const contract = this.props.contracts.TZFEToken;
-    const NFT = this.props.contracts.GameNFT;
-
-    const account = this.props.account;
-    let amount = 0;
-    let tokenOdds = 0
-    let NFTodds = 0
-    this.state.board.forEach((row) => {
-      highestBoard = Math.max(...row, highestBoard);
-    });
-    if (highestBoard >= 4) {
-      tokenOdds += 0.02;
-    }
-    if (this.state.score >= 100) {
-      tokenOdds += 0.02;
-    }
-    if (highestBoard >= 8) {
-      tokenOdds += 0.03
-    }
-    if (this.state.score >= 200) {
-      tokenOdds += 0.03
-    }
-    if (highestBoard >= 2048) {
-      tokenOdds += 0.04
-    }
-    if (this.state.score >= 20000) {
-      tokenOdds += 0.04
-      NFTodds += 0.001
-      this.setState({extraTokens:true})
-    }
-    //make 100*
-    tokenOdds = 100
-    console.log(`You have a ${tokenOdds*100}% of getting a token`)
-    console.log(`You have a ${NFTodds*100}% of getting a NFT`)
-
-    const NFTBank = {0:false,1:false,2:false,3:false,4:false}
-
-    if (this.probability(tokenOdds)) {
-      if (this.extraTokens) {
-        amount = this.random(4)
-        await contract.methods.reward(account, amount).send({ from: account });
-        console.log("Odds are in your favor, you won a token!")
-        await this.props.awardAmount(amount + this.state.rewardAmount);
-      } else {
-        await contract.methods.reward(account, 1).send({ from: account });
-        await this.props.awardAmount(1 + this.state.rewardAmount)
-      }
-    } else {
-      console.log("Unfortunately the odds were not in your favor")
-    }
-
-    if(this.probability(NFTodds)){
-      console.log("NFT EARNED!")
-      const chosenNFT = this.random(5)
-      for (let key in NFTBank) {
-        if (!NFTBank[key])
-        await NFT.methods.setReward(account,chosenNFT).send({from:account})
-        NFTBank[key] = true;
-        break
-
-      }
-      console.log(await NFT.methods.uri(chosenNFT).call())
-      console.log(chosenNFT)
-      await NFT.methods.setReward(account,chosenNFT).send({from:account})
-    }
-
-    this.props.highScore();
-
-    console.log(await contract.methods.balanceOf(account).call());
-  }
-
 
   // Create board with two random coordinate numbers
   initBoard() {
@@ -179,8 +92,8 @@ class Game extends React.Component {
               },
               () => {
                 if (!this.state.rewarded) {
-                  // this.props.setBoard(this.state.board);
-                  this.setState({ rewarded: true }, this.setReward);
+                  this.props.setBoard(this.state.board);
+                  this.setState({ rewarded: true }, this.props.setReward);
                   this.props.setScore(this.state.score);
                 }
               }
@@ -206,8 +119,8 @@ class Game extends React.Component {
               },
               () => {
                 if (!this.state.rewarded) {
-                  // this.props.setBoard(this.state.board);
-                  this.setState({ rewarded: true }, this.setReward);
+                  this.props.setBoard(this.state.board);
+                  this.setState({ rewarded: true }, this.props.setReward);
                   this.props.setScore(this.state.score);
                 }
               }
@@ -233,8 +146,8 @@ class Game extends React.Component {
               },
               () => {
                 if (!this.state.rewarded) {
-                  // this.props.setBoard(this.state.board);
-                  this.setState({ rewarded: true }, this.setReward);
+                  this.props.setBoard(this.state.board);
+                  this.setState({ rewarded: true }, this.props.setReward);
                   this.props.setScore(this.state.score);
                 }
               }
@@ -260,8 +173,8 @@ class Game extends React.Component {
               },
               () => {
                 if (!this.state.rewarded) {
-                  // this.props.setBoard(this.state.board);
-                  this.setState({ rewarded: true }, this.setReward);
+                  this.props.setBoard(this.state.board);
+                  this.setState({ rewarded: true }, this.props.setReward);
                   this.props.setScore(this.state.score);
                 }
               }
@@ -277,8 +190,8 @@ class Game extends React.Component {
     } else {
       this.setState({ message: "Game over. Please start a new game." }, () => {
         if (!this.state.rewarded) {
-          // this.props.setBoard(this.state.board);
-          this.setState({ rewarded: true }, this.setReward);
+          this.props.setBoard(this.state.board);
+          this.setState({ rewarded: true }, this.props.setReward);
         }
         this.props.setScore(this.state.score);
       });
