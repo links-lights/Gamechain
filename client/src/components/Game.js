@@ -76,7 +76,7 @@ class Game extends React.Component {
     console.log(`You have a ${tokenOdds * 100}% of getting a token`);
     console.log(`You have a ${NFTodds * 100}% of getting a NFT`);
 
-    const NFTBank = { 0: false, 1: false, 2: false, 3: false, 4: false };
+    // const NFTBank = { 0: false, 1: false, 2: false, 3: false, 4: false };
 
     if (this.probability(tokenOdds)) {
       if (this.extraTokens) {
@@ -95,12 +95,12 @@ class Game extends React.Component {
     if (this.probability(1)) {
       console.log("NFT EARNED!");
       const chosenNFT = this.random(5);
-      for (let key in NFTBank) {
-        if (!NFTBank[key])
-          await NFT.methods.reward(account, chosenNFT).send({ from: account });
-        NFTBank[key] = true;
-        break;
-      }
+      // for (let key in NFTBank) {
+      //   if (!NFTBank[key])
+      //     await NFT.methods.reward(account, chosenNFT).send({ from: account });
+      //   NFTBank[key] = true;
+      //   break;
+      // }
       console.log(await NFT.methods.uri(chosenNFT).call());
       console.log(chosenNFT);
       await NFT.methods.reward(account, chosenNFT).send({ from: account });
