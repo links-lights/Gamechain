@@ -8,14 +8,14 @@ import EditAccount from "./EditAccount";
 import "../styles/App.css";
 
 const Account = (props) => {
+  //drizzle
   const drizzleState = drizzleReactHooks.useDrizzleState((drizzleState) => ({
     accounts: drizzleState.accounts,
   }));
   const drizzleInstance = drizzleReactHooks.useDrizzle();
-  const contracts = drizzleInstance.drizzle.contracts;
-  console.log("inside app", props);
 
-  const [buffer, setBuffer] = useState(null);
+  //state
+  const contracts = drizzleInstance.drizzle.contracts;
   const [account, setAccount] = useState(drizzleState.accounts[0]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
@@ -24,6 +24,7 @@ const Account = (props) => {
   const [NFTs,setNFTs] = useState([]);
   const [edit, setEdit] = useState(false);
 
+  //cycle
   useEffect(() => {
     //* immediately invoked function
     (async () => {
@@ -57,32 +58,12 @@ const Account = (props) => {
       setLoading(false);
     })();
   }, [account]);
-  console.log('These are states in account', 'buffer', buffer, 'account', account, 'user', user, 'balance', balance, 'ipfs', _ipfs, 'nfts', NFTs)
 
-  // const onChangeUsername = (event) => {
-  //   setUser({
-  //     username: event.target.value,
-  //     imageHash: user.imageHash,
-  //     score: user.score,
-  //   });
-  // };
+  const editToggle = () =>{
+    setEdit(!edit);
+  }
 
-  const onChange = async (event) => {
-    const _file = event.target.files[0];
-    //   //* Strange thing - We need to read about it later on
-    const reader = new window.FileReader();
-    //   //* Also strang
-
-    reader.readAsArrayBuffer(_file);
-    reader.onloadend = () => {
-      //     //* Buffer - thing from node!
-      //     //* We can read about it later
-      //     //* Ipfs can eat only that type of information
-      setBuffer(Buffer(reader.result));
-    };
-  };
-
-
+  //render
   if (!loading && account) {
     return (
       <div className="App">
@@ -98,28 +79,16 @@ const Account = (props) => {
           <h3>
           {user.username}
           </h3>
-          <Button onClick={()=>setEdit(!edit)}>Edit Account</Button>
+          <Button onClick={()=>editToggle()}>Edit Account</Button>
         {edit ? (
           <EditAccount
           user={user}
           setUser={setUser}
-          onChange={onChange}
           _ipfs={_ipfs}
-          account={account} />
+          account={account}
+          editToggle={editToggle}
+          />
         ) : (<></>)}
-        {/* <form onSubmit={onSubmit}>
-          <label>
-            <h3>
-              Username:
-              <input value={user.username} onChange={onChangeUsername} />
-            </h3>
-          </label>
-          <h2>Upload File (image is better, or gif)</h2>
-          <input type="file" onChange={onChange} />
-          <button type="submit" className="App-button">
-            Save Changes
-          </button>
-        </form> */}
 
         <h2>High Score: {user.score}</h2>
         <h2>Balance: {balance}</h2>

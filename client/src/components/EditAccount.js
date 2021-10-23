@@ -1,17 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchUser, changeUser, createUser } from "../db/models/user";
 
 const EditAccount = (props) => {
-  const {user, _ipfs, account, setUser} =  props;
+
+  const {user, _ipfs, account, setUser, editToggle} =  props;
+  console.log(user)
   const [buffer, setBuffer] = useState(null);
-
-
   const [username, setUsername] = useState('');
   console.log(username)
+
+
+  useEffect(()=>{
+    if(user.username.length > 0){
+      setUsername(user.username)
+    } else setUsername(user._id)
+  }, [])
+
   const changeUserName = (event) => {
     setUsername(event.target.value)
   }
-
   const onChange = async (event) => {
     const _file = event.target.files[0];
     //   //* Strange thing - We need to read about it later on
@@ -45,7 +52,7 @@ const EditAccount = (props) => {
         await changeUser(account, username, user.imageHash, user.score)
       )[0];
     }
-
+    editToggle()
     setUser(_user);
   };
 
