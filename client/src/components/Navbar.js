@@ -58,6 +58,16 @@ const Navbar = (props) => {
                 <Link to="/scoreboard"> ScoreBoard</Link>
               </Typography>
             </Button>
+            <Button variant="outlined">
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ flexGrow: 1 }}
+                className="link"
+              >
+                <Link to="/three"> Three.js</Link>
+              </Typography>
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>

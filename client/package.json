@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "drei": "^2.2.21",
     "history": "^5.0.1",
     "ipfs": "^0.59.1",
     "ipfs-http-client": "^53.0.1",
@@ -22,6 +23,10 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.0.0",
     "react-scripts": "4.0.3",
+    "react-spring": "^9.3.0",
+    "react-three-fiber": "^6.0.13",
+    "sass": "^1.43.3",
+    "three": "^0.133.1",
     "web3": "1.2.2"
   },
   "scripts": {
