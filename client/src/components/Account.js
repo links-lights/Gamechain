@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
 import { Button } from "@mui/material"
 
-import { fetchUser, changeUser, createUser } from "../db/models/user";
+import { fetchUser, createUser } from "../db/models/user";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import EditAccount from "./EditAccount";
 import "../styles/App.css";
