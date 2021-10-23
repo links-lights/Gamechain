@@ -59,13 +59,13 @@ const Account = (props) => {
   }, [account]);
   console.log('These are states in account', 'buffer', buffer, 'account', account, 'user', user, 'balance', balance, 'ipfs', _ipfs, 'nfts', NFTs)
 
-  const onChangeUsername = (event) => {
-    setUser({
-      username: event.target.value,
-      imageHash: user.imageHash,
-      score: user.score,
-    });
-  };
+  // const onChangeUsername = (event) => {
+  //   setUser({
+  //     username: event.target.value,
+  //     imageHash: user.imageHash,
+  //     score: user.score,
+  //   });
+  // };
 
   const onChange = async (event) => {
     const _file = event.target.files[0];
@@ -82,28 +82,7 @@ const Account = (props) => {
     };
   };
 
-  // const onSubmit = async (event) => {
-  //   event.preventDefault();
-  //   //* ipfs api
-  //   let hash, _user;
-  //   if (buffer) {
-  //     hash = await _ipfs.add(buffer);
-  //     _user = (
-  //       await changeUser(
-  //         account,
-  //         user.username,
-  //         hash.cid.toString(),
-  //         user.score
-  //       )
-  //     )[0];
-  //   } else {
-  //     _user = (
-  //       await changeUser(account, user.username, user.imageHash, user.score)
-  //     )[0];
-  //   }
 
-  //   setUser(_user);
-  // };
   if (!loading && account) {
     return (
       <div className="App">
@@ -124,7 +103,7 @@ const Account = (props) => {
           <EditAccount
           user={user}
           setUser={setUser}
-          onChangeUsername={onChangeUsername} onChange={onChange}
+          onChange={onChange}
           _ipfs={_ipfs}
           account={account} />
         ) : (<></>)}

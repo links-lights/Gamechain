@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { fetchUser, changeUser, createUser } from "../db/models/user";
 
 const EditAccount = (props) => {
-  const {user, onChange, onChangeUsername, _ipfs, account, setUser} =  props;
+  const {user, _ipfs, account, setUser} =  props;
   const [buffer, setBuffer] = useState(null);
 
 
@@ -12,20 +12,20 @@ const EditAccount = (props) => {
     setUsername(event.target.value)
   }
 
-  // const onChange = async (event) => {
-  //   const _file = event.target.files[0];
-  //   //   //* Strange thing - We need to read about it later on
-  //   const reader = new window.FileReader();
-  //   //   //* Also strang
+  const onChange = async (event) => {
+    const _file = event.target.files[0];
+    //   //* Strange thing - We need to read about it later on
+    const reader = new window.FileReader();
+    //   //* Also strang
 
-  //   reader.readAsArrayBuffer(_file);
-  //   reader.onloadend = () => {
-  //     //     //* Buffer - thing from node!
-  //     //     //* We can read about it later
-  //     //     //* Ipfs can eat only that type of information
-  //     setBuffer(Buffer(reader.result));
-  //   };
-  // };
+    reader.readAsArrayBuffer(_file);
+    reader.onloadend = () => {
+      //     //* Buffer - thing from node!
+      //     //* We can read about it later
+      //     //* Ipfs can eat only that type of information
+      setBuffer(Buffer(reader.result));
+    };
+  };
   const onSubmit = async (event) => {
     event.preventDefault();
     //* ipfs api
