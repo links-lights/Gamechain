@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
 import { fetchUser, changeUser, createUser } from "../db/models/user";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
-
+import EditAccount from "./EditAccount";
 import "../styles/App.css";
 
 const Account = (props) => {
@@ -54,6 +54,7 @@ const Account = (props) => {
       setLoading(false);
     })();
   }, [account]);
+  console.log('These are states in account', 'buffer', buffer, 'account', account, 'user', user, 'balance', balance, 'ipfs', _ipfs, 'nfts', NFTs)
 
   const onChangeUsername = (event) => {
     setUser({
@@ -112,7 +113,12 @@ const Account = (props) => {
           className="App-image"
         />
 
-        <form onSubmit={onSubmit}>
+          <h3>
+          {user.username}
+          </h3>
+
+        <EditAccount onSubmit={onSubmit} user={user} onChangeUsername={onChangeUsername} onChange={onChange} />
+        {/* <form onSubmit={onSubmit}>
           <label>
             <h3>
               Username:
@@ -124,7 +130,8 @@ const Account = (props) => {
           <button type="submit" className="App-button">
             Save Changes
           </button>
-        </form>
+        </form> */}
+
         <h2>High Score: {user.score}</h2>
         <h2>Balance: {balance}</h2>
         <h2>NFTs: {NFTs.map(NFT => {
@@ -137,7 +144,7 @@ const Account = (props) => {
       <h3 className="App">Loading...</h3>
     ) : (
       <h3 className="App">
-        Please connect to your ethereum account with MetaMask browser extension
+        Connecting to your Wallet
       </h3>
     );
   }
