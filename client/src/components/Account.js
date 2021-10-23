@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
+import { Button } from "@mui/material"
+
 import { fetchUser, changeUser, createUser } from "../db/models/user";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import EditAccount from "./EditAccount";
@@ -19,7 +21,8 @@ const Account = (props) => {
   const [user, setUser] = useState({});
   const [balance, setBalance] = useState(0);
   const [_ipfs, setIPFS] = useState(null);
-  const [NFTs,setNFTs] = useState([])
+  const [NFTs,setNFTs] = useState([]);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     //* immediately invoked function
@@ -79,28 +82,28 @@ const Account = (props) => {
     };
   };
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    //* ipfs api
-    let hash, _user;
-    if (buffer) {
-      hash = await _ipfs.add(buffer);
-      _user = (
-        await changeUser(
-          account,
-          user.username,
-          hash.cid.toString(),
-          user.score
-        )
-      )[0];
-    } else {
-      _user = (
-        await changeUser(account, user.username, user.imageHash, user.score)
-      )[0];
-    }
+  // const onSubmit = async (event) => {
+  //   event.preventDefault();
+  //   //* ipfs api
+  //   let hash, _user;
+  //   if (buffer) {
+  //     hash = await _ipfs.add(buffer);
+  //     _user = (
+  //       await changeUser(
+  //         account,
+  //         user.username,
+  //         hash.cid.toString(),
+  //         user.score
+  //       )
+  //     )[0];
+  //   } else {
+  //     _user = (
+  //       await changeUser(account, user.username, user.imageHash, user.score)
+  //     )[0];
+  //   }
 
-    setUser(_user);
-  };
+  //   setUser(_user);
+  // };
   if (!loading && account) {
     return (
       <div className="App">
@@ -116,8 +119,15 @@ const Account = (props) => {
           <h3>
           {user.username}
           </h3>
-
-        <EditAccount onSubmit={onSubmit} user={user} onChangeUsername={onChangeUsername} onChange={onChange} />
+          <Button onClick={()=>setEdit(!edit)}>Edit Account</Button>
+        {edit ? (
+          <EditAccount
+          user={user}
+          setUser={setUser}
+          onChangeUsername={onChangeUsername} onChange={onChange}
+          _ipfs={_ipfs}
+          account={account} />
+        ) : (<></>)}
         {/* <form onSubmit={onSubmit}>
           <label>
             <h3>
