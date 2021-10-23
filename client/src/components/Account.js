@@ -5,7 +5,7 @@ import { drizzleReactHooks } from "@drizzle/react-plugin";
 
 import "../styles/App.css";
 
-const App = (props) => {
+const Account = (props) => {
   const drizzleState = drizzleReactHooks.useDrizzleState((drizzleState) => ({
     accounts: drizzleState.accounts,
   }));
@@ -49,7 +49,7 @@ const App = (props) => {
         setUser(_user);
       }
       setBalance(await contracts.TZFEToken.methods.balanceOf(account).call());
-      setNFTs(await contracts.GameNFT.methods.balanceOfBatch([account,account,account,account,account], 
+      setNFTs(await contracts.GameNFT.methods.balanceOfBatch([account,account,account,account,account],
       [0,1,2,3,4]).call());
       setLoading(false);
     })();
@@ -143,4 +143,4 @@ const App = (props) => {
   }
 };
 
-export default App;
+export default Account;
