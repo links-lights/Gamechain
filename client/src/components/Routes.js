@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import TrainingGame from "./Training";
 import StartPage from "./StartPageFC";
 import Scoreboard from "./Scoreboard";
-import Three from "./Three";
+import Token from "./Token";
 
 const Routes = () => {
   return (
@@ -18,7 +18,7 @@ const Routes = () => {
         <Route exact path="/game" component={TrainingGame} />
         <Route exact path="/start" component={StartPage} />
         <Route exact path="/scoreboard" component={Scoreboard} />
-        <Route exact path="/three" component={Three} />
+        <Route exact path="/token" component={Token} />
       </Switch>
       <Footer />
     </>

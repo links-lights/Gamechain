@@ -1,53 +1,40 @@
 import React, { useRef, useState } from "react";
-
+import * as THREE from "three";
 // SASS extension - SASS for CSS like TypeScript for JavaScript
 import "../styles/Three.scss";
 
 import { Canvas, useFrame } from "@react-three/fiber";
 
-import {
-  softShadows,
-  MeshWobbleMaterial,
-  OrbitControls,
-} from "@react-three/drei";
-
-import { useSpring, a } from "@react-spring/three";
+import { softShadows, OrbitControls } from "@react-three/drei";
 
 softShadows();
 
 const SpinningMesh = ({ position, args, color, speed }) => {
   const mesh = useRef(null);
+  const texture = new THREE.TextureLoader().load(
+    "https://ipfs.io/ipfs/QmU2sLo28UxrBVc7XKGTFDzZYVpvteV9tqCRsj72uS1NKk"
+  );
+
   useFrame(() => {
     mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
   });
 
   const [expand, setExpland] = useState(false);
 
-  const props = useSpring({
-    scale: expand ? [1.4, 1.4, 1.4] : [1, 1, 1],
-  });
-
   return (
-    <a.mesh
+    <mesh
       onClick={() => setExpland(!expand)}
-      scale={props.scale}
       castShadow
       position={position}
       ref={mesh}
     >
-      <boxBufferGeometry castShadow attach="geometry" args={args} />
-      <MeshWobbleMaterial
-        castShadow
-        attach="material"
-        color={color}
-        speed={speed}
-        fac={0.6}
-      />
-    </a.mesh>
+      <cylinderBufferGeometry castShadow attach="geometry" args={args} />
+      <meshStandardMaterial attach="material" map={texture} />
+    </mesh>
   );
 };
 
-function Three(props) {
+function Token(props) {
   return (
     <>
       {/* shadows instead of shadowMap */}
@@ -81,12 +68,10 @@ function Three(props) {
 
           <SpinningMesh
             position={[0, 1, 0]}
-            args={[3, 2, 1]}
+            args={[1, 1, 0.1, 50]}
             color="hotpink"
             speed={2}
           />
-          <SpinningMesh position={[-2, 1, -5]} color="lightblue" speed={6} />
-          <SpinningMesh position={[5, 1, -2]} color="lightblue" speed={6} />
         </group>
 
         <OrbitControls />
@@ -94,4 +79,4 @@ function Three(props) {
     </>
   );
 }
-export default Three;
+export default Token;
