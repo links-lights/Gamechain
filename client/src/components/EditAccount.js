@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { fetchUser, changeUser, createUser } from "../db/models/user";
+import { changeUser } from "../db/models/user";
+import { Box, TextField, Button, InputBase, Typography} from '@mui/material';
 
 const EditAccount = (props) => {
 
@@ -57,19 +58,31 @@ const EditAccount = (props) => {
   };
 
   return(
-    <form onSubmit={onSubmit}>
-          <label>
-            <h3>
-              Username:
-              <input value={username} onChange={changeUserName} />
-            </h3>
-          </label>
-          <h2>Upload File (image is better, or gif)</h2>
-          <input type="file" onChange={onChange} />
-          <button type="submit" className="App-button">
-            Save Changes
-          </button>
-        </form>
+    <Box component="form" onSubmit={onSubmit}>
+      <TextField label="Username" value={username} onChange={changeUserName} />
+      <br></br>
+      <br></br>
+      <Typography variant="h6">Upload File(JPG, PNG, GIF)</Typography>
+      <InputBase type="file" onChange={onChange} />
+      <br></br>
+      <br></br>
+      <Button type="submit">Save Changes</Button>
+      <Button onClick={()=>editToggle()}>Cancel</Button>
+    </Box>
+
+    // <form onSubmit={onSubmit}>
+    //       <label>
+    //         <h3>
+    //           Username:
+    //           <input value={username} onChange={changeUserName} />
+    //         </h3>
+    //       </label>
+    //       <h2>Upload File (image is better, or gif)</h2>
+    //       <input type="file" onChange={onChange} />
+    //       <button type="submit" className="App-button">
+    //         Save Changes
+    //       </button>
+    //     </form>
   )
 }
 export default EditAccount;

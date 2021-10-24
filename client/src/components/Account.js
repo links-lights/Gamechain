@@ -57,7 +57,7 @@ const Account = (props) => {
       [0,1,2,3,4]).call());
       setLoading(false);
     })();
-  }, [account]);
+  }, [account, user]);
 
   const editToggle = () =>{
     setEdit(!edit);
@@ -79,7 +79,7 @@ const Account = (props) => {
           <h3>
           {user.username}
           </h3>
-          <Button onClick={()=>editToggle()}>Edit Account</Button>
+
         {edit ? (
           <EditAccount
           user={user}
@@ -88,7 +88,7 @@ const Account = (props) => {
           account={account}
           editToggle={editToggle}
           />
-        ) : (<></>)}
+        ) : (<Button onClick={()=>editToggle()}>Edit Account</Button>)}
 
         <h2>High Score: {user.score}</h2>
         <h2>Balance: {balance}</h2>
