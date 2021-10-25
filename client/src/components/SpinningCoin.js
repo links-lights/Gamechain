@@ -36,8 +36,8 @@ function SpinningCoin(props) {
     <div
       style={{
         display: "inline-block",
-        height: "25px",
-        width: "25px",
+        height: "30px",
+        width: "30px",
       }}
     >
       <Canvas
@@ -53,9 +53,8 @@ function SpinningCoin(props) {
         <pointLight position={[0, -10, 0]} intensity={1.5} />
 
         <SpinningMesh
-          position={[0, -2, 0]}
-          args={[5, 5, 0.1, 50]}
-          color="hotpink"
+          position={[0, -2.5, 0]}
+          args={[4, 4, 0.1, 50]}
           speed={2}
         />
       </Canvas>
