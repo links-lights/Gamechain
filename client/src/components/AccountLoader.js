@@ -1,17 +1,17 @@
 import React from 'react'
 import { drizzleReactHooks } from '@drizzle/react-plugin'
-import App from './App'
+import Account from './Account'
 
-const AppLoader = () => {
+const AccountLoader = () => {
   const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState => ({
     accounts: drizzleState.accounts,
     drizzleStatus: drizzleState.drizzleStatus
   }))
   if(drizzleState.drizzleStatus.initialized){
 
-    return <App accounts={drizzleState.accounts} />
+    return <Account accounts={drizzleState.accounts} />
   }
   else return "Please connect to your ethereum account with MetaMask browser extension"
 }
 
-export default AppLoader;
+export default AccountLoader;

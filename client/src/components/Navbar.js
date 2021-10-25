@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Box, Toolbar, Button, AppBar, Typography } from "@mui/material";
+import SpinningCoin from "./SpinningCoin";
 
 import "../styles/Navbar.css";
 
@@ -17,6 +18,14 @@ const Navbar = (props) => {
               className="link"
             >
               <Link to="/"> Home</Link>
+            </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 10 }}
+              className="link"
+            >
+              <SpinningCoin />
             </Typography>
             <Button variant="outlined">
               <Typography
@@ -45,7 +54,7 @@ const Navbar = (props) => {
                 sx={{ flexGrow: 1 }}
                 className="link"
               >
-                <Link to="/"> My Account</Link>
+                <Link to="/"> Account</Link>
               </Typography>
             </Button>
             <Button variant="outlined">
@@ -56,6 +65,16 @@ const Navbar = (props) => {
                 className="link"
               >
                 <Link to="/scoreboard"> ScoreBoard</Link>
+              </Typography>
+            </Button>
+            <Button variant="outlined">
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ flexGrow: 1 }}
+                className="link"
+              >
+                <Link to="/token"> Token</Link>
               </Typography>
             </Button>
           </Toolbar>
