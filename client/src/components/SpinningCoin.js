@@ -53,7 +53,7 @@ function SpinningCoin(props) {
         <pointLight position={[0, -10, 0]} intensity={1.5} />
 
         <SpinningMesh
-          position={[0, 1, 0]}
+          position={[0, -2, 0]}
           args={[5, 5, 0.1, 50]}
           color="hotpink"
           speed={2}

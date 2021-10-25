@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
-import { fetchUser, changeUser, createUser } from "../db/models/user";
-import { drizzleReactHooks } from "@drizzle/react-plugin";
+import { Button } from "@mui/material";
 import SpinningCoin from "./SpinningCoin";
-
+import { fetchUser, createUser } from "../db/models/user";
+import { drizzleReactHooks } from "@drizzle/react-plugin";
+import EditAccount from "./EditAccount";
 import "../styles/App.css";
 
-const App = (props) => {
+const Account = (props) => {
+  //drizzle
   const drizzleState = drizzleReactHooks.useDrizzleState((drizzleState) => ({
     accounts: drizzleState.accounts,
   }));
   const drizzleInstance = drizzleReactHooks.useDrizzle();
-  const contracts = drizzleInstance.drizzle.contracts;
-  console.log("inside app", props);
 
-  const [buffer, setBuffer] = useState(null);
+  //state
+  const contracts = drizzleInstance.drizzle.contracts;
   const [account, setAccount] = useState(drizzleState.accounts[0]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [balance, setBalance] = useState(0);
   const [_ipfs, setIPFS] = useState(null);
   const [NFTs, setNFTs] = useState([]);
+  const [edit, setEdit] = useState(false);
 
+  //cycle
   useEffect(() => {
     //* immediately invoked function
     (async () => {
@@ -60,53 +63,13 @@ const App = (props) => {
       );
       setLoading(false);
     })();
-  }, [account]);
+  }, [account, user]);
 
-  const onChangeUsername = (event) => {
-    setUser({
-      username: event.target.value,
-      imageHash: user.imageHash,
-      score: user.score,
-    });
+  const editToggle = () => {
+    setEdit(!edit);
   };
 
-  const onChange = async (event) => {
-    const _file = event.target.files[0];
-    //   //* Strange thing - We need to read about it later on
-    const reader = new window.FileReader();
-    //   //* Also strang
-
-    reader.readAsArrayBuffer(_file);
-    reader.onloadend = () => {
-      //     //* Buffer - thing from node!
-      //     //* We can read about it later
-      //     //* Ipfs can eat only that type of information
-      setBuffer(Buffer(reader.result));
-    };
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    //* ipfs api
-    let hash, _user;
-    if (buffer) {
-      hash = await _ipfs.add(buffer);
-      _user = (
-        await changeUser(
-          account,
-          user.username,
-          hash.cid.toString(),
-          user.score
-        )
-      )[0];
-    } else {
-      _user = (
-        await changeUser(account, user.username, user.imageHash, user.score)
-      )[0];
-    }
-
-    setUser(_user);
-  };
+  //render
   if (!loading && account) {
     return (
       <div className="App">
@@ -119,19 +82,20 @@ const App = (props) => {
           className="App-image"
         />
 
-        <form onSubmit={onSubmit}>
-          <label>
-            <h3>
-              Username:
-              <input value={user.username} onChange={onChangeUsername} />
-            </h3>
-          </label>
-          <h2>Upload File (image is better, or gif)</h2>
-          <input type="file" onChange={onChange} />
-          <button type="submit" className="App-button">
-            Save Changes
-          </button>
-        </form>
+        <h3>{user.username}</h3>
+
+        {edit ? (
+          <EditAccount
+            user={user}
+            setUser={setUser}
+            _ipfs={_ipfs}
+            account={account}
+            editToggle={editToggle}
+          />
+        ) : (
+          <Button onClick={() => editToggle()}>Edit Account</Button>
+        )}
+
         <h2>High Score: {user.score}</h2>
         <h2>
           Balance: {balance} <SpinningCoin />
@@ -148,11 +112,9 @@ const App = (props) => {
     return !loading ? (
       <h3 className="App">Loading...</h3>
     ) : (
-      <h3 className="App">
-        Please connect to your ethereum account with MetaMask browser extension
-      </h3>
+      <h3 className="App">Connecting to your Wallet</h3>
     );
   }
 };
 
-export default App;
+export default Account;
