@@ -25,3 +25,8 @@
   max-height: 500px;
   max-width: 500px;
 }
+
+.nft-pic {
+  width: 64px;
+  height: 64px;
+}

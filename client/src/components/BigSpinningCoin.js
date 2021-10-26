@@ -31,34 +31,32 @@ const SpinningMesh = ({ position, args, color, speed }) => {
   );
 };
 
-function SpinningCoin(props) {
+function BigSpinningCoin(props) {
   return (
-    <div
-      style={{
-        display: "inline-block",
-        height: "30px",
-        width: "30px",
-      }}
+    // <div
+    //   style={{
+    //     display: "inline-block",
+    //     // maxHeight: "5000px",
+    //     // maxWidth: "5000px",
+    //   }}
+    // >
+    <Canvas
+      shadows
+      camera={{ position: [-5, 2, 10], fov: 60 }}
+      style={
+        {
+          // bottom: "0px",
+        }
+      }
     >
-      <Canvas
-        shadows
-        camera={{ position: [-5, 2, 10], fov: 60 }}
-        style={{
-          bottom: "0px",
-        }}
-      >
-        <ambientLight intensity={0.3} />
-        <directionalLight position={[0, 10, 0]} intensity={1.5} />
-        <pointLight position={[-10, 0, -20]} intensity={0.5} />
-        <pointLight position={[0, -10, 0]} intensity={1.5} />
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[0, 10, 0]} intensity={1.5} />
+      <pointLight position={[-10, 0, -20]} intensity={0.5} />
+      <pointLight position={[0, -10, 0]} intensity={1.5} />
 
-        <SpinningMesh
-          position={[0, -2.5, 0]}
-          args={[4, 4, 0.1, 50]}
-          speed={2}
-        />
-      </Canvas>
-    </div>
+      <SpinningMesh position={[0, 0, 0]} args={[5.5, 5.5, 0.3, 50]} speed={2} />
+    </Canvas>
+    // </div>
   );
 }
-export default SpinningCoin;
+export default BigSpinningCoin;
