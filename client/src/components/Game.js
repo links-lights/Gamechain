@@ -33,7 +33,7 @@ class Game extends React.Component {
     this.probability = this.probability.bind(this);
   }
 
-  
+
 
   probability(n) {
     return Math.random() < n;
@@ -81,7 +81,9 @@ class Game extends React.Component {
     console.log(`You have a ${NFTodds * 100}% of getting a NFT`);
 
     // const NFTBank = { 0: false, 1: false, 2: false, 3: false, 4: false };
-
+    //Testing purposes:
+    // tokenOdds= 1
+    // NFTodds = 1
     if (this.probability(tokenOdds)) {
       if (this.extraTokens) {
         amount = this.random(4);
