@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import Game from "./Game";
 import TokenAward from "./TokenAward";
-import { Paper, Grid, Button } from "@mui/material";
+import { Paper, Grid, Button, Box, Typography, Divider } from "@mui/material";
 import TokenOddsTable from "./TokenOdds"
 import NFTOddsTable from "./NFTOddsTable";
 import { changeUser, fetchUser, createUser } from "../db/models/user";
@@ -85,9 +85,9 @@ function StartPage() {
 
 
   return (
-    <Paper
+    <Box component={Paper}
       sx={{
-        minHeight: "50vw",
+        minHeight: "48vw",
       }}
     >
       <Grid container direction="column" className="sections">
@@ -96,25 +96,53 @@ function StartPage() {
           className="topSpacer"
           sx={{
             height: "5vw",
-            border: "1px solid black",
+            textAlign: "center"
           }}
-        />
+        >
+          <Typography variant="h3">
+          2048
+          <Divider />
+          </Typography>
+          </Grid>
         <Grid
           item
           container
           className="GameArea"
-          sx={{ border: "1px solid black", minHeight: "30vw" }}
+          sx={{minHeight: "30vw" }}
         >
-          <Grid item xs={4}>
-           <NFTOddsTable />
-            <br></br>
-            <TokenOddsTable />
+          <Grid item xs={4} p={6} container alignContent="center"
+          >
+            <Box sx={{
+            backgroundColor:"#CCCCCC",
+            borderRadius:"25px"
+          }}>
+            <Typography variant="h5" textAlign="center" p={1}>
+              Odds for Tokens & Nfts
+            </Typography>
+            <Divider />
+            <Typography variant="body2" p={2}>
+              The Odds to win Tokens and NFTs are based on % that increase with block # milestones and score.
+              <br></br><br></br>
+              To see a table of odds click the How-To-Play on the Navigation Bar to see a breakdown.
+              <br></br><br></br>
+              Check your score against others under the scoreboard Tab.
+              <br></br><br></br>
+              Feel free to practice without connection to the blockChain under Training.
+              <br></br><br></br>
+              Enjoy!
+              <br></br><br></br>
+              May the odds be in your favor~
+            </Typography>
+            </Box>
           </Grid>
           <Grid item xs={4}
           container
+
           justifyContent="center"
           alignItems="center"
-          sx={{ border: "1px solid black" }}>
+          sx={{
+            minHeight:"40vw"
+            }}>
             {gameStart ? (
               <Game
                 contracts={contracts}
@@ -125,15 +153,16 @@ function StartPage() {
               />
             ) : (<Button onClick={()=> checkInitialize()}>Start Game</Button>)}
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4}
+          >
             <TokenAward highScore={highScore} rewardAmount={rewardAmount} />
           </Grid>
         </Grid>
-        <Grid item className="footer" sx={{ border: "1px solid black" }}>
+        <Grid item className="footer">
           {/* Enhancement: More information here */}
         </Grid>
       </Grid>
-    </Paper>
+    </Box>
   );
 }
 

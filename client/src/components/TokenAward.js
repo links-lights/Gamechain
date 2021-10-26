@@ -12,13 +12,19 @@ const TokenAward = (props) => {
     justifyContent="center"
     sx={{
       minHeight:"25vw",
-    }}>
+    }} p={5}>
         <Grid item xs={12}
         p={5}
         sx={{
           minHeight:"8vw",
-          textAlign:"center"
+          textAlign:"center",
           }}>
+            <Box
+            sx={{
+              backgroundColor:"#CCCCCC",
+              borderRadius:"25px"
+            }}
+            p={3}>
             <Typography variant="h4">
             Highest Score
             </Typography>
@@ -26,14 +32,21 @@ const TokenAward = (props) => {
             <Typography variant="h5" color="blue" p={1}>
             {props.highScore}
             </Typography>
+            </Box>
         </Grid>
         <Divider></Divider>
         <Grid item xs={12}
         p={5}
         sx={{
           minHeight:"8vw",
-          textAlign:"center"
+          textAlign:"center",
           }}>
+            <Box
+            sx={{
+              backgroundColor:"#CCCCCC",
+              borderRadius:"25px"
+            }}
+            p={3}>
             <Typography variant="h4">
             Tokens won
             </Typography>
@@ -41,6 +54,7 @@ const TokenAward = (props) => {
             <Typography variant="h5" color="green" p={1}>
             {props.rewardAmount}
             </Typography>
+            </Box>
         </Grid>
     </Grid>
   );
