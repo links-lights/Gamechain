@@ -3,6 +3,7 @@ import { drizzleReactHooks } from "@drizzle/react-plugin";
 import Game from "./Game";
 import TokenAward from "./TokenAward";
 import { Paper, Grid, Button } from "@mui/material";
+import DescriptionDrawer from "./GameDescripion";
 import { changeUser, fetchUser, createUser } from "../db/models/user";
 
 function StartPage() {
@@ -78,6 +79,77 @@ function StartPage() {
     } else alert('Account not loaded, please try again')
   }
 
+  function tokenOddsTable(){
+      return (        <table>
+        <th>
+         Token Odds
+        </th>
+         <tr>
+           <th>Milestone</th>
+           <th>Odds increased</th>
+         </tr>
+         <tr>
+           <td>512 Tile Score </td>
+           <td>+10%</td>
+         </tr>
+         <tr>
+           <td>5000 Total Score </td>
+           <td>+10%</td>
+         </tr>
+         <tr>
+           <td>1024 Tile Score </td>
+           <td>+15%</td>
+         </tr>
+         <tr>
+           <td>10000 Total Score </td>
+           <td>+15%</td>
+         </tr>
+         <tr>
+           <td>2048 Tile Score </td>
+           <td>+15%</td>
+         </tr>
+         <tr>
+           <td>20000 Total Score </td>
+           <td>+15% + Can earn multiple tokens</td>
+         </tr>
+       </table>
+       )
+  }
+
+  function NFTOddsTable(){
+    return (
+      <table>
+      <th>
+       NFT Odds
+      </th>
+       <tr>
+         <th>Milestone</th>
+         <th>Odds increased</th>
+       </tr>
+       <tr>
+         <td>20000 Total Score </td>
+         <td>+0.1%</td>
+       </tr>
+       <tr>
+         <td>40000 Total Score </td>
+         <td>+0.1%</td>
+       </tr>
+        <tr>
+         <td>60000 Total Score </td>
+         <td>+0.1%</td>
+        </tr>
+       <tr>
+         <td>80000 Total Score </td>
+         <td>+0.1%</td>
+       </tr>
+       <tr>
+         <td>100000 Total Score </td>
+         <td>+0.1%</td>
+       </tr>
+     </table>
+    )
+  }
+
   return (
     <Paper
       sx={{
@@ -100,7 +172,7 @@ function StartPage() {
           sx={{ border: "1px solid black", minHeight: "30vw" }}
         >
           <Grid item xs={2}>
-            Token Earnings:
+            <DescriptionDrawer />
           </Grid>
           <Grid item xs={8}
           container
