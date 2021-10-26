@@ -16,7 +16,7 @@ const Scoreboard = (props) => {
       setUsers(_users);
     })();
   }, []);
-  const top5 = users.filter((user, idx)=>idx < 5 && user.score > 0)
+  const top5 = users.filter((user, idx)=>idx < 5)
   const scores = users.filter((user, idx)=> idx >= 5)
   return (
     <Box gridTemplateColumns="repeat(12, 1fr)" p={4}  gap={2}
@@ -79,8 +79,12 @@ const Scoreboard = (props) => {
           </Table>
         </TableContainer>
       </Grid>
-        <Grid item xs={5} >
+        <Grid item container xs={5} alignContent="center" justifyContent="center">
+          <Typography variant="body1">
           All High Scores
+          </Typography>
+          <br></br>
+          <br></br>
         <TableContainer component={Paper}
          sx={{
           maxWidth:400
@@ -92,7 +96,7 @@ const Scoreboard = (props) => {
                   #
                 </TableCell>
 
-                <TableCell>
+                <TableCell align="center">
                   Username
                 </TableCell>
                 <TableCell align="right">
@@ -102,11 +106,11 @@ const Scoreboard = (props) => {
             </TableHead>
             <TableBody>
 
-            {users.map((user, key) => {
+            {scores.map((user, key) => {
             return (
               <TableRow key={key}>
                 <TableCell component="th">{key + 6}</TableCell>
-                <TableCell>{`${user.username.slice(0, 10)}... `}</TableCell>
+                <TableCell align="center">{`${user.username.slice(0, 10)}... `}</TableCell>
                 <TableCell align="right">{user.score}</TableCell>
               </TableRow>
             );
