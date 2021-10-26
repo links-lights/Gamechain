@@ -16,7 +16,8 @@ const Scoreboard = (props) => {
       setUsers(_users);
     })();
   }, []);
-
+  const top5 = users.filter((user, idx)=>idx < 5 && user.score > 0)
+  const scores = users.filter((user, idx)=> idx >= 5)
   return (
     <Box gridTemplateColumns="repeat(12, 1fr)" p={4}  gap={2}
     sx={{
@@ -29,16 +30,16 @@ const Scoreboard = (props) => {
         <Typography variant="h3">
           ScoreBoard
           <br></br>
-          <Divider />
         </Typography>
+          <Divider />
       </Box>
-      <Grid container p={10}>
-        <Grid item xs={3} />
-      <Grid item className="scoreboard" xs={6}>
+      <Grid container p={4} spacing={8}>
+      <Grid item className="scoreboard" xs={7}>
+        <Typography variant="h4" textAlign="center">
+          Top 5
+        </Typography>
         <TableContainer component={Paper}>
-          <Table sx={{
-            minHeight: "20vw",
-            }}>
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell>
@@ -57,7 +58,7 @@ const Scoreboard = (props) => {
             </TableHead>
             <TableBody>
 
-            {users.map((user, key) => {
+            {top5.map((user, key) => {
             return (
               <TableRow key={key}>
                 <TableCell component="th">{key + 1}</TableCell>
@@ -78,7 +79,44 @@ const Scoreboard = (props) => {
           </Table>
         </TableContainer>
       </Grid>
-      <Grid item xs={3} />
+        <Grid item xs={5} >
+          All High Scores
+        <TableContainer component={Paper}
+         sx={{
+          maxWidth:400
+        }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  #
+                </TableCell>
+
+                <TableCell>
+                  Username
+                </TableCell>
+                <TableCell align="right">
+                  Score
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+
+            {users.map((user, key) => {
+            return (
+              <TableRow key={key}>
+                <TableCell component="th">{key + 6}</TableCell>
+                <TableCell>{`${user.username.slice(0, 10)}... `}</TableCell>
+                <TableCell align="right">{user.score}</TableCell>
+              </TableRow>
+            );
+          })}
+
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        </Grid>
       </Grid>
     </Box>
 
