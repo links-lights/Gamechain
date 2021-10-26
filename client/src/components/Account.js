@@ -188,11 +188,12 @@ const Account = (props) => {
                     return (
                       <li key={idx}>
                         <h1>{NFTMetadata[idx].name}</h1>
-                        Quantity: {NFT}
-                        <image
+                        <img
                           src={`${NFTMetadata[idx].imageHash}`}
                           className="nft-pic"
+                          alt={`${NFTMetadata[idx].name} pic`}
                         />
+                        <h3>Quantity: {NFT} </h3>
                       </li>
                     );
                   })}
@@ -200,7 +201,8 @@ const Account = (props) => {
               ) : (
                 <h4>Currently you do not have NFT (._. )( ._.)</h4>
               )}
-              Want know more about our unique tokens?
+
+              <h4>Want know more about our unique tokens? </h4>
               <Link to="/metadata">Check out this page!</Link>
             </Box>
             {/* <Box gridColumn="span 12" p={5}>

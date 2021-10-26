@@ -2,6 +2,20 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 
+import {
+  Button,
+  Box,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActionArea,
+  CardActions,
+  Divider,
+  CardHeader,
+  Paper,
+} from "@mui/material";
+
 const Metadata = (props) => {
   //drizzle
   const drizzleState = drizzleReactHooks.useDrizzleState((drizzleState) => ({
@@ -33,18 +47,40 @@ const Metadata = (props) => {
 
   return (
     <>
-      <h1>Metadata:</h1>
-      <ul>
-        {metadata.map((data) => {
-          return (
-            <li>
-              <h2>{data.name}</h2>
-              <img src={data.imageHash} alt={`${data.name} pic`} />
-              <h4>{data.description}</h4>
-            </li>
-          );
-        })}
-      </ul>
+      <Box
+        display="grid"
+        gridTemplateColumns="repeat(3, 1fr)"
+        gap={1}
+        p={1}
+        sx={{
+          minHeight: "45vw",
+        }}
+      >
+        <h1>Collectibles</h1>
+        <ul>
+          {metadata.map((data) => {
+            return (
+              <Box className="TokenCard" gridColumn="">
+                <Card>
+                  <CardHeader title={data.name} subheader="Image" />
+                  <CardMedia
+                    component="img"
+                    alt={data.name}
+                    image={data.imageHash}
+                  />
+                </Card>
+                <CardContent>
+                  <Typography>Description</Typography>
+                  <Divider />
+                  <Typography p={2} textAlign="center">
+                    {data.description}
+                  </Typography>
+                </CardContent>
+              </Box>
+            );
+          })}
+        </ul>
+      </Box>
     </>
   );
 };
