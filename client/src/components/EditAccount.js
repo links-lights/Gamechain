@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { changeUser } from "../db/models/user";
-import { Box, TextField, Button, InputBase, Typography} from '@mui/material';
+import { Box, TextField, Button, InputBase, Typography, Divider} from '@mui/material';
 
 const EditAccount = (props) => {
 
@@ -59,10 +59,15 @@ const EditAccount = (props) => {
 
   return(
     <Box component="form" onSubmit={onSubmit}>
-      <TextField label="Username" value={username} onChange={changeUserName} />
+      <Typography variant="h6">
+        Edit Account
+      </Typography>
+      <Divider />
+      <br></br>
+      <TextField label="Username" value={username} onChange={changeUserName} fullWidth />
       <br></br>
       <br></br>
-      <Typography variant="h6">Upload File(JPG, PNG, GIF)</Typography>
+      <Typography >Upload File(JPG, PNG, GIF)</Typography>
       <InputBase type="file" onChange={onChange} />
       <br></br>
       <br></br>

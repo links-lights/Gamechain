@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
-import { Button } from "@mui/material";
+import { Button, Box, Typography, Card, CardMedia, CardContent, CardActionArea , CardActions, Divider, CardHeader, Paper} from "@mui/material";
 import SpinningCoin from "./SpinningCoin";
 import { fetchUser, createUser } from "../db/models/user";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
@@ -72,41 +72,97 @@ const Account = (props) => {
   //render
   if (!loading && account) {
     return (
-      <div className="App">
-        <div>{account}</div>
-        <h1>Account Info</h1>
+      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={3}
+      sx={{
+        border: "1px solid black",
+        minHeight:"45vw"
+        }}>
+          <Box className="WalletAddress" gridColumn="span 12" sx={{textAlign:"center"}}>
+            <Typography variant="h6">
+              Your Wallet Address : {account}
+            </Typography>
+          </Box>
+          <Box className="AccountCard" gridColumn="span 4">
+            <Card>
+              <CardHeader
+              title="Your Account"
+              subheader="Avatar"
+              />
+              <CardMedia
+              component="img"
+              alt="User Avatar"
+              image={`https://ipfs.io/ipfs/${user.imageHash}`}
 
-        <img
-          src={`https://ipfs.io/ipfs/${user.imageHash}`}
-          alt=""
-          className="App-image"
-        />
+              />
+              <CardContent>
+                <Typography>
+                  Username
+                </Typography>
+                <Divider />
+                <Typography p={2} textAlign="center">
+                  {user.username}
+                </Typography>
+              </CardContent>
+              <CardActions>
+              {edit ? (
+                <EditAccount
+                  user={user}
+                  setUser={setUser}
+                  _ipfs={_ipfs}
+                  account={account}
+                  editToggle={editToggle}
+                />
+              ) : (
+                <></>
+              )}
+              </CardActions>
+              <CardActions>
+              <Button onClick={() => editToggle()}>Edit Account</Button>
+              </CardActions>
+            </Card>
+          </Box>
+          <Box component={Paper} gridColumn="span 8">
 
-        <h3>{user.username}</h3>
+          </Box>
+      </Box>
 
-        {edit ? (
-          <EditAccount
-            user={user}
-            setUser={setUser}
-            _ipfs={_ipfs}
-            account={account}
-            editToggle={editToggle}
-          />
-        ) : (
-          <Button onClick={() => editToggle()}>Edit Account</Button>
-        )}
 
-        <h2>High Score: {user.score}</h2>
-        <h2>
-          Balance: {balance} <SpinningCoin />
-        </h2>
-        <h2>
-          NFTs:{" "}
-          {NFTs.map((NFT) => {
-            return NFT;
-          })}
-        </h2>
-      </div>
+
+      // <div className="App">
+      //   <div>{account}</div>
+      //   <h1>Account Info</h1>
+
+      //   <img
+      //     src={`https://ipfs.io/ipfs/${user.imageHash}`}
+      //     alt=""
+      //     className="App-image"
+      //   />
+
+      //   <h3>{user.username}</h3>
+
+        // {edit ? (
+        //   <EditAccount
+        //     user={user}
+        //     setUser={setUser}
+        //     _ipfs={_ipfs}
+        //     account={account}
+        //     editToggle={editToggle}
+        //   />
+        // ) : (
+        //   <Button onClick={() => editToggle()}>Edit Account</Button>
+        // )}
+
+      //   <h2>High Score: {user.score}</h2>
+      //   <h2>
+      //     Balance: {balance} <SpinningCoin />
+      //   </h2>
+      //   <h2>
+      //     NFTs:{" "}
+      //     {NFTs.map((NFT) => {
+      //       return NFT;
+      //     })}
+      //   </h2>
+      // </div>
     );
   } else {
     return !loading ? (
