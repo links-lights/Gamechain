@@ -365,7 +365,10 @@ class TrainingGame extends React.Component {
 
   render() {
     return (
-      <Grid container direction="column" alignContent="center">
+      <Box sx={{
+        minHeight:"45vw"
+      }}>
+      <Grid container direction="column" alignContent="center" p={10}>
         <Grid
           item
           sx={{
@@ -425,6 +428,7 @@ class TrainingGame extends React.Component {
           </Grid>
         </Grid>
       </Grid>
+      </Box>
     );
   }
 }

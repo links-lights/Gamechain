@@ -7,6 +7,7 @@ import TrainingGame from "./Training";
 import StartPage from "./StartPageFC";
 import Scoreboard from "./Scoreboard";
 import Token from "./Token";
+import LandingPage from "./LandingPage"
 
 const Routes = () => {
   return (
@@ -14,7 +15,8 @@ const Routes = () => {
       <Navbar />
       <Switch>
         {/* This is how you can pass props in routes -> render method */}
-        <Route exact path="/" component={AccountLoader} />
+        <Route exact path="/" component={LandingPage} />
+        <Route exact path="/account" component={AccountLoader} />
         <Route exact path="/game" component={TrainingGame} />
         <Route exact path="/start" component={StartPage} />
         <Route exact path="/scoreboard" component={Scoreboard} />
