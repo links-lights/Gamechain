@@ -6,6 +6,8 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import gameGif from '../images/2048.gif'
 import arrowKeys from '../images/arrowKeys.png'
 import { Box, Button, Typography, Divider, Link, Paper} from "@mui/material"
+import NFTOddsTable from "./NFTOddsTable";
+import TokenOddsTable from "./TokenOdds";
 
 const drawerBleeding = 0;
 
@@ -116,6 +118,12 @@ function DescriptionDrawer(props) {
           </Box>
           </Paper>
           <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={4}>
+            <Box gridColumn="span 6" p={4}>
+              <NFTOddsTable />
+            </Box>
+            <Box gridColumn="span 6" p={4}>
+              <TokenOddsTable />
+            </Box>
             <Box className="controlKeys" gridColumn="span 4">
               <img alt="Controls" src={arrowKeys} height="100%" width="100%" />
             </Box>

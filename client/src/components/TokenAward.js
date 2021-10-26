@@ -7,15 +7,56 @@ const TokenAward = (props) => {
   // useEffect( () => {
   //     setState(props)},[props])
   return (
-    <div className="TokenAward">
-        <Box item xs={12} sx={{border:"1px solid black"}}>
-            High Score: {props.highScore}
-        </Box>
+    <Grid container
+    alignContent="center"
+    justifyContent="center"
+    sx={{
+      minHeight:"25vw",
+    }} p={5}>
+        <Grid item xs={12}
+        p={5}
+        sx={{
+          minHeight:"8vw",
+          textAlign:"center",
+          }}>
+            <Box
+            sx={{
+              backgroundColor:"#CCCCCC",
+              borderRadius:"25px"
+            }}
+            p={3}>
+            <Typography variant="h4">
+            Highest Score
+            </Typography>
+            <Divider />
+            <Typography variant="h5" color="blue" p={1}>
+            {props.highScore}
+            </Typography>
+            </Box>
+        </Grid>
         <Divider></Divider>
-        <Box item xs={12} sx={{border:"1px solid black"}}>
-            Tokens Awarded: {props.rewardAmount}
-        </Box>
-    </div>
+        <Grid item xs={12}
+        p={5}
+        sx={{
+          minHeight:"8vw",
+          textAlign:"center",
+          }}>
+            <Box
+            sx={{
+              backgroundColor:"#CCCCCC",
+              borderRadius:"25px"
+            }}
+            p={3}>
+            <Typography variant="h4">
+            Tokens won
+            </Typography>
+            <Divider />
+            <Typography variant="h5" color="green" p={1}>
+            {props.rewardAmount}
+            </Typography>
+            </Box>
+        </Grid>
+    </Grid>
   );
 };
 

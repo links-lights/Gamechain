@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import Game from "./Game";
 import TokenAward from "./TokenAward";
-import { Paper, Grid, Button } from "@mui/material";
-import DescriptionDrawer from "./GameDescripion";
+import { Paper, Grid, Button, Box, Typography, Divider } from "@mui/material";
+import TokenOddsTable from "./TokenOdds"
+import NFTOddsTable from "./NFTOddsTable";
 import { changeUser, fetchUser, createUser } from "../db/models/user";
 
 function StartPage() {
@@ -79,81 +80,14 @@ function StartPage() {
     } else alert('Account not loaded, please try again')
   }
 
-  function tokenOddsTable(){
-      return (        <table>
-        <th>
-         Token Odds
-        </th>
-         <tr>
-           <th>Milestone</th>
-           <th>Odds increased</th>
-         </tr>
-         <tr>
-           <td>512 Tile Score </td>
-           <td>+10%</td>
-         </tr>
-         <tr>
-           <td>5000 Total Score </td>
-           <td>+10%</td>
-         </tr>
-         <tr>
-           <td>1024 Tile Score </td>
-           <td>+15%</td>
-         </tr>
-         <tr>
-           <td>10000 Total Score </td>
-           <td>+15%</td>
-         </tr>
-         <tr>
-           <td>2048 Tile Score </td>
-           <td>+15%</td>
-         </tr>
-         <tr>
-           <td>20000 Total Score </td>
-           <td>+15% + Can earn multiple tokens</td>
-         </tr>
-       </table>
-       )
-  }
 
-  function NFTOddsTable(){
-    return (
-      <table>
-      <th>
-       NFT Odds
-      </th>
-       <tr>
-         <th>Milestone</th>
-         <th>Odds increased</th>
-       </tr>
-       <tr>
-         <td>20000 Total Score </td>
-         <td>+0.1%</td>
-       </tr>
-       <tr>
-         <td>40000 Total Score </td>
-         <td>+0.1%</td>
-       </tr>
-        <tr>
-         <td>60000 Total Score </td>
-         <td>+0.1%</td>
-        </tr>
-       <tr>
-         <td>80000 Total Score </td>
-         <td>+0.1%</td>
-       </tr>
-       <tr>
-         <td>100000 Total Score </td>
-         <td>+0.1%</td>
-       </tr>
-     </table>
-    )
-  }
+
+
 
   return (
-    <Paper
+    <Box component={Paper}
       sx={{
-        minHeight: "50vw",
+        minHeight: "48vw",
       }}
     >
       <Grid container direction="column" className="sections">
@@ -162,23 +96,53 @@ function StartPage() {
           className="topSpacer"
           sx={{
             height: "5vw",
-            border: "1px solid black",
+            textAlign: "center"
           }}
-        />
+        >
+          <Typography variant="h3">
+          2048
+          <Divider />
+          </Typography>
+          </Grid>
         <Grid
           item
           container
           className="GameArea"
-          sx={{ border: "1px solid black", minHeight: "30vw" }}
+          sx={{minHeight: "30vw" }}
         >
-          <Grid item xs={2}>
-            <DescriptionDrawer />
+          <Grid item xs={4} p={6} container alignContent="center"
+          >
+            <Box sx={{
+            backgroundColor:"#CCCCCC",
+            borderRadius:"25px"
+          }}>
+            <Typography variant="h5" textAlign="center" p={1}>
+              Odds for Tokens & Nfts
+            </Typography>
+            <Divider />
+            <Typography variant="body2" p={2}>
+              The Odds to win Tokens and NFTs are based on % that increase with block # milestones and score.
+              <br></br><br></br>
+              To see a table of percentage odds, click the How-To-Play on the Navigation Bar to see a breakdown.
+              <br></br><br></br>
+              Check your score against others under the scoreboard Tab.
+              <br></br><br></br>
+              Feel free to practice without connection to the blockChain under Training.
+              <br></br><br></br>
+              Enjoy!
+              <br></br><br></br>
+              May the odds be in your favor~
+            </Typography>
+            </Box>
           </Grid>
-          <Grid item xs={8}
+          <Grid item xs={4}
           container
+
           justifyContent="center"
           alignItems="center"
-          sx={{ border: "1px solid black" }}>
+          sx={{
+            minHeight:"40vw"
+            }}>
             {gameStart ? (
               <Game
                 contracts={contracts}
@@ -189,15 +153,16 @@ function StartPage() {
               />
             ) : (<Button onClick={()=> checkInitialize()}>Start Game</Button>)}
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4}
+          >
             <TokenAward highScore={highScore} rewardAmount={rewardAmount} />
           </Grid>
         </Grid>
-        <Grid item className="footer" sx={{ border: "1px solid black" }}>
+        <Grid item className="footer">
           {/* Enhancement: More information here */}
         </Grid>
       </Grid>
-    </Paper>
+    </Box>
   );
 }
 
