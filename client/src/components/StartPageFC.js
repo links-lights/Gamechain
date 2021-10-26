@@ -123,7 +123,7 @@ function StartPage() {
             <Typography variant="body2" p={2}>
               The Odds to win Tokens and NFTs are based on % that increase with block # milestones and score.
               <br></br><br></br>
-              To see a table of odds click the How-To-Play on the Navigation Bar to see a breakdown.
+              To see a table of percentage odds, click the How-To-Play on the Navigation Bar to see a breakdown.
               <br></br><br></br>
               Check your score against others under the scoreboard Tab.
               <br></br><br></br>
