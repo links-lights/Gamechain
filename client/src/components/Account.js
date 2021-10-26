@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
-import toBuffer from "it-to-buffer";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import {
   Button,
@@ -200,6 +200,8 @@ const Account = (props) => {
               ) : (
                 <h4>Currently you do not have NFT (._. )( ._.)</h4>
               )}
+              Want know more about our unique tokens?
+              <Link to="/metadata">Check out this page!</Link>
             </Box>
             {/* <Box gridColumn="span 12" p={5}>
                   Transactions
