@@ -75,7 +75,6 @@ const Account = (props) => {
     return (
       <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={3}
       sx={{
-        border: "1px solid black",
         minHeight:"45vw"
         }}>
           <Box className="WalletAddress" gridColumn="span 12" sx={{textAlign:"center"}}>
@@ -158,44 +157,6 @@ const Account = (props) => {
               </Box>
           </Box>
       </Box>
-
-
-
-      // <div className="App">
-      //   <div>{account}</div>
-      //   <h1>Account Info</h1>
-
-      //   <img
-      //     src={`https://ipfs.io/ipfs/${user.imageHash}`}
-      //     alt=""
-      //     className="App-image"
-      //   />
-
-      //   <h3>{user.username}</h3>
-
-        // {edit ? (
-        //   <EditAccount
-        //     user={user}
-        //     setUser={setUser}
-        //     _ipfs={_ipfs}
-        //     account={account}
-        //     editToggle={editToggle}
-        //   />
-        // ) : (
-        //   <Button onClick={() => editToggle()}>Edit Account</Button>
-        // )}
-
-      //   <h2>High Score: {user.score}</h2>
-      //   <h2>
-          // Balance: {balance} <SpinningCoin />
-      //   </h2>
-      //   <h2>
-      //     NFTs:{" "}
-      //     {NFTs.map((NFT) => {
-      //       return NFT;
-      //     })}
-      //   </h2>
-      // </div>
     );
   } else {
     return !loading ? (
