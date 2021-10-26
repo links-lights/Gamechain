@@ -75,19 +75,6 @@ const EditAccount = (props) => {
       <Button onClick={()=>editToggle()}>Cancel</Button>
     </Box>
 
-    // <form onSubmit={onSubmit}>
-    //       <label>
-    //         <h3>
-    //           Username:
-    //           <input value={username} onChange={changeUserName} />
-    //         </h3>
-    //       </label>
-    //       <h2>Upload File (image is better, or gif)</h2>
-    //       <input type="file" onChange={onChange} />
-    //       <button type="submit" className="App-button">
-    //         Save Changes
-    //       </button>
-    //     </form>
   )
 }
 export default EditAccount;
