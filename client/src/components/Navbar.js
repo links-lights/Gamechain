@@ -63,7 +63,7 @@ const Navbar = (props) => {
                 sx={{ flexGrow: 1 }}
                 className="link"
               >
-                <Link to="/"> Account</Link>
+                <Link to="/account"> Account</Link>
               </Typography>
             </Button>
             <Button variant="outlined">
