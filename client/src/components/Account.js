@@ -91,7 +91,7 @@ const Account = (props) => {
         await Promise.all(
           balance.map(async (num, ix) => {
             const newPath = path + `/${ix}.json`;
-
+            console.log('something here', newPath)
             const { data } = await axios.get(newPath);
             return data;
           })
