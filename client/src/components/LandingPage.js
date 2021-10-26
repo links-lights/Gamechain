@@ -7,17 +7,23 @@ const LandingPage = () => {
     sx={{
       minHeight:"45vw",
     }}>
-      <Box className="Title" gridColumn="span 12">
-        <Typography variant="h4">
-          BlogChain
+      <Box className="Title" gridColumn="span 12"
+      sx={{
+        textAlign:"center"
+      }}>
+        <Typography variant="h2">
+          GameChain
         </Typography>
       </Box>
       <Box className="Token" gridColumn="span 6">
         Token here
       </Box>
       <Box className="Introduction" gridColumn="span 6"
+      p={3}
       sx={{
-        minHeight:"35vw"
+        minHeight:"35vw",
+        backgroundColor: "#CCCCCC",
+        borderRadius: "10px"
       }}>
         <Typography variant="h6">
           Welcome!
