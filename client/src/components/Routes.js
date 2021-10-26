@@ -7,7 +7,8 @@ import TrainingGame from "./Training";
 import StartPage from "./StartPageFC";
 import Scoreboard from "./Scoreboard";
 import Token from "./Token";
-import LandingPage from "./LandingPage"
+import LandingPage from "./LandingPage";
+import MetadataLoader from "./MetadataLoader";
 
 const Routes = () => {
   return (
@@ -21,6 +22,7 @@ const Routes = () => {
         <Route exact path="/start" component={StartPage} />
         <Route exact path="/scoreboard" component={Scoreboard} />
         <Route exact path="/token" component={Token} />
+        <Route exact path="/metadata" component={MetadataLoader} />
       </Switch>
       <Footer />
     </>

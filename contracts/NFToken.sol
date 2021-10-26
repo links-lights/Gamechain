@@ -11,11 +11,7 @@ contract GameNFT is ERC1155, Ownable {
     uint256 public constant CherryTree = 4;
 
     // need to pass in an URI addrees from IPFS behind ERC1155 later not sure? but it works fine as it is right now
-    constructor()
-        ERC1155(
-            "https://ipfs.io/ipfs/QmZGKtV1qMbHtcuqbawv1Sy5EM1ot9raRx97zyJpZpoCCr/"
-        )
-    {}
+    constructor() ERC1155("QmZGKtV1qMbHtcuqbawv1Sy5EM1ot9raRx97zyJpZpoCCr") {}
 
     function reward(address _user, uint256 _tokenId) public {
         require(_tokenId >= 0 && _tokenId < 5);
