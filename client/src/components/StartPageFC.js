@@ -3,7 +3,6 @@ import { drizzleReactHooks } from "@drizzle/react-plugin";
 import Game from "./Game";
 import TokenAward from "./TokenAward";
 import { Paper, Grid, Button } from "@mui/material";
-import DescriptionDrawer from "./GameDescripion";
 import { changeUser, fetchUser, createUser } from "../db/models/user";
 
 function StartPage() {
@@ -101,7 +100,7 @@ function StartPage() {
           sx={{ border: "1px solid black", minHeight: "30vw" }}
         >
           <Grid item xs={2}>
-            <DescriptionDrawer />
+            Token Earnings:
           </Grid>
           <Grid item xs={8}
           container

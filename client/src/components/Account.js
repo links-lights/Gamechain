@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
-import { Button } from "@mui/material";
+import { Button, Box, Typography, Card, CardMedia, CardContent, CardActionArea , CardActions, Divider, CardHeader, Paper} from "@mui/material";
 import SpinningCoin from "./SpinningCoin";
 import { fetchUser, createUser } from "../db/models/user";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
@@ -30,6 +30,7 @@ const Account = (props) => {
     (async () => {
       console.log("should always have account", drizzleState.accounts);
       setIPFS(await ipfs);
+      console.log('events', await drizzleInstance.drizzle.contracts.TZFEToken.events.allEvents())
       try {
         if (account) {
           const _user = (await fetchUser(account))[0];
@@ -72,41 +73,90 @@ const Account = (props) => {
   //render
   if (!loading && account) {
     return (
-      <div className="App">
-        <div>{account}</div>
-        <h1>Account Info</h1>
+      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={3}
+      sx={{
+        minHeight:"45vw"
+        }}>
+          <Box className="WalletAddress" gridColumn="span 12" sx={{textAlign:"center"}}>
+            <Typography variant="h6">
+              Your Wallet Address : {account}
+            </Typography>
+          </Box>
+          <Box className="AccountCard" gridColumn="span 4">
+            <Card>
+              <CardHeader
+              title="Your Account"
+              subheader="Avatar"
+              />
+              <CardMedia
+              component="img"
+              alt="User Avatar"
+              image={`https://ipfs.io/ipfs/${user.imageHash}`}
 
-        <img
-          src={`https://ipfs.io/ipfs/${user.imageHash}`}
-          alt=""
-          className="App-image"
-        />
-
-        <h3>{user.username}</h3>
-
-        {edit ? (
-          <EditAccount
-            user={user}
-            setUser={setUser}
-            _ipfs={_ipfs}
-            account={account}
-            editToggle={editToggle}
-          />
-        ) : (
-          <Button onClick={() => editToggle()}>Edit Account</Button>
-        )}
-
-        <h2>High Score: {user.score}</h2>
-        <h2>
-          Balance: {balance} <SpinningCoin />
-        </h2>
-        <h2>
-          NFTs:{" "}
-          {NFTs.map((NFT) => {
-            return NFT;
-          })}
-        </h2>
-      </div>
+              />
+              <CardContent>
+                <Typography>
+                  Username
+                </Typography>
+                <Divider />
+                <Typography p={2} textAlign="center">
+                  {user.username}
+                </Typography>
+              </CardContent>
+              <CardActions>
+              {edit ? (
+                <EditAccount
+                  user={user}
+                  setUser={setUser}
+                  _ipfs={_ipfs}
+                  account={account}
+                  editToggle={editToggle}
+                />
+              ) : (
+                <></>
+              )}
+              </CardActions>
+              <CardActions>
+              <Button onClick={() => editToggle()}>Edit Account</Button>
+              </CardActions>
+            </Card>
+          </Box>
+          <Box component={Paper} gridColumn="span 8">
+              <Box display="grid" gridTemplateColumns="repeat(12, 1fr)">
+                <Box gridColumn="span 12" p={8}
+                sx={{
+                  backgroundColor:"#CCCCCC",
+                }}>
+                  <Typography textAlign="center" variant="h4">
+                    Highest Score:
+                  </Typography>
+                  <Typography color="secondary" textAlign="center" variant="h5">
+                    <br></br>
+                  {user.score} Pts
+                  </Typography>
+                </Box>
+                <Box className="Tokens" gridColumn="span 6" p={5}>
+                  <Typography variant="h4">
+                    Token Balance:
+                  </Typography>
+                  <SpinningCoin /> {balance}
+                </Box>
+                <Box className="NFTs" gridColumn="span 6" p={5}>
+                  <Typography variant="h4">
+                    NFTs:
+                    </Typography>
+                      <ol>
+                      {NFTs.map((NFT, idx) => {
+                        return (<li key={idx}>{NFT}</li>);
+                      })}
+                      </ol>
+                </Box>
+                {/* <Box gridColumn="span 12" p={5}>
+                  Transactions
+                </Box> */}
+              </Box>
+          </Box>
+      </Box>
     );
   } else {
     return !loading ? (
