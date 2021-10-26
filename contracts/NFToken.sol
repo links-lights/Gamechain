@@ -13,7 +13,7 @@ contract GameNFT is ERC1155, Ownable {
     // need to pass in an URI addrees from IPFS behind ERC1155 later not sure? but it works fine as it is right now
     constructor()
         ERC1155(
-            "https://ipfs.io/ipfs/QmZGKtV1qMbHtcuqbawv1Sy5EM1ot9raRx97zyJpZpoCCr/"
+            "QmZGKtV1qMbHtcuqbawv1Sy5EM1ot9raRx97zyJpZpoCCr"
         )
     {}
 
