@@ -74,9 +74,21 @@ function DescriptionDrawer(props) {
           },
         }}
       />
-      <Box sx={{ textAlign: "center", pt: 1 }}>
-        <Button onClick={toggleDrawer(true)}>Game Description</Button>
-      </Box>
+
+        <Button onClick={toggleDrawer(true)}
+        sx={{
+          color:"white",
+        }}
+        variant="">
+          <Typography
+          variant="h6"
+          sx={{
+
+          }}>
+            How-To-Play
+            </Typography>
+          </Button>
+
       <SwipeableDrawer
         anchor="bottom"
         open={open}
