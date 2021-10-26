@@ -12,7 +12,7 @@ softShadows();
 const SpinningMesh = ({ position, args, color, speed }) => {
   const mesh = useRef(null);
   const texture = new THREE.TextureLoader().load(
-    "https://ipfs.io/ipfs/QmU2sLo28UxrBVc7XKGTFDzZYVpvteV9tqCRsj72uS1NKk"
+    "https://ipfs.io/ipfs/Qmb3UJty18tWfsF1PrfApxGvrjMFpakAVsvaTwUYdNhbtK"
   );
 
   useFrame(() => {
