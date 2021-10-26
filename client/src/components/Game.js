@@ -11,6 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 class Game extends React.Component {
   constructor(props) {
@@ -31,6 +33,8 @@ class Game extends React.Component {
     this.probability = this.probability.bind(this);
   }
 
+  
+
   probability(n) {
     return Math.random() < n;
   }
@@ -40,6 +44,7 @@ class Game extends React.Component {
   }
   // Reward Player
   async setReward() {
+    toast.configure()
     let highestBoard = 0;
     const contract = this.props.contracts.TZFEToken;
     const NFT = this.props.contracts.GameNFT;
@@ -51,23 +56,23 @@ class Game extends React.Component {
     this.state.board.forEach((row) => {
       highestBoard = Math.max(...row, highestBoard);
     });
-    if (highestBoard >= 4) {
-      tokenOdds += 0.02;
+    if (highestBoard >= 512) {
+      tokenOdds += 0.10;
     }
-    if (this.state.score >= 100) {
-      tokenOdds += 0.02;
+    if (this.state.score >= 5000) {
+      tokenOdds += 0.10;
     }
-    if (highestBoard >= 8) {
-      tokenOdds += 0.03;
+    if (highestBoard >= 1024) {
+      tokenOdds += 0.15;
     }
-    if (this.state.score >= 200) {
-      tokenOdds += 0.03;
+    if (this.state.score >= 1000) {
+      tokenOdds += 0.15;
     }
     if (highestBoard >= 2048) {
-      tokenOdds += 0.04;
+      tokenOdds += 0.25;
     }
     if (this.state.score >= 20000) {
-      tokenOdds += 0.04;
+      tokenOdds += 0.25;
       NFTodds += 0.001;
       this.setState({ extraTokens: true });
     }
@@ -81,19 +86,52 @@ class Game extends React.Component {
     if (this.probability(tokenOdds)) {
       if (this.extraTokens) {
         amount = this.random(4);
+        toast('Odds are in your favor, you won a token!', {
+          position: "top-center",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
         await contract.methods.reward(account, amount).send({ from: account });
-        console.log("Odds are in your favor, you won a token!");
         await this.props.awardAmount(amount + this.state.rewardAmount);
       } else {
+        toast('Odds are in your favor, you won a token!', {
+          position: "top-center",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
         await contract.methods.reward(account, 1).send({ from: account });
         await this.props.awardAmount(1 + this.state.rewardAmount);
       }
     } else {
-      console.log("Unfortunately the odds were not in your favor");
+      toast('🦄 Unfortunately, you did not win a token', {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
     }
 
-    if (this.probability(1)) {
-      console.log("NFT EARNED!");
+    if (this.probability(NFTodds)) {
+      toast('Wow! You won an NFT!', {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
       const chosenNFT = this.random(5);
       // for (let key in NFTBank) {
       //   if (!NFTBank[key])
