@@ -1,6 +1,21 @@
 import React, { useEffect, useState } from "react";
 import ipfs from "../ipfs";
-import { Button, Box, Typography, Card, CardMedia, CardContent, CardActionArea , CardActions, Divider, CardHeader, Paper} from "@mui/material";
+import toBuffer from "it-to-buffer";
+import axios from "axios";
+
+import {
+  Button,
+  Box,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActionArea,
+  CardActions,
+  Divider,
+  CardHeader,
+  Paper,
+} from "@mui/material";
 import SpinningCoin from "./SpinningCoin";
 import { fetchUser, createUser } from "../db/models/user";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
@@ -23,14 +38,29 @@ const Account = (props) => {
   const [_ipfs, setIPFS] = useState(null);
   const [NFTs, setNFTs] = useState([]);
   const [edit, setEdit] = useState(false);
+  const [NFTMetadata, setNFTMetadata] = useState(null);
 
   //cycle
   useEffect(() => {
     //* immediately invoked function
     (async () => {
+      const ipfs_ = await ipfs;
       console.log("should always have account", drizzleState.accounts);
-      setIPFS(await ipfs);
-      console.log('events', await drizzleInstance.drizzle.contracts.TZFEToken.events.allEvents())
+      setIPFS(ipfs_);
+      const path = `https://ipfs.io/ipfs/${await contracts.GameNFT.methods
+        .uri(0)
+        .call()}/0.json`;
+      console.log(path);
+
+      const { data } = await axios.get(path);
+      console.log(data);
+      // const bufferedContents = await toBuffer(ipfs_.cat(path));
+      // console.log(bufferedContents.toString());
+
+      console.log(
+        "events",
+        await drizzleInstance.drizzle.contracts.TZFEToken.events.allEvents()
+      );
       try {
         if (account) {
           const _user = (await fetchUser(account))[0];
@@ -55,13 +85,18 @@ const Account = (props) => {
       }
       setBalance(await contracts.TZFEToken.methods.balanceOf(account).call());
       setNFTs(
-        await contracts.GameNFT.methods
-          .balanceOfBatch(
-            [account, account, account, account, account],
-            [0, 1, 2, 3, 4]
-          )
-          .call()
+        (
+          await contracts.GameNFT.methods
+            .balanceOfBatch(
+              [account, account, account, account, account],
+              [0, 1, 2, 3, 4]
+            )
+            .call()
+        ).filter((count) => {
+          return +count !== 0;
+        })
       );
+
       setLoading(false);
     })();
   }, [account, user]);
@@ -73,37 +108,38 @@ const Account = (props) => {
   //render
   if (!loading && account) {
     return (
-      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={5} p={3}
-      sx={{
-        minHeight:"45vw"
-        }}>
-          <Box className="WalletAddress" gridColumn="span 12" sx={{textAlign:"center"}}>
-            <Typography variant="h6">
-              Your Wallet Address : {account}
-            </Typography>
-          </Box>
-          <Box className="AccountCard" gridColumn="span 4">
-            <Card>
-              <CardHeader
-              title="Your Account"
-              subheader="Avatar"
-              />
-              <CardMedia
+      <Box
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gap={5}
+        p={3}
+        sx={{
+          minHeight: "45vw",
+        }}
+      >
+        <Box
+          className="WalletAddress"
+          gridColumn="span 12"
+          sx={{ textAlign: "center" }}
+        >
+          <Typography variant="h6">Your Wallet Address : {account}</Typography>
+        </Box>
+        <Box className="AccountCard" gridColumn="span 4">
+          <Card>
+            <CardHeader title="Your Account" subheader="Avatar" />
+            <CardMedia
               component="img"
               alt="User Avatar"
               image={`https://ipfs.io/ipfs/${user.imageHash}`}
-
-              />
-              <CardContent>
-                <Typography>
-                  Username
-                </Typography>
-                <Divider />
-                <Typography p={2} textAlign="center">
-                  {user.username}
-                </Typography>
-              </CardContent>
-              <CardActions>
+            />
+            <CardContent>
+              <Typography>Username</Typography>
+              <Divider />
+              <Typography p={2} textAlign="center">
+                {user.username}
+              </Typography>
+            </CardContent>
+            <CardActions>
               {edit ? (
                 <EditAccount
                   user={user}
@@ -115,47 +151,55 @@ const Account = (props) => {
               ) : (
                 <></>
               )}
-              </CardActions>
-              <CardActions>
+            </CardActions>
+            <CardActions>
               <Button onClick={() => editToggle()}>Edit Account</Button>
-              </CardActions>
-            </Card>
-          </Box>
-          <Box component={Paper} gridColumn="span 8">
-              <Box display="grid" gridTemplateColumns="repeat(12, 1fr)">
-                <Box gridColumn="span 12" p={8}
-                sx={{
-                  backgroundColor:"#CCCCCC",
-                }}>
-                  <Typography textAlign="center" variant="h4">
-                    Highest Score:
-                  </Typography>
-                  <Typography color="secondary" textAlign="center" variant="h5">
-                    <br></br>
-                  {user.score} Pts
-                  </Typography>
-                </Box>
-                <Box className="Tokens" gridColumn="span 6" p={5}>
-                  <Typography variant="h4">
-                    Token Balance:
-                  </Typography>
-                  <SpinningCoin /> {balance}
-                </Box>
-                <Box className="NFTs" gridColumn="span 6" p={5}>
-                  <Typography variant="h4">
-                    NFTs:
-                    </Typography>
-                      <ol>
-                      {NFTs.map((NFT, idx) => {
-                        return (<li key={idx}>{NFT}</li>);
-                      })}
-                      </ol>
-                </Box>
-                {/* <Box gridColumn="span 12" p={5}>
+            </CardActions>
+          </Card>
+        </Box>
+        <Box component={Paper} gridColumn="span 8">
+          <Box display="grid" gridTemplateColumns="repeat(12, 1fr)">
+            <Box
+              gridColumn="span 12"
+              p={8}
+              sx={{
+                backgroundColor: "#CCCCCC",
+              }}
+            >
+              <Typography textAlign="center" variant="h4">
+                Highest Score:
+              </Typography>
+              <Typography color="secondary" textAlign="center" variant="h5">
+                <br></br>
+                {user.score} Pts
+              </Typography>
+            </Box>
+            <Box className="Tokens" gridColumn="span 6" p={5}>
+              <Typography variant="h4">Token Balance:</Typography>
+              <SpinningCoin /> {balance}
+            </Box>
+            <Box className="NFTs" gridColumn="span 6" p={5}>
+              <Typography variant="h4">NFTs:</Typography>
+              {NFTs.length ? (
+                <ol>
+                  {NFTs.map((NFT, idx) => {
+                    console.log(NFTs.length, "length");
+                    return (
+                      <li key={idx}>
+                        {NFT} {NFTMetadata}
+                      </li>
+                    );
+                  })}
+                </ol>
+              ) : (
+                <h4>Currently you do not have NFT (._. )( ._.)</h4>
+              )}
+            </Box>
+            {/* <Box gridColumn="span 12" p={5}>
                   Transactions
                 </Box> */}
-              </Box>
           </Box>
+        </Box>
       </Box>
     );
   } else {
