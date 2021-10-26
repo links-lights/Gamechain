@@ -38,7 +38,7 @@ const Account = (props) => {
   const [_ipfs, setIPFS] = useState(null);
   const [NFTs, setNFTs] = useState([]);
   const [edit, setEdit] = useState(false);
-  const [NFTMetadata, setNFTMetadata] = useState(null);
+  const [NFTMetadata, setNFTMetadata] = useState([]);
 
   //cycle
   useEffect(() => {
@@ -47,15 +47,10 @@ const Account = (props) => {
       const ipfs_ = await ipfs;
       console.log("should always have account", drizzleState.accounts);
       setIPFS(ipfs_);
+
       const path = `https://ipfs.io/ipfs/${await contracts.GameNFT.methods
         .uri(0)
-        .call()}/0.json`;
-      console.log(path);
-
-      const { data } = await axios.get(path);
-      console.log(data);
-      // const bufferedContents = await toBuffer(ipfs_.cat(path));
-      // console.log(bufferedContents.toString());
+        .call()}`;
 
       console.log(
         "events",
@@ -84,17 +79,23 @@ const Account = (props) => {
         setUser(_user);
       }
       setBalance(await contracts.TZFEToken.methods.balanceOf(account).call());
-      setNFTs(
-        (
-          await contracts.GameNFT.methods
-            .balanceOfBatch(
-              [account, account, account, account, account],
-              [0, 1, 2, 3, 4]
-            )
-            .call()
-        ).filter((count) => {
-          return +count !== 0;
-        })
+      const balance = await contracts.GameNFT.methods
+        .balanceOfBatch(
+          [account, account, account, account, account],
+          [0, 1, 2, 3, 4]
+        )
+        .call();
+
+      setNFTs(balance);
+      setNFTMetadata(
+        await Promise.all(
+          balance.map(async (num, ix) => {
+            const newPath = path + `/${ix}.json`;
+
+            const { data } = await axios.get(newPath);
+            return data;
+          })
+        )
       );
 
       setLoading(false);
@@ -107,6 +108,7 @@ const Account = (props) => {
 
   //render
   if (!loading && account) {
+    console.log(NFTMetadata);
     return (
       <Box
         display="grid"
@@ -180,13 +182,17 @@ const Account = (props) => {
             </Box>
             <Box className="NFTs" gridColumn="span 6" p={5}>
               <Typography variant="h4">NFTs:</Typography>
-              {NFTs.length ? (
+              {NFTs.reduce((acc, cur) => acc + cur, 0) > 0 ? (
                 <ol>
-                  {NFTs.map((NFT, idx) => {
-                    console.log(NFTs.length, "length");
+                  {NFTs.filter((num) => num > 0).map((NFT, idx) => {
                     return (
                       <li key={idx}>
-                        {NFT} {NFTMetadata}
+                        <h1>{NFTMetadata[idx].name}</h1>
+                        Quantity: {NFT}
+                        <image
+                          src={`${NFTMetadata[idx].imageHash}`}
+                          className="nft-pic"
+                        />
                       </li>
                     );
                   })}
