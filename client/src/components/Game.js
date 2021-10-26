@@ -77,7 +77,6 @@ class Game extends React.Component {
       this.setState({ extraTokens: true });
     }
     //make 100*
-    tokenOdds = 100;
     console.log(`You have a ${tokenOdds * 100}% of getting a token`);
     console.log(`You have a ${NFTodds * 100}% of getting a NFT`);
 
