@@ -177,24 +177,51 @@ const Account = (props) => {
               </Typography>
             </Box>
             <Box className="Tokens" gridColumn="span 6" p={5}>
-              <Typography variant="h4">Token Balance:</Typography>
+              <Typography variant="h4">Token Balance</Typography>
               <SpinningCoin /> {balance}
             </Box>
             <Box className="NFTs" gridColumn="span 6" p={5}>
-              <Typography variant="h4">NFTs:</Typography>
+              <Typography variant="h4">Collectibles</Typography>
               {NFTs.reduce((acc, cur) => acc + cur, 0) > 0 ? (
                 <ol>
                   {NFTs.filter((num) => num > 0).map((NFT, idx) => {
                     return (
-                      <li key={idx}>
-                        <h1>{NFTMetadata[idx].name}</h1>
-                        <img
-                          src={`${NFTMetadata[idx].imageHash}`}
-                          className="nft-pic"
-                          alt={`${NFTMetadata[idx].name} pic`}
-                        />
-                        <h3>Quantity: {NFT} </h3>
-                      </li>
+                      <Box
+                        display="flex"
+                        flexWrap="wrap"
+                        className="TokenCard"
+                        gridColumn="span 10"
+                        p={6}
+                        gap={10}
+                        sx={{
+                          maxHeight: "31vw",
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        <Card>
+                          <CardHeader
+                            title={NFTMetadata[idx].name}
+                            sx={{
+                              height: "6vw",
+                            }}
+                          />
+                          <CardMedia
+                            component="img"
+                            alt={NFTMetadata[idx].name}
+                            image={NFTMetadata[idx].imageHash}
+                            sx={{
+                              height: "7vw",
+                            }}
+                          />
+                          <CardContent>
+                            <Typography>Quantity</Typography>
+                            <Divider />
+                            <Typography p={2} textAlign="center">
+                              {NFT}
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Box>
                     );
                   })}
                 </ol>

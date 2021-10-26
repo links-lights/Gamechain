@@ -133,7 +133,7 @@ class Game extends React.Component {
       });
     }
 
-    if (this.probability(NFTodds) || true) {
+    if (this.probability(NFTodds)) {
       toast("Wow! You won an NFT!", {
         position: "top-center",
         autoClose: 2500,
