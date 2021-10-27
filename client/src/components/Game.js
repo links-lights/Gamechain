@@ -94,7 +94,7 @@ class Game extends React.Component {
     //Testing purposes:
     // tokenOdds= 1
     // NFTodds = 1
-    if (this.probability(tokenOdds) || true) {
+    if (this.probability(tokenOdds)) {
       if (this.extraTokens) {
         amount = this.random(4);
         toast("Odds are in your favor, you won a token!", {
