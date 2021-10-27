@@ -161,7 +161,7 @@ class Game extends React.Component {
       await NFT.methods.reward(account, chosenNFT).send({ from: account });
     }
 
-    this.props.highScore();
+    this.props.highScore(this.state.score);
 
     console.log(await contract.methods.balanceOf(account).call());
   }

@@ -68,7 +68,7 @@ const TokenAward = (props) => {
           <Typography variant="h4">Tokens won</Typography>
           <Divider />
           <Typography variant="h5" color="green" p={1}>
-            {props.rewardAmount}
+            {state.rewardAmount}
           </Typography>
         </Box>
       </Grid>

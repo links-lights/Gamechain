@@ -34,7 +34,7 @@ function StartPage() {
             throw new Error();
           }
           setUser(_user);
-          if (_user.score) {
+          if (_user.score > highScore) {
             setHighScore(_user.score);
           }
         }
@@ -51,7 +51,8 @@ function StartPage() {
         )[0];
         console.log("user", _user);
         setUser(_user);
-        if (_user.score) {
+        if (_user.score > highScore) {
+          console.log("yes, im here no");
           setHighScore(_user.score);
         }
       }
