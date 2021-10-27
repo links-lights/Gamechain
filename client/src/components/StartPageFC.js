@@ -62,12 +62,12 @@ function StartPage() {
     setRewardAmount(amount);
   }
 
-  async function postHighScore() {
+  async function postHighScore(amount) {
     console.log("postHighScore fired");
     try {
-      if (score > highScore) {
-        setHighScore(score);
-        await changeUser(account, user.username, user.imageHash, score);
+      if (amount > highScore) {
+        setHighScore(amount);
+        await changeUser(account, user.username, user.imageHash, amount);
       }
     } catch (err) {
       alert(err);
