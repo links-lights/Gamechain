@@ -40,7 +40,7 @@ Distributed version of the popular game 2048 hosted on IPFS. With a system of re
 
 5. Run GameChain \
    `npm run start`
-   Browser will launch on [localhost:3000](http://localhost:3000.
+   Browser will launch on [localhost:3000](http://localhost:3000).
 
 ### Live
 
