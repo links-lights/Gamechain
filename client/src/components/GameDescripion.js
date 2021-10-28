@@ -126,6 +126,9 @@ function DescriptionDrawer(props) {
             </Box>
             <Box className="controlKeys" gridColumn="span 4">
               <img alt="Controls" src={arrowKeys} height="100%" width="100%" />
+              <Typography variant="h6">
+                Press N to start new game
+              </Typography>
             </Box>
             <Box className="controlKeys" gridColumn="span 8">
               <Typography variant="h4" className="controls" p={1} textAlign="center" fontWeight="bold">Use Keyboard to Move Blocks</Typography>
