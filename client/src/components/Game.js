@@ -531,13 +531,13 @@ class Game extends React.Component {
     const left = 37;
     const n = 78;
 
-    if (e.keyCode === up) {
+    if (e.keyCode === up || e.keyCode === 87) {
       this.move("up");
-    } else if (e.keyCode === right) {
+    } else if (e.keyCode === right || e.keyCode === 68) {
       this.move("right");
-    } else if (e.keyCode === down) {
+    } else if (e.keyCode === down || e.keyCode === 83) {
       this.move("down");
-    } else if (e.keyCode === left) {
+    } else if (e.keyCode === left || e.keyCode === 65) {
       this.move("left");
     } else if (e.keyCode === n) {
       this.initBoard();
