@@ -2,14 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/index.css";
 import history from "./history";
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import Routes from "./components/Routes";
 
 //Drizzle
 import { Drizzle, generateStore } from "@drizzle/store";
 import { drizzleReactHooks } from "@drizzle/react-plugin";
 import TZFEToken from "./artifacts/TZFEToken.json";
-import GameNFT from './artifacts/GameNFT.json'
+import GameNFT from "./artifacts/GameNFT.json";
 
 //Drizzle instance
 const options = { contracts: [TZFEToken, GameNFT] };
