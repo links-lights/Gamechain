@@ -108,6 +108,9 @@ class Game extends React.Component {
         });
         await contract.methods.reward(account, amount).send({ from: account });
         await this.props.awardAmount(amount + this.state.rewardAmount);
+        this.setState({
+          rewardAmount: this.state.rewardAmount + 1,
+        });
       } else {
         toast("Odds are in your favor, you won a token!", {
           position: "top-center",
@@ -120,6 +123,9 @@ class Game extends React.Component {
         });
         await contract.methods.reward(account, 1).send({ from: account });
         await this.props.awardAmount(1 + this.state.rewardAmount);
+        this.setState({
+          rewardAmount: this.state.rewardAmount + 1,
+        });
       }
     } else {
       toast("🦄 Unfortunately, you did not win a token", {
@@ -155,7 +161,7 @@ class Game extends React.Component {
       await NFT.methods.reward(account, chosenNFT).send({ from: account });
     }
 
-    this.props.highScore();
+    this.props.highScore(this.state.score);
 
     console.log(await contract.methods.balanceOf(account).call());
   }
