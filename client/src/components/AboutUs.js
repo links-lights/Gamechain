@@ -1,4 +1,4 @@
-import { Box, Paper, Typography, Grid, Link, Avatar} from "@mui/material"
+import { Box, Paper, Typography, Grid, Link, Avatar, Divider} from "@mui/material"
 import Ben from "../images/Ben.jpeg"
 import Emil from "../images/Emil.png"
 import Kevin from "../images/Kevin.jpeg"
@@ -37,16 +37,16 @@ const AboutUs = () => {
     <Typography variant="h4" textAlign="center" p={3}>
       About us
     </Typography>
+    <Divider />
     <Box gridTemplateColumns="repeat(1, 1fr)" p={10} sx={{
       minHeight:"45vw",
-      border:"1px solid black",
     }}>
       {us.map((self , idx)=>{
         const { name, imageSrc, about, linkedIn } = self
         return (
       <Box className={name} gridColumn="span 1" p={6}
       sx={{
-        border: "1px solid black"
+
         }}>
         <Grid container p={2} spacing={3}>
 
@@ -62,12 +62,17 @@ const AboutUs = () => {
             </Typography>
           </Grid>
           <Grid xs={6} container alignItems="center" flexDirection="column" justifyContent="center">
-            <Typography variant="body1" p={1}>
-              {about}
+            <Typography variant="body1" p={3}
+            sx={{
+              border: "8px solid grey",
+              borderRadius:"20px"
+              }}>
+              {`"${about}"`}
             </Typography>
           </Grid>
 
         </Grid>
+        <Divider />
       </Box>
         )
       })}
