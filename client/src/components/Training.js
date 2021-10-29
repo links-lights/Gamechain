@@ -10,7 +10,7 @@ import {
   Table,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, typography } from "@mui/system";
 
 class TrainingGame extends React.Component {
   constructor(props) {
@@ -365,7 +365,13 @@ class TrainingGame extends React.Component {
 
   render() {
     return (
-      <Box sx={{
+      <>
+      <Typography variant="h3" p={2} textAlign="center">
+        Training
+      </Typography>
+      <Box
+      component={Paper}
+      sx={{
         minHeight:"45vw"
       }}>
       <Grid container direction="column" alignContent="center" p={10}>
@@ -429,6 +435,7 @@ class TrainingGame extends React.Component {
         </Grid>
       </Grid>
       </Box>
+      </>
     );
   }
 }
