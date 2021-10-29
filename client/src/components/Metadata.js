@@ -47,28 +47,29 @@ const Metadata = (props) => {
 
   return (
     <>
+        <Typography variant="h3" p={3} textAlign="center">Collectible NFTs</Typography>
       <Box
+        component={Paper}
         display="grid"
         gridTemplateColumns="repeat(3, 1fr)"
-        gap={1}
-        p={1}
+        gap={3}
+        p={4}
         sx={{
           minHeight: "45vw",
+          backgroundColor:"#FFFFFF"
         }}
       >
-        <h1>Collectibles</h1>
-        <ul>
+
           {metadata.map((data) => {
             return (
-              <Box className="TokenCard" gridColumn="">
+              <Box className="TokenCard" gridColumn="span 1">
                 <Card>
-                  <CardHeader title={data.name} subheader="Image" />
+                  <CardHeader title={data.name} />
                   <CardMedia
                     component="img"
                     alt={data.name}
                     image={data.imageHash}
                   />
-                </Card>
                 <CardContent>
                   <Typography>Description</Typography>
                   <Divider />
@@ -76,10 +77,11 @@ const Metadata = (props) => {
                     {data.description}
                   </Typography>
                 </CardContent>
+                </Card>
               </Box>
             );
           })}
-        </ul>
+
       </Box>
     </>
   );

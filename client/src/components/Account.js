@@ -186,20 +186,18 @@ const Account = (props) => {
             </Box>
             <Box className="NFTs" gridColumn="span 6" p={5}>
               <Typography variant="h4">Collectibles</Typography>
+              <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" >
               {NFTs.reduce((acc, cur) => acc + cur, 0) > 0 ? (
-                <ol>
+                <>
                   {NFTs.filter((num) => num > 0).map((NFT, idx) => {
                     return (
                       <Box
-                        display="flex"
-                        flexWrap="wrap"
                         className="TokenCard"
-                        gridColumn="span 10"
-                        p={6}
+                        gridColumn="span 6"
+                        p={2}
                         gap={10}
                         sx={{
                           maxHeight: "31vw",
-                          flexWrap: "wrap",
                         }}
                       >
                         <Card>
@@ -228,11 +226,11 @@ const Account = (props) => {
                       </Box>
                     );
                   })}
-                </ol>
+                </>
               ) : (
                 <h4>Currently you do not have NFT (._. )( ._.)</h4>
               )}
-
+              </Box>
               <h4>Want know more about our unique tokens? </h4>
               <Link to="/metadata">Check out this page!</Link>
             </Box>
