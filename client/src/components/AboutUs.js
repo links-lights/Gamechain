@@ -9,14 +9,14 @@ const AboutUs = () => {
   const us = [{
     name:"Emil",
     imageSrc: Emil,
-    about: "Body Here",
-    linkedIn: "LinkedInUrl"
+    about: "Hello my Name is Emil. I love web3! I'm a crypto investor and distributed systems builder. I enjoy working endlessly learning new blockchain tech and have great taste in music, according to myself.",
+    linkedIn: "https://www.linkedin.com/in/emilishere/"
   },
   {
   name:"Freddy",
   imageSrc: Freddy,
-  about: "Body Here",
-  linkedIn: "LinkedInUrl"
+  about: "Hey ya'll, I'm an upcoming full stack software engineer with a growing interest in decentralized technology. As a recent graduate of Fullstack Academy, I've developed the skillset to design/create scalable software and am loving everything I have learned. On my off time I enjoy long walks to clear the mind, kettlebell workouts to keep fit, and strategy games like Chess and Civilization.",
+  linkedIn: "https://www.linkedin.com/in/freddyjgomez/"
   },
   {
     name:"Ben",
@@ -28,7 +28,7 @@ const AboutUs = () => {
     name:"Kevin",
     imageSrc: Kevin,
     about: "Body Here",
-    linkedIn: "LinkedInUrl"
+    linkedIn: "https://www.linkedin.com/in/kjbrowne28/"
   },
 
 ]
