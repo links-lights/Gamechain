@@ -10,7 +10,7 @@ const Footer = (props) => {
         </a>
       </h2>
       <h2 className="item">
-        <a href="https://github.com/links-lights/Gamechain/projects/1">
+        <a href="https://codepen.io/jeffleu/pen/JRzyPZ">
           Game Source Code
         </a>
       </h2>
