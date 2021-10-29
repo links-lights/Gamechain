@@ -1,15 +1,20 @@
-import { Box, Paper, Typography, Grid, Link} from "@mui/material"
+import { Box, Paper, Typography, Grid, Link, Avatar} from "@mui/material"
 import Ben from "../images/Ben.jpeg"
+import Emil from "../images/Emil.png"
+import Kevin from "../images/Kevin.jpeg"
+import Freddy from "../images/Freddy.jpg"
+import LinkedInIcon from "../images/linkedin.png"
+
 const AboutUs = () => {
   const us = [{
     name:"Emil",
-    imageSrc: "",
+    imageSrc: Emil,
     about: "Body Here",
     linkedIn: "LinkedInUrl"
   },
   {
   name:"Freddy",
-  imageSrc: "",
+  imageSrc: Freddy,
   about: "Body Here",
   linkedIn: "LinkedInUrl"
   },
@@ -21,7 +26,7 @@ const AboutUs = () => {
   },
   {
     name:"Kevin",
-    imageSrc: "",
+    imageSrc: Kevin,
     about: "Body Here",
     linkedIn: "LinkedInUrl"
   },
@@ -43,24 +48,25 @@ const AboutUs = () => {
       sx={{
         border: "1px solid black"
         }}>
-        <Grid container p={2}>
-          <Grid item xs={2} />
-          <Grid item xs={3} className={`${name}Picture`}
+        <Grid container p={2} spacing={3}>
+
+          <Grid item xs={6}  className={`${name}Picture`}
           container alignItems="center" flexDirection="column" justifyContent="center">
-              <img alt={name} src={imageSrc} />
-            <Typography variant="h6">
+            <Avatar alt={name} src={imageSrc} sx={{height:"200px", width:"200px"}} />
+              {/* <img alt={name} src={imageSrc} height="200px" width="auto" /> */}
+            <Typography variant="h5">
              {name}
             </Typography>
             <Typography>
-              <Link src={linkedIn}>linkedIn</Link>
+              <a href={linkedIn}><img alt="LinkedinIcon" src={LinkedInIcon} height="20px" /></a>
             </Typography>
           </Grid>
-          <Grid xs={5}>
+          <Grid xs={6} container alignItems="center" flexDirection="column" justifyContent="center">
             <Typography variant="body1" p={1}>
               {about}
             </Typography>
           </Grid>
-          <Grid item xs={2} />
+
         </Grid>
       </Box>
         )
