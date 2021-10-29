@@ -27,23 +27,24 @@ const AboutUs = () => {
   {
     name:"Kevin",
     imageSrc: Kevin,
-    about: "Body Here",
+    about: "Hey everyone my name is Kevin Browne and i am a full stack developer! Previously in supply chain, I found myself way more interested in using tech to help develop the systems I used do my job. That led me to learning more about Python to eventually joining Full Stack Academy to start my path in becoming a software engineer. I am also involved in the sneaker reseller community, a space where there are many talented developers who make automated checkout software for resellers to use. In my free time, I enjoy watching sports and working out. I am also an avid sneaker head with over 75 pairs of kicks and counting!",
     linkedIn: "https://www.linkedin.com/in/kjbrowne28/"
   },
 
 ]
   return (
     <>
-    <Typography variant="h4" textAlign="center" p={3}>
-      About us
-    </Typography>
-    <Divider />
     <Box gridTemplateColumns="repeat(1, 1fr)" p={10} sx={{
       minHeight:"45vw",
     }}>
+      <Typography variant="h2" textAlign="center" p={3} fontWeight="bold" color="">
+        Meet the Team
+      </Typography>
+      <Divider />
       {us.map((self , idx)=>{
         const { name, imageSrc, about, linkedIn } = self
         return (
+        <>
       <Box className={name} gridColumn="span 1" p={6}
       sx={{
 
@@ -72,8 +73,9 @@ const AboutUs = () => {
           </Grid>
 
         </Grid>
-        <Divider />
-      </Box>
+        </Box>
+      <Divider />
+      </>
         )
       })}
     </Box>
